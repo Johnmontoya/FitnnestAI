@@ -1,0 +1,285 @@
+import { BiRuler, BiTrendingUp } from 'react-icons/bi';
+import { FiTarget } from 'react-icons/fi';
+import { LuActivity, LuScale } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../../../shared/ui/Button';
+import { useAuthStore } from '../../../auth/store/useAuthStore';
+import { useProfileMutation } from '../../../profile/hooks/mutation/useProfileMutation';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { biometricsSchema, type UpdateBiometricsRequest } from '../../../auth/types/auth.types';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const goalOptions = [
+    {
+        value: "LOSE",
+        label: "Lose Weight",
+        icon: BiTrendingUp,
+        description: "Shed those extra pounds and feel lighter",
+        color: "#f59e0b"
+    },
+    {
+        value: "MAINTAIN",
+        label: "Maintain Weight",
+        icon: FiTarget,
+        description: "Keep your current weight and stay healthy",
+        color: "#00ff66"
+    },
+    {
+        value: "GAIN",
+        label: "Gain Muscle",
+        icon: LuActivity,
+        description: "Build muscle mass and get stronger",
+        color: "#3b82f6"
+    },
+];
+
+const OnboardingPage = () => {
+    const navigate = useNavigate();
+    const { user } = useAuthStore();
+    const { mutateAsync: updateProfile } = useProfileMutation(user?.id || '');
+
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting, errors },
+        setValue,
+        watch,
+    } = useForm<UpdateBiometricsRequest>({
+        resolver: zodResolver(biometricsSchema),
+        defaultValues: {
+            age: user?.age || 0,
+            weight: user?.weight || 0,
+            height: user?.height || 0,
+            goal: (user?.goal as "LOSE" | "MAINTAIN" | "GAIN") || "MAINTAIN",
+        },
+        mode: 'onChange',
+    });
+
+    const onSubmit: SubmitHandler<UpdateBiometricsRequest> = async (data) => {
+        try {
+            await updateProfile(data,);
+            setTimeout(() => {
+                navigate('/profile', { replace: true });
+            }, 3000);
+        } catch (error) {
+            console.error('Onboarding error:', error);
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-[#0a150a] flex items-center justify-center p-4">
+            <div className="w-full max-w-3xl">
+                {/* Logo */}
+                <div className="flex items-center justify-center gap-3 mb-8">
+                    <div className="w-12 h-12 bg-[#00ff66] rounded-xl flex items-center justify-center">
+                        <LuActivity className="w-7 h-7 text-black" />
+                    </div>
+                    <span className="text-white text-2xl font-bold">FitTrack Pro</span>
+                </div>
+
+                {/* Welcome Banner */}
+                <div className="bg-gradient-to-r from-[#00ff66] to-[#00dd55] rounded-2xl p-6 mb-8 text-center">
+                    <h1 className="text-black text-3xl font-bold mb-2">
+                        Welcome, {user?.username || 'there'}! 👋
+                    </h1>
+                    <p className="text-black opacity-80">
+                        Let's set up your profile to personalize your fitness journey
+                    </p>
+                </div>
+
+                {/* Form Card */}
+                <div className="bg-[#0f1f0f] rounded-2xl border border-[#2a4a2a] p-8">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <div className="text-center mb-6">
+                            <h2 className="text-white text-2xl font-bold mb-2">Complete Your Profile</h2>
+                            <p className="text-gray-400">
+                                We'll use this information to calculate your personalized calorie and activity targets
+                            </p>
+                        </div>
+
+                        {/* Biometric Inputs */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            {/* Age */}
+                            <div>
+                                <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                                    <LuActivity className="w-4 h-4 text-[#00ff66]" />
+                                    Age
+                                </label>
+                                <input
+                                    type="text"
+                                    {...register('age', { valueAsNumber: true })}
+                                    placeholder="e.g., 30"
+                                    min="13"
+                                    max="120"
+                                    className={`
+                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    border ${errors.age ? 'border-red-500' : 'border-[#2a4a2a]'}
+                    focus:border-[#00ff66] focus:outline-none
+                    placeholder:text-gray-500 transition-colors text-center text-lg
+                  `}
+                                />
+                                <p className="text-gray-400 text-xs mt-1 text-center">years</p>
+                                {errors.age && (
+                                    <p className="text-red-400 text-sm mt-1 text-center">{errors.age.message}</p>
+                                )}
+                            </div>
+
+                            {/* Weight */}
+                            <div>
+                                <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                                    <LuScale className="w-4 h-4 text-[#00ff66]" />
+                                    Weight
+                                </label>
+                                <input
+                                    type="text"
+                                    {...register('weight', { valueAsNumber: true })}
+                                    placeholder="e.g., 75.5"
+                                    step="0.1"
+                                    min="30"
+                                    max="300"
+                                    className={`
+                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    border ${errors.weight ? 'border-red-500' : 'border-[#2a4a2a]'}
+                    focus:border-[#00ff66] focus:outline-none
+                    placeholder:text-gray-500 transition-colors text-center text-lg
+                  `}
+                                />
+                                <p className="text-gray-400 text-xs mt-1 text-center">kilograms</p>
+                                {errors.weight && (
+                                    <p className="text-red-400 text-sm mt-1 text-center">{errors.weight.message}</p>
+                                )}
+                            </div>
+
+                            {/* Height */}
+                            <div>
+                                <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                                    <BiRuler className="w-4 h-4 text-[#00ff66]" />
+                                    Height
+                                </label>
+                                <input
+                                    type="text"
+                                    {...register('height', { valueAsNumber: true })}
+                                    placeholder="e.g., 175"
+                                    min="100"
+                                    max="250"
+                                    className={`
+                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    border ${errors.height ? 'border-red-500' : 'border-[#2a4a2a]'}
+                    focus:border-[#00ff66] focus:outline-none
+                    placeholder:text-gray-500 transition-colors text-center text-lg
+                  `}
+                                />
+                                <p className="text-gray-400 text-xs mt-1 text-center">centimeters</p>
+                                {errors.height && (
+                                    <p className="text-red-400 text-sm mt-1 text-center">{errors.height.message}</p>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Goal Selection */}
+                        <div>
+                            <label className="block text-white text-sm font-medium mb-3 flex items-center gap-2">
+                                <FiTarget className="w-4 h-4 text-[#00ff66]" />
+                                Primary Fitness Goal
+                            </label>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                {goalOptions.map((option) => {
+                                    const Icon = option.icon;
+                                    return (
+                                        <button
+                                            key={option.value}
+                                            type="button"
+                                            onClick={() => setValue('goal', option.value as "LOSE" | "MAINTAIN" | "GAIN", {
+                                                shouldValidate: true,
+                                                shouldDirty: true,
+                                            })}
+                                            className={`
+                        p-5 rounded-xl border-2 transition-all text-left
+                        ${watch('goal') === option.value
+                                                    ? 'border-[#00ff66] bg-[#00ff66] bg-opacity-10'
+                                                    : 'border-[#2a4a2a] hover:border-[#3a5a3a]'
+                                                }
+                      `}
+                                        >
+                                            <div className="flex items-start gap-3">
+                                                <div
+                                                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                                                    style={{ backgroundColor: `${option.color}22` }}
+                                                >
+                                                    <Icon className="w-5 h-5" style={{ color: option.color }} />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <h3 className="text-white font-semibold mb-1">{option.label}</h3>
+                                                    <p className="text-gray-400 text-xs">{option.description}</p>
+                                                </div>
+                                                {watch('goal') === option.value && (
+                                                    <div className="w-6 h-6 bg-[#00ff66] rounded-full flex items-center justify-center flex-shrink-0">
+                                                        <span className="text-black text-sm font-bold">✓</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            {errors.goal && (
+                                <p className="text-red-400 text-sm mt-2">{errors.goal.message}</p>
+                            )}
+                        </div>
+
+                        {/* Info Box */}
+                        <div className="bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-xl p-4">
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">💡</span>
+                                <div className="flex-1">
+                                    <h4 className="text-blue-400 font-semibold mb-1">Your Privacy Matters</h4>
+                                    <p className="text-blue-300 text-sm opacity-90">
+                                        Your data is encrypted and secure. We use these metrics to calculate your BMR
+                                        (Basal Metabolic Rate) and TDEE (Total Daily Energy Expenditure) to help you
+                                        reach your goals faster. You can update this information anytime in your profile.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Submit Error */}
+                        {errors.root && (
+                            <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-xl p-3">
+                                <p className="text-red-400 text-sm">{errors.root.message}</p>
+                            </div>
+                        )}
+
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            className="w-full text-lg py-4"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                                    Setting Up Your Profile...
+                                </div>
+                            ) : (
+                                <>
+                                    Complete Setup & Start Tracking
+                                    <span className="ml-2">🚀</span>
+                                </>
+                            )}
+                        </Button>
+                    </form>
+                </div>
+
+                {/* Skip Option (optional) */}
+                <div className="mt-6 text-center">
+                    <p className="text-gray-400 text-sm">
+                        You can always complete this later in your profile settings
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default OnboardingPage;

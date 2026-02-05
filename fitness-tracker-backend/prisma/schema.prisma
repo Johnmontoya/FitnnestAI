@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  name      String?
+  age       Int?
+  weight    Float?
+  height    Float?
+  goal      Goal     @default(MAINTAIN)
+  
+  dailyCalorieIntake Int      @default(2200)
+  dailyCalorieBurn   Int      @default(400)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  foodEntries     FoodEntry[]
+  activityEntries ActivityEntry[]
+  
+  @@map("users")
+}
+
+model FoodEntry {
+  id         String   @id @default(cuid())
+  documentId String   @unique
+  name       String
+  calories   Int
+  mealType   MealType
+  date       String   // formato: YYYY-MM-DD
+  
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@index([userId, date])
+  @@map("food_entries")
+}
+
+model ActivityEntry {
+  id         String   @id @default(cuid())
+  documentId String   @unique
+  name       String
+  duration   Int      // en minutos
+  calories   Int
+  date       String   // formato: YYYY-MM-DD
+  
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@index([userId, date])
+  @@map("activity_entries")
+}
+
+enum Goal {
+  LOSE
+  MAINTAIN
+  GAIN
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}

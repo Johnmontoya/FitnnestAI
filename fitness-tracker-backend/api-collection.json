@@ -1,0 +1,118 @@
+{
+  "name": "Fitness Tracker API",
+  "requests": [
+    {
+      "name": "Register User",
+      "method": "POST",
+      "url": "http://localhost:3000/api/users",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "test@example.com",
+        "username": "testuser",
+        "password": "test123456",
+        "name": "Test User",
+        "age": 25,
+        "weight": 70,
+        "height": 175,
+        "goal": "MAINTAIN"
+      }
+    },
+    {
+      "name": "Login",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "username": "DemoUser",
+        "password": "demo123456"
+      }
+    },
+    {
+      "name": "Get Profile",
+      "method": "GET",
+      "url": "http://localhost:3000/api/users/profile",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE"
+      }
+    },
+    {
+      "name": "Create Food Entry",
+      "method": "POST",
+      "url": "http://localhost:3000/api/food-entries",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "name": "Avocado Toast",
+        "calories": 350,
+        "mealType": "BREAKFAST",
+        "date": "2026-02-04"
+      }
+    },
+    {
+      "name": "Get Food Entries",
+      "method": "GET",
+      "url": "http://localhost:3000/api/food-entries",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE"
+      }
+    },
+    {
+      "name": "Get Food Stats by Date",
+      "method": "GET",
+      "url": "http://localhost:3000/api/food-entries/stats/2026-02-04",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE"
+      }
+    },
+    {
+      "name": "Create Activity Entry",
+      "method": "POST",
+      "url": "http://localhost:3000/api/activity-entries",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "name": "Cycling",
+        "duration": 45,
+        "calories": 400,
+        "date": "2026-02-04"
+      }
+    },
+    {
+      "name": "Get Activity Entries",
+      "method": "GET",
+      "url": "http://localhost:3000/api/activity-entries",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE"
+      }
+    },
+    {
+      "name": "Get Activity Stats by Date",
+      "method": "GET",
+      "url": "http://localhost:3000/api/activity-entries/stats/2026-02-04",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE"
+      }
+    },
+    {
+      "name": "Update User Profile",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/users/USER_ID",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "weight": 72,
+        "goal": "LOSE"
+      }
+    }
+  ]
+}
