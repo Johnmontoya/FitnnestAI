@@ -10,3 +10,15 @@ export const activitySchema = z.object({
 })
 
 export type ActivityFormData = z.infer<typeof activitySchema>;
+
+export interface ActivityResponse {
+    id: string;
+    documentId: string;
+    name: string;
+    duration: number;
+    calories: number;
+    date: string;
+    userId: string;
+    createdAt: string;
+    updatedAt: string;
+}

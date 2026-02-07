@@ -1,13 +1,13 @@
 import { apiClient } from "../../../shared/api/client";
 import { endpoints } from "../api/endpoints";
-import type { ActivityFormData } from "../types/activity.types";
+import type { ActivityFormData, ActivityResponse } from "../types/activity.types";
 
 export const activityService = {
-    createActivity: async (data: ActivityFormData): Promise<ActivityFormData> => {
+    createActivity: async (data: ActivityFormData): Promise<ActivityResponse> => {
         const response = await apiClient.post(endpoints.activity.createActivity, data);
         return response.data;
     },
-    allActivity: async (): Promise<ActivityFormData[]> => {
+    allActivity: async (): Promise<ActivityResponse[]> => {
         const response = await apiClient.get(endpoints.activity.allActivity);
         return response.data;
     },

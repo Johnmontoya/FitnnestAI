@@ -12,23 +12,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 const goalOptions = [
     {
         value: "LOSE",
-        label: "Lose Weight",
+        label: "Perder Peso",
         icon: BiTrendingUp,
-        description: "Shed those extra pounds and feel lighter",
+        description: "Reduce unas tallas y vuelve hacer la ropa que amas",
         color: "#f59e0b"
     },
     {
         value: "MAINTAIN",
-        label: "Maintain Weight",
+        label: "Mantener Peso",
         icon: FiTarget,
-        description: "Keep your current weight and stay healthy",
+        description: "Mantener tu peso actual y mantener tu salud",
         color: "#00ff66"
     },
     {
         value: "GAIN",
-        label: "Gain Muscle",
+        label: "Ganar Musculo",
         icon: LuActivity,
-        description: "Build muscle mass and get stronger",
+        description: "Construye musculo y fuerza, y luce como un dios griego",
         color: "#3b82f6"
     },
 ];
@@ -56,11 +56,15 @@ const OnboardingPage = () => {
     });
 
     const onSubmit: SubmitHandler<UpdateBiometricsRequest> = async (data) => {
+
+        const bmr = 10 * (data.weight) + 6.25 * (data.height) - 5 * (data.age) + 5;
+        const tdee = bmr * 1.55;
         try {
-            await updateProfile(data,);
+            data.dailyCalorieIntake = Math.round(tdee);
+            await updateProfile(data);
             setTimeout(() => {
                 navigate('/profile', { replace: true });
-            }, 3000);
+            }, 2500);
         } catch (error) {
             console.error('Onboarding error:', error);
         }
@@ -80,10 +84,10 @@ const OnboardingPage = () => {
                 {/* Welcome Banner */}
                 <div className="bg-gradient-to-r from-[#00ff66] to-[#00dd55] rounded-2xl p-6 mb-8 text-center">
                     <h1 className="text-black text-3xl font-bold mb-2">
-                        Welcome, {user?.username || 'there'}! 👋
+                        Bienvenido, {user?.username || 'there'}! 👋
                     </h1>
                     <p className="text-black opacity-80">
-                        Let's set up your profile to personalize your fitness journey
+                        Vamos a configurar tu perfil para personalizar tu viaje fitness
                     </p>
                 </div>
 
@@ -91,9 +95,9 @@ const OnboardingPage = () => {
                 <div className="bg-[#0f1f0f] rounded-2xl border border-[#2a4a2a] p-8">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div className="text-center mb-6">
-                            <h2 className="text-white text-2xl font-bold mb-2">Complete Your Profile</h2>
+                            <h2 className="text-white text-2xl font-bold mb-2">Completar tu perfil</h2>
                             <p className="text-gray-400">
-                                We'll use this information to calculate your personalized calorie and activity targets
+                                Usaremos esta información para calcular tus objetivos de calorias y actividad
                             </p>
                         </div>
 
@@ -144,7 +148,7 @@ const OnboardingPage = () => {
                     placeholder:text-gray-500 transition-colors text-center text-lg
                   `}
                                 />
-                                <p className="text-gray-400 text-xs mt-1 text-center">kilograms</p>
+                                <p className="text-gray-400 text-xs mt-1 text-center">kilogramos</p>
                                 {errors.weight && (
                                     <p className="text-red-400 text-sm mt-1 text-center">{errors.weight.message}</p>
                                 )}
@@ -169,7 +173,7 @@ const OnboardingPage = () => {
                     placeholder:text-gray-500 transition-colors text-center text-lg
                   `}
                                 />
-                                <p className="text-gray-400 text-xs mt-1 text-center">centimeters</p>
+                                <p className="text-gray-400 text-xs mt-1 text-center">centimetros</p>
                                 {errors.height && (
                                     <p className="text-red-400 text-sm mt-1 text-center">{errors.height.message}</p>
                                 )}
@@ -232,11 +236,11 @@ const OnboardingPage = () => {
                             <div className="flex items-start gap-3">
                                 <span className="text-2xl">💡</span>
                                 <div className="flex-1">
-                                    <h4 className="text-blue-400 font-semibold mb-1">Your Privacy Matters</h4>
-                                    <p className="text-blue-300 text-sm opacity-90">
-                                        Your data is encrypted and secure. We use these metrics to calculate your BMR
-                                        (Basal Metabolic Rate) and TDEE (Total Daily Energy Expenditure) to help you
-                                        reach your goals faster. You can update this information anytime in your profile.
+                                    <h4 className="text-slate-200 font-semibold mb-1">Tu privacidad importa</h4>
+                                    <p className="text-slate-300 text-sm opacity-90">
+                                        Tu información es encriptada y segura. Usamos estos datos para calcular tu BMR
+                                        (Basal Metabolic Rate) y TDEE (Total Daily Energy Expenditure) para ayudarte
+                                        a alcanzar tus metas más rápido. Puedes actualizar esta información en cualquier momento en tu perfil.
                                     </p>
                                 </div>
                             </div>
@@ -259,11 +263,11 @@ const OnboardingPage = () => {
                             {isSubmitting ? (
                                 <div className="flex items-center justify-center gap-2">
                                     <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                                    Setting Up Your Profile...
+                                    Configurando tu perfil...
                                 </div>
                             ) : (
                                 <>
-                                    Complete Setup & Start Tracking
+                                    Configurar & Iniciar
                                     <span className="ml-2">🚀</span>
                                 </>
                             )}
@@ -274,7 +278,7 @@ const OnboardingPage = () => {
                 {/* Skip Option (optional) */}
                 <div className="mt-6 text-center">
                     <p className="text-gray-400 text-sm">
-                        You can always complete this later in your profile settings
+                        Puedes completar esto más tarde en tu perfil
                     </p>
                 </div>
             </div>

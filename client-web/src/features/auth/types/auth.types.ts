@@ -43,6 +43,8 @@ export const biometricsSchema = z.object({
     goal: z.enum(['LOSE', 'MAINTAIN', 'GAIN'], {
         error: () => ({ message: 'Selecciona tu objetivo principal' }),
     }),
+    dailyCalorieIntake: z.number().optional(),
+    dailyCalorieBurn: z.number().optional(),
 });
 
 export type SignupFormData = z.infer<typeof accountSchema>;

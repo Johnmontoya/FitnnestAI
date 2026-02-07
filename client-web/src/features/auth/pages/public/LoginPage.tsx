@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting, isSubmitSuccessful },
+        formState: { errors, isSubmitting },
         reset,
     } = useForm<LoginRequest>({
         resolver: zodResolver(loginSchema),
@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
             const errorMessage = error.response?.data?.message || error.message || 'Error al crear la cuenta';
             setServerError(errorMessage);
         } finally {
-            isSubmitSuccessful;
+            isSubmitting;
         }
     };
 

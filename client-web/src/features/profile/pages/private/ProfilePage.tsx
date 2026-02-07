@@ -56,20 +56,16 @@ const ProfilePage = () => {
     ];
 
     const tabs = [
-        { id: 'details', label: 'Profile Details', icon: BiUser },
-        { id: 'goals', label: 'Health Goals', icon: FiTarget },
-        { id: 'history', label: 'Activity History', icon: LuActivity },
-        { id: 'security', label: 'Privacy & Security', icon: LuLock },
+        { id: 'details', label: 'Detalles', icon: BiUser },
+        { id: 'goals', label: 'Objetivos', icon: FiTarget },
+        { id: 'history', label: 'Historial', icon: LuActivity },
+        { id: 'security', label: 'Seguridad', icon: LuLock },
     ];
 
     const calculateTargets = () => {
-        // Simplified BMR calculation (Mifflin-St Jeor)
-        const bmr = 10 * (user?.weight || 0) + 6.25 * (user?.height || 0) - 5 * (user?.age || 0) + 5;
-        const tdee = bmr * 1.55; // Moderate activity
-
-        let dailyCalories = tdee;
-        if (user?.goal === 'LOSE') dailyCalories = tdee - 500;
-        if (user?.goal === 'GAIN') dailyCalories = tdee + 500;
+        let dailyCalories = user?.dailyCalorieIntake!;
+        if (user?.goal === 'LOSE') dailyCalories = dailyCalories - 500;
+        if (user?.goal === 'GAIN') dailyCalories = dailyCalories + 500;
 
         return {
             calories: Math.round(dailyCalories),
