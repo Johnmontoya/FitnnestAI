@@ -4,7 +4,7 @@ import { CreateFoodEntryDto, UpdateFoodEntryDto } from './dto/food-entry.dto';
 
 @Injectable()
 export class FoodEntriesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(userId: string, createFoodEntryDto: CreateFoodEntryDto) {
     const documentId = `doc_food_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -21,16 +21,54 @@ export class FoodEntriesService {
   }
 
   async findAll(userId: string, date?: string) {
-    const where: any = { userId };
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
 
-    if (date) {
-      where.date = date;
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
     }
 
-    return this.prisma.foodEntry.findMany({
-      where,
+    const foodEntries = await this.prisma.foodEntry.findMany({
+      where: {
+        userId: user.id,
+        date,
+      },
       orderBy: { createdAt: 'desc' },
     });
+
+    return foodEntries;
+  }
+
+  async findAllUser(userId: string, startOfDay: string, endOfDay: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    const foodEntries = await this.prisma.foodEntry.findMany({
+      where: {
+        userId: user.id,
+        createdAt: { gte: new Date(startOfDay), lte: new Date(endOfDay) },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const stats = await this.prisma.foodEntry.aggregate({
+      where: { userId: user.id, createdAt: { gte: new Date(startOfDay), lte: new Date(endOfDay) } },
+      _sum: {
+        calories: true,
+        proteinas: true,
+        carbs: true,
+        fats: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return { foodEntries, stats };
   }
 
   async findOne(id: string, userId: string) {

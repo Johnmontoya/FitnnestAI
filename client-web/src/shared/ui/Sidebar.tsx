@@ -7,9 +7,9 @@ export const Sidebar = () => {
     const { logout } = useAuthStore();
     const menuItems = [
         { icon: LuLayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-        { icon: LuActivity, label: 'Activity', path: '/activity' },
-        { icon: LuUtensilsCrossed, label: 'Nutrition', path: '/nutrition' },
-        { icon: LuUser, label: 'Profile', path: '/profile' },
+        { icon: LuActivity, label: 'Actividad', path: '/activity' },
+        { icon: LuUtensilsCrossed, label: 'Nutrición', path: '/nutrition' },
+        { icon: LuUser, label: 'Perfil', path: '/profile' },
     ];
 
     return (

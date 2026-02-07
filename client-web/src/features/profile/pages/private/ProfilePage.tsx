@@ -334,7 +334,7 @@ const ProfilePage = () => {
                                 <CardContent>
                                     <div className="text-center mb-6">
                                         <div className="w-20 h-20 bg-[#00ff66] bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                                            <FiTarget className="w-10 h-10 text-[#00ff66]" />
+                                            <FiTarget className="w-10 h-10 text-slate-800" />
                                         </div>
                                         <h3 className="text-white font-semibold mb-1">OBJETIVO DIARIO</h3>
                                         <p className="text-5xl font-bold text-[#00ff66] mb-1">
@@ -359,7 +359,7 @@ const ProfilePage = () => {
                                     </div>
 
                                     <div className="p-4 bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-xl">
-                                        <p className="text-blue-400 text-sm">
+                                        <p className="text-blue-200 text-sm">
                                             💡 Tus datos están encriptados y seguros. Usamos estas métricas para calcular tu TMB (Tasa Metabólica Basal) y GET (Gasto Energético Total) para ayudarte a alcanzar tus objetivos más rápido.
                                         </p>
                                     </div>

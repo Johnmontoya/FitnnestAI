@@ -26,5 +26,13 @@ export const queryKeys = {
     profile: {
         all: ['profile'] as const,
         get: () => [...queryKeys.profile.all, 'get'] as const,
+    },
+    food: {
+        all: ['food'] as const,
+        get: () => [...queryKeys.food.all, 'get'] as const,
+    },
+    activity: {
+        all: ['activity'] as const,
+        get: () => [...queryKeys.activity.all, 'get'] as const,
     }
 };

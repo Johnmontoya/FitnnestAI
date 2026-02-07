@@ -11,25 +11,25 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  username  String   @unique
-  password  String
-  name      String?
-  age       Int?
-  weight    Float?
-  height    Float?
-  goal      Goal     @default(MAINTAIN)
-  
-  dailyCalorieIntake Int      @default(2200)
-  dailyCalorieBurn   Int      @default(400)
-  
+  id       String  @id @default(cuid())
+  email    String  @unique
+  username String  @unique
+  password String
+  name     String?
+  age      Int?
+  weight   Float?
+  height   Float?
+  goal     Goal    @default(MAINTAIN)
+
+  dailyCalorieIntake Int @default(2200)
+  dailyCalorieBurn   Int @default(400)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   foodEntries     FoodEntry[]
   activityEntries ActivityEntry[]
-  
+
   @@map("users")
 }
 
@@ -39,32 +39,36 @@ model FoodEntry {
   name       String
   calories   Int
   mealType   MealType
-  date       String   // formato: YYYY-MM-DD
-  
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
+  proteinas  Float?
+  carbs      Float?
+  fats       Float?
+  portion    Float?
+  date       String // formato: YYYY-MM-DD
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([userId, date])
   @@map("food_entries")
 }
 
 model ActivityEntry {
-  id         String   @id @default(cuid())
-  documentId String   @unique
+  id         String @id @default(cuid())
+  documentId String @unique
   name       String
-  duration   Int      // en minutos
+  duration   Int // en minutos
   calories   Int
-  date       String   // formato: YYYY-MM-DD
-  
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
+  date       String // formato: YYYY-MM-DD
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([userId, date])
   @@map("activity_entries")
 }
