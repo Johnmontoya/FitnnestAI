@@ -8,7 +8,7 @@ interface IProtectedRoute {
 }
 
 const ProtectedRoute = ({ children }: IProtectedRoute) => {
-    const { isAuthenticated, accessToken, user } = useAuthStore();
+    const { isAuthenticated, accessToken } = useAuthStore();
     const location = useLocation();
 
     // Si no está autenticado, redirigir al login

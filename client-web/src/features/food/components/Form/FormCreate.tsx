@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { foodCreateSchema, type FoodFormData } from "../../types/food.types";
 import { zodResolver } from "@hookform/resolvers/zod";
