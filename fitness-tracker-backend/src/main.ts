@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Habilitar CORS
   app.enableCors({
-    origin: ['http://localhost:5173'], // Ajusta según tu frontend
+    origin: ['https://fittrackpro-hazel.vercel.app', 'http://localhost:5173'], // Ajusta según tu frontend
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   });
