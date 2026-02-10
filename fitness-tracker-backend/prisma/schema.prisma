@@ -17,12 +17,14 @@ model User {
   password String
   name     String?
   age      Int?
+  gender   Gender?
   weight   Float?
   height   Float?
   goal     Goal    @default(MAINTAIN)
 
-  dailyCalorieIntake Int @default(2200)
-  dailyCalorieBurn   Int @default(400)
+  dailyWaterIntake   Int @default(0)
+  dailyCalorieIntake Int @default(0)
+  dailyCalorieBurn   Int @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -33,17 +35,23 @@ model User {
   @@map("users")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 model FoodEntry {
-  id         String   @id @default(cuid())
-  documentId String   @unique
-  name       String
-  calories   Int
-  mealType   MealType
-  proteinas  Float?
-  carbs      Float?
-  fats       Float?
-  portion    Float?
-  date       String // formato: YYYY-MM-DD
+  id          String   @id @default(cuid())
+  documentId  String   @unique
+  name        String
+  calories    Int
+  mealType    MealType
+  proteinas   Float?
+  carbs       Float?
+  fats        Float?
+  portion     Float?
+  waterIntake Int?
+  date        String // formato: YYYY-MM-DD
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

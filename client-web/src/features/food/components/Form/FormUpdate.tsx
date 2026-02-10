@@ -7,6 +7,7 @@ import { Input, Select } from '../../../../shared/ui/Input';
 import { foodUpdateSchema, type FoodFormData, type FoodUpdateData } from '../../types/food.types';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../shared/ui/Card';
 import { useFoodUpdateMutation } from '../../hooks/mutation/useFoodMutation';
+import { toast } from 'sonner';
 
 interface FoodUpdateModalProps {
     isOpen: boolean;
@@ -15,9 +16,9 @@ interface FoodUpdateModalProps {
 }
 
 const mealTypeOptions = [
-    { value: "BREAKFAST", label: "🌅 Breakfast" },
-    { value: "LUNCH", label: "☀️ Lunch" },
-    { value: "DINNER", label: "🌙 Dinner" },
+    { value: "BREAKFAST", label: "🌅 Desayuno" },
+    { value: "LUNCH", label: "☀️ Almuerzo" },
+    { value: "DINNER", label: "🌙 Cena" },
     { value: "SNACK", label: "🍪 Snack" },
 ];
 
@@ -52,15 +53,14 @@ const FormUpdate = ({
     }, [initialData, reset]);
 
     const handleFormSubmit: SubmitHandler<FoodUpdateData> = async (data) => {
-        console.log(data);
         try {
             await updateFoodMutation.mutateAsync({
                 id: initialData.id,
                 data
             });
             onClose();
-        } catch (error) {
-            console.error('Error updating food:', error);
+        } catch (error: any) {
+            toast.error(error.response.data.message);
         }
     };
 
@@ -196,7 +196,7 @@ const FormUpdate = ({
                                 </Button>
                                 <Button
                                     type="button"
-                                    variant="outline"
+                                    variant="primary"
                                     onClick={handleClose}
                                     disabled={isSubmitting}
                                 >

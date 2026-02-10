@@ -53,10 +53,10 @@ export const CircularProgress = ({
                     {label || value.toLocaleString()}
                 </div>
                 {sublabel && (
-                    <div className="text-gray-400 text-sm mt-1">{sublabel}</div>
+                    <div className="text-gray-200 text-sm mt-1">{sublabel}</div>
                 )}
                 {showPercentage && (
-                    <div className="text-gray-400 text-sm mt-1">
+                    <div className="text-gray-200 text-sm mt-1">
                         {percentage.toFixed(0)}%
                     </div>
                 )}

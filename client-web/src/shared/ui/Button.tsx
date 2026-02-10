@@ -23,7 +23,7 @@ export const Button = ({
     const baseStyles = 'rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-        primary: 'bg-[#00ff66] text-black hover:bg-[#00dd55]',
+        primary: 'bg-emerald-500 text-black hover:bg-emerald-600',
         secondary: 'bg-[#2a4a2a] text-white hover:bg-[#3a5a3a]',
         outline: 'border-2 border-[#00ff66] text-[#00ff66] hover:bg-[#00ff66] hover:text-black',
         danger: 'bg-red-500 text-white hover:bg-red-600',

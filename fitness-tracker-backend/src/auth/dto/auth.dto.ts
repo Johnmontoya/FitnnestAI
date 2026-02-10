@@ -8,6 +8,11 @@ export enum Goal {
     GAIN = 'GAIN',
 }
 
+export enum Gender {
+    MALE = 'MALE',
+    FEMALE = 'FEMALE',
+}
+
 export class CreateUserDto {
     @ApiProperty({ example: 'john@example.com' })
     @IsEmail({}, { message: 'Email inválido' })
@@ -33,6 +38,11 @@ export class CreateUserDto {
     @IsInt()
     @Min(1)
     age?: number;
+
+    @ApiProperty({ example: 'MALE' })
+    @IsOptional()
+    @IsEnum(Gender)
+    gender?: Gender;
 
     @ApiProperty({ example: 70 })
     @IsOptional()
@@ -62,6 +72,12 @@ export class CreateUserDto {
     @IsInt()
     @Min(0)
     dailyCalorieBurn?: number;
+
+    @ApiProperty({ example: 2000 })
+    @IsOptional()
+    @IsInt()
+    @Min(0)
+    dailyWaterIntake?: number;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {

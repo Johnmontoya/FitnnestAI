@@ -21,8 +21,8 @@ export const ActivityButton = ({
             className={`
         relative p-6 rounded-2xl transition-all
         ${selected
-                    ? 'bg-[#00ff66] border-2 border-[#00ff66]'
-                    : 'bg-[#1a2f1a] border-2 border-[#2a4a2a] hover:border-[#00ff66]'
+                    ? 'bg-emerald-500 border-2 border-emerald-500'
+                    : 'bg-[#1a2f1a] border-2 border-[#2a4a2a] hover:border-emerald-500'
                 }
       `}
         >
@@ -54,7 +54,7 @@ export const QuickActivitiesGrid = ({ activities, onActivityClick, selectedActiv
     selectedActivity: any;
 }) => {
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="h-44 scrollBar overflow-y-auto pr-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {activities.map((activity, index) => (
                 <ActivityButton
                     key={index}

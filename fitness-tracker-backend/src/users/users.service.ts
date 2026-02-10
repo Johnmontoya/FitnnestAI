@@ -19,12 +19,12 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Username or email already exists');
+      throw new ConflictException('Username o email ya existe');
     }
 
     // Calcular calorías basadas en la edad si se proporciona
-    let dailyCalorieIntake = createUserDto.dailyCalorieIntake || 2200;
-    let dailyCalorieBurn = createUserDto.dailyCalorieBurn || 400;
+    let dailyCalorieIntake = createUserDto.dailyCalorieIntake;
+    let dailyCalorieBurn = createUserDto.dailyCalorieBurn;
 
     if (createUserDto.age && !createUserDto.dailyCalorieIntake) {
       const ageRange = this.getAgeRange(createUserDto.age);
@@ -45,11 +45,13 @@ export class UsersService {
         username: true,
         name: true,
         age: true,
+        gender: true,
         weight: true,
         height: true,
         goal: true,
         dailyCalorieIntake: true,
         dailyCalorieBurn: true,
+        dailyWaterIntake: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -67,18 +69,20 @@ export class UsersService {
         username: true,
         name: true,
         age: true,
+        gender: true,
         weight: true,
         height: true,
         goal: true,
         dailyCalorieIntake: true,
         dailyCalorieBurn: true,
+        dailyWaterIntake: true,
         createdAt: true,
         updatedAt: true,
       },
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado');
     }
 
     return user;
@@ -93,11 +97,13 @@ export class UsersService {
         username: true,
         name: true,
         age: true,
+        gender: true,
         weight: true,
         height: true,
         goal: true,
         dailyCalorieIntake: true,
         dailyCalorieBurn: true,
+        dailyWaterIntake: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -146,11 +152,13 @@ export class UsersService {
         username: true,
         name: true,
         age: true,
+        gender: true,
         weight: true,
         height: true,
         goal: true,
         dailyCalorieIntake: true,
         dailyCalorieBurn: true,
+        dailyWaterIntake: true,
         createdAt: true,
         updatedAt: true,
       },

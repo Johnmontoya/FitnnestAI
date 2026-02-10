@@ -24,8 +24,8 @@ export class ActivityEntriesController {
   @Post()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear una nueva entrada de actividad' })
-  create(@Request() req, @Body() createActivityEntryDto: CreateActivityEntryDto) {
-    return this.activityEntriesService.create(req.user.userId, createActivityEntryDto);
+  create(@Request() req, @Body() data: CreateActivityEntryDto) {
+    return this.activityEntriesService.create(req.user.userId, data);
   }
 
   @Get()

@@ -45,3 +45,17 @@ export const useFoodDeleteMutation = () => {
         }
     })
 }
+
+export const useFoodAnalyzeMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (foodName: string) => foodService.analyzeFood(foodName),
+        onSuccess: (response: any) => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() })
+            toast.success(response.message || "Verica la informacion antes de guardar");
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data.message || "Error al analizar la comida");
+        }
+    })
+}

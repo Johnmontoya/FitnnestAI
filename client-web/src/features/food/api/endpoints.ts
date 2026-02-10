@@ -7,5 +7,6 @@ export const endpoints = {
         getFood: (id: string) => `/food-entries/${id}`,
         updateFood: (id: string) => `/food-entries/${id}`,
         deleteFood: (id: string) => `/food-entries/${id}`,
+        analyzeFood: '/food-entries/analyze',
     }
 }

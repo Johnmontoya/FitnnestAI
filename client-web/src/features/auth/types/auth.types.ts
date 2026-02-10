@@ -32,6 +32,7 @@ export const biometricsSchema = z.object({
         .int('Debe ser un número entero')
         .min(13, 'Edad mínima 13 años')
         .max(120, 'Edad máxima 120 años'),
+    gender: z.enum(['MALE', 'FEMALE'], { error: 'Género requerido' }),
     weight: z
         .number({ error: 'Peso requerido' })
         .min(30, 'Peso mínimo 30 kg')
@@ -45,6 +46,7 @@ export const biometricsSchema = z.object({
     }),
     dailyCalorieIntake: z.number().optional(),
     dailyCalorieBurn: z.number().optional(),
+    dailyWaterIntake: z.number().optional(),
 });
 
 export type SignupFormData = z.infer<typeof accountSchema>;
@@ -64,11 +66,13 @@ export interface User {
     username: string,
     name: string,
     age: number,
+    gender: string,
     weight: number,
     height: number,
     goal: string,
     dailyCalorieIntake: number,
     dailyCalorieBurn: number,
+    dailyWaterIntake: number,
     createdAt: string,
     updatedAt: string
 }
