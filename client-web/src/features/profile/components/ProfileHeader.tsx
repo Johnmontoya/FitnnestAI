@@ -1,13 +1,14 @@
 import { BiCheck, BiEditAlt, BiLogOutCircle, BiRadar } from "react-icons/bi";
-import type { User } from "../../auth/types/auth.types";
+import type { UpdateBiometricsRequest, User } from "../../auth/types/auth.types";
 import { useAuthStore } from "../../auth/store/useAuthStore";
 import moment from "moment";
+import type { UseFormHandleSubmit, SubmitHandler } from "react-hook-form";
 
 interface ProfileHeaderProps {
     user: User;
     editMode: boolean;
-    handleSubmit: any;
-    onSubmit: any;
+    handleSubmit: UseFormHandleSubmit<UpdateBiometricsRequest>;
+    onSubmit: SubmitHandler<UpdateBiometricsRequest>;
     isSubmitting: boolean;
     setEditMode: (mode: boolean) => void;
 }

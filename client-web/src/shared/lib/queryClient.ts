@@ -19,7 +19,7 @@ export const queryKeys = {
     auth: {
         all: ['auth'] as const,
         lists: () => [...queryKeys.auth.all, 'list'] as const,
-        list: (filters?: Record<string, any>) =>
+        list: (filters?: Record<string, unknown>) =>
             [...queryKeys.auth.lists(), filters] as const,
         get: () => [...queryKeys.auth.all, 'get'] as const,
     },

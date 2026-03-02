@@ -1,9 +1,10 @@
+import type { User } from "../../auth/types/auth.types";
 import { calculateData } from "../../../shared/utils/CalculateData";
 import { BiBoltCircle, BiTargetLock, BiDroplet } from "react-icons/bi";
 import { LuFlame } from "react-icons/lu";
 
 interface ProfileGoalProps {
-    user: any;
+    user: User;
 }
 
 const ProfileGoal = ({ user }: ProfileGoalProps) => {

@@ -1,19 +1,17 @@
 import { useState } from "react";
 
-type DefaultTypes = {
-    [key: string]: any;
-};
+type DefaultTypes = Record<string, unknown>;
 
 type InputElements = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
-type ReturnTypes = [
-    any,
+type ReturnTypes<T> = [
+    T,
     (event: React.ChangeEvent<InputElements>) => void,
-    React.Dispatch<React.SetStateAction<any>>
+    React.Dispatch<React.SetStateAction<T>>
 ];
 
-const useInputs = (initialValues: DefaultTypes): ReturnTypes => {
-    const [values, setValues] = useState(initialValues);
+const useInputs = <T extends DefaultTypes>(initialValues: T): ReturnTypes<T> => {
+    const [values, setValues] = useState<T>(initialValues);
 
     const onChange = (event: React.ChangeEvent<InputElements>) => {
         const { name, value, type } = event.target;

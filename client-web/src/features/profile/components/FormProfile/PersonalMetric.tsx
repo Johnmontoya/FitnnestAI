@@ -39,7 +39,7 @@ const PersonalMetric = ({ editMode, register }: PersonalMetricProps) => {
                         </label>
                         <div className="relative group">
                             <input
-                                {...register(field.name as any, { valueAsNumber: true })}
+                                {...register(field.name as keyof UpdateBiometricsRequest, { valueAsNumber: true })}
                                 disabled={!editMode}
                                 type="number"
                                 className="w-full bg-black/40 border border-white/5 rounded-2xl px-6! py-4! font-display font-bold text-lg text-white placeholder-white/20 focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/20 transition-all outline-none disabled:opacity-60"

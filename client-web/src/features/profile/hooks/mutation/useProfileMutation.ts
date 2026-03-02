@@ -24,7 +24,7 @@ export const useProfileMutation = (id: string) => {
 
             toast.success("Perfil actualizado exitosamente");
         },
-        onError: (error: any) => {
+        onError: (error: Error & { response?: { data?: { message?: string } } }) => {
             const errorMessage = error.response?.data?.message ||
                 error.message ||
                 "Error al actualizar el perfil";

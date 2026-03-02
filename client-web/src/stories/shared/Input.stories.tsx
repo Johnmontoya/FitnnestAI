@@ -43,7 +43,6 @@ export const Default: InputStory = {
 };
 
 export const WithIcon: InputStory = {
-    name: 'With Icon',
     args: {
         label: 'Correo Electrónico',
         placeholder: 'holo@fitnnest.ai',
@@ -62,7 +61,6 @@ export const Password: InputStory = {
 };
 
 export const WithError: InputStory = {
-    name: 'With Error',
     args: {
         label: 'Buscar Alimento',
         placeholder: 'Pollo asado...',

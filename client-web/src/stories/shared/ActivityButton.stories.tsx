@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ActivityButton } from '../../shared/ui/ActivityButton';
-import { BiRun, BiCycling, BiDumbbell, BiWalk, BiSwim } from 'react-icons/bi';
+import { BiCycling, BiDumbbell, BiWalk, BiSwim } from 'react-icons/bi';
 
 /**
  * `ActivityButton` is a selectable tile used in the activity logging form,
@@ -64,7 +64,6 @@ export const WithIconSelected: Story = {
 };
 
 export const GridPreview: Story = {
-    name: 'Grid Preview',
     render: () => {
         const activities = [
             { name: 'Correr', emoji: '🏃', rate: '11' },
@@ -82,8 +81,9 @@ export const GridPreview: Story = {
                         key={a.name}
                         name={a.name}
                         emoji={a.emoji}
-                        icon={(a as any).Icon}
+                        icon={a.Icon}
                         rate={a.rate}
+                        onClick={() => { }}
                         selected={i === 0}
                     />
                 ))}

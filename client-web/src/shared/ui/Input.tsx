@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label: string;
+    type?: string;
+    placeholder?: string;
+    value?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    error?: string;
+    icon?: React.ReactNode;
+    className?: string;
+}
+
 export const Input = ({
     label,
     type = 'text',
@@ -10,17 +21,7 @@ export const Input = ({
     icon,
     className = '',
     ...props
-}: {
-    label: string;
-    type?: string;
-    placeholder?: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    error?: string;
-    icon?: React.ReactNode;
-    className?: string;
-    [key: string]: any;
-}) => {
+}: InputProps) => {
     const [focused, setFocused] = useState(false);
 
     return (
@@ -84,6 +85,15 @@ export const Input = ({
     );
 };
 
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+    label: string;
+    options: { value: string; label: string }[];
+    value?: string;
+    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    placeholder?: string;
+    className?: string;
+}
+
 export const Select = ({
     label,
     options = [],
@@ -92,15 +102,7 @@ export const Select = ({
     placeholder = 'Seleccionar...',
     className = '',
     ...props
-}: {
-    label: string;
-    options: { value: string; label: string }[];
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-    placeholder?: string;
-    className?: string;
-    [key: string]: any;
-}) => {
+}: SelectProps) => {
     return (
         <div className={`w-full ${className}`}>
             {label && (

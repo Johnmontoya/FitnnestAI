@@ -37,7 +37,7 @@ const HealGoal = ({ editMode, watch, setValue }: HealGoalProps) => {
                             key={goal.id}
                             type="button"
                             disabled={!editMode}
-                            onClick={() => setValue("goal", goal.id as any)}
+                            onClick={() => setValue("goal", goal.id as UpdateBiometricsRequest['goal'])}
                             className={`relative p-8! rounded-[24px] border-2 text-left transition-all duration-300 group ${isActive
                                 ? 'bg-white/[0.05] border-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-glow-rgb),0.1)]'
                                 : 'bg-black/40 border-white/5 hover:border-white/20'

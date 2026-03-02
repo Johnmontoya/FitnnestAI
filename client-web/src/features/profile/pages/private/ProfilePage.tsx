@@ -41,8 +41,9 @@ const ProfilePage = () => {
         try {
             await updateProfile(data);
             setEditMode(false);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || error.message || 'Error al actualizar el perfil');
+        } catch (error: unknown) {
+            const err = error as Error & { response?: { data?: { message?: string } } };
+            toast.error(err.response?.data?.message || err.message || 'Error al actualizar el perfil');
         } finally {
             setEditMode(false);
         }
