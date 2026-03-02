@@ -7,7 +7,7 @@ import { useFoodAnalyzeMutation, useFoodMutation } from "../../hooks/mutation/us
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../../shared/ui/Card";
 import { Button } from "../../../../shared/ui/Button";
-import { BiPlus, BiSearch } from "react-icons/bi";
+import { BiPlus, BiSearch, BiTargetLock } from "react-icons/bi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Input, Select } from "../../../../shared/ui/Input";
 
@@ -56,15 +56,14 @@ const FormCreate = () => {
         setIsAnalyzing(true);
         try {
             const result = await analyzeFoodMutation.mutateAsync(name);
-            
+
             if (result.success) {
-                // Prellenar los campos con los datos de Gemini
                 setValue('calories', result.data.calorias);
                 setValue('proteinas', result.data.proteinas);
                 setValue('carbs', result.data.carbohidratos);
                 setValue('fats', result.data.grasas);
                 setValue('portion', parseInt(result.data.porcion) || 100);
-                
+
                 toast.success('✨ Información nutricional cargada automáticamente');
             } else {
                 toast.info('No se pudo analizar el alimento. Ingresa los valores manualmente.');
@@ -89,184 +88,174 @@ const FormCreate = () => {
     };
 
     return (
-        <Card>
-            <CardHeader>
-                <div className="flex items-center justify-between">
-                    <CardTitle>Agregar Comida</CardTitle>
-                    {!showAddForm && (
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={() => setShowAddForm(true)}
-                            className='flex flex-row justify-center items-center gap-1'
-                        >
-                            <BiPlus className="w-4 h-4 mr-2" />
-                            Agregar Comida
-                        </Button>
-                    )}
-                </div>
-            </CardHeader>
+        <div style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: showAddForm ? '1.5rem' : '0' }}>
+                <h3 style={{
+                    fontFamily: 'Syne, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '1.1rem',
+                    color: 'var(--text)',
+                    margin: 0
+                }}>
+                    Agregar Registro
+                </h3>
+                {!showAddForm && (
+                    <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => setShowAddForm(true)}
+                        style={{ padding: '0.6rem 1.2rem' }}
+                    >
+                        <BiPlus style={{ marginRight: '6px' }} />
+                        Nueva Comida
+                    </Button>
+                )}
+            </div>
 
             {showAddForm && (
-                <CardContent>
-                    <div className="space-y-4">
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            {/* Nombre del alimento con botón de análisis */}
-                            <div className="mb-4">
-                                <div className="flex gap-2">
-                                    <div className="flex-1">
-                                        <Input
-                                            label="Nombre del Alimento"
-                                            placeholder="Ej: Pizza Margherita, Ensalada César..."
-                                            {...register('name')}
-                                        />
-                                    </div>
-                                    <div className="flex items-end">
-                                        <Button
-                                            type="button"
-                                            variant="secondary"
-                                            onClick={handleManualAnalyze}
-                                            disabled={isAnalyzing || !watch('name') || watch('name').length < 3}
-                                            className="flex items-center gap-2"
-                                        >
-                                            {isAnalyzing ? (
-                                                <>
-                                                    <AiOutlineLoading3Quarters className="w-4 h-4 animate-spin" />
-                                                    Analizando...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <BiSearch className="w-4 h-4" />
-                                                    Analizar IA
-                                                </>
-                                            )}
-                                        </Button>
-                                    </div>
-                                </div>
-                                
-                                {/* Indicador de análisis automático */}
-                                {isAnalyzing && (
-                                    <div className="mt-2 flex items-center gap-2 text-sm text-blue-600">
-                                        <AiOutlineLoading3Quarters className="w-3 h-3 animate-spin" />
-                                        <span>Analizando información nutricional con IA...</span>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Información nutricional */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <Input
-                                    label="Calorías (Kcal)"
-                                    placeholder="Ej: 200"
-                                    type="number"
-                                    step="0.1"
-                                    {...register('calories', { valueAsNumber: true })}
-                                />
-                                <Input
-                                    label="Proteínas (g)"
-                                    placeholder="Ej: 20"
-                                    type="number"
-                                    step="0.1"
-                                    {...register('proteinas', { valueAsNumber: true })}
-                                />
-                                <Input
-                                    label="Carbohidratos (g)"
-                                    placeholder="Ej: 30"
-                                    type="number"
-                                    step="0.1"
-                                    {...register('carbs', { valueAsNumber: true })}
-                                />
-                                <Input
-                                    label="Grasas (g)"
-                                    placeholder="Ej: 10"
-                                    type="number"
-                                    step="0.1"
-                                    {...register('fats', { valueAsNumber: true })}
-                                />
-                                <Input
-                                    label="Porción (g)"
-                                    placeholder="Ej: 100"
-                                    type="number"
-                                    step="0.1"
-                                    {...register('portion', { valueAsNumber: true })}
-                                />
-                                <Select
-                                    label="Tipo de Comida"
-                                    options={mealTypeOptions}
-                                    {...register('mealType')}
-                                    placeholder="Selecciona el tipo"
-                                />
-                            </div>
-
-                            {/* Resumen visual de macros */}
-                            <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-                                <h3 className="text-sm font-semibold mb-2 text-gray-700">Resumen Nutricional</h3>
-                                <div className="grid grid-cols-4 gap-2 text-center">
-                                    <div className="bg-white p-2 rounded">
-                                        <div className="text-xs text-gray-500">Calorías</div>
-                                        <div className="text-lg font-bold text-orange-600">
-                                            {watch('calories') || 0}
-                                        </div>
-                                        <div className="text-xs text-gray-400">kcal</div>
-                                    </div>
-                                    <div className="bg-white p-2 rounded">
-                                        <div className="text-xs text-gray-500">Proteínas</div>
-                                        <div className="text-lg font-bold text-red-600">
-                                            {watch('proteinas') || 0}
-                                        </div>
-                                        <div className="text-xs text-gray-400">g</div>
-                                    </div>
-                                    <div className="bg-white p-2 rounded">
-                                        <div className="text-xs text-gray-500">Carbos</div>
-                                        <div className="text-lg font-bold text-blue-600">
-                                            {watch('carbs') || 0}
-                                        </div>
-                                        <div className="text-xs text-gray-400">g</div>
-                                    </div>
-                                    <div className="bg-white p-2 rounded">
-                                        <div className="text-xs text-gray-500">Grasas</div>
-                                        <div className="text-lg font-bold text-yellow-600">
-                                            {watch('fats') || 0}
-                                        </div>
-                                        <div className="text-xs text-gray-400">g</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Botones de acción */}
-                            <div className="flex gap-3">
-                                <Button
-                                    variant="primary"
-                                    type='submit'
-                                    className="flex-1"
-                                    disabled={isSubmitting || isAnalyzing}
-                                >
-                                    {isSubmitting ? (
-                                        <div className="flex items-center justify-center gap-2">
-                                            <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                                            Agregando...
-                                        </div>
-                                    ) : (
-                                        'Agregar comida'
-                                    )}
-                                </Button>
-                                <Button
-                                    variant="secondary"
-                                    type="button"
-                                    onClick={() => {
-                                        setShowAddForm(false);
-                                        reset();
-                                    }}
-                                    disabled={isSubmitting}
-                                >
-                                    Cancelar
-                                </Button>
-                            </div>
-                        </form>
+                <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    {/* Alimento + IA Analyze */}
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+                        <div style={{ flex: 1 }}>
+                            <Input
+                                label="Plato de comida o snack"
+                                placeholder="Ej: Huevo cocinado con verduras y jugo de naranja"
+                                {...register('name')}
+                            />
+                        </div>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={handleManualAnalyze}
+                            disabled={isAnalyzing || !watch('name') || watch('name').length < 3}
+                            style={{
+                                padding: '0.6rem 1.2rem',
+                                height: '45px',
+                                border: '1px solid var(--accent-glow)',
+                                color: 'var(--accent)',
+                                background: 'rgba(198,241,53,0.05)'
+                            }}
+                        >
+                            {isAnalyzing ? (
+                                <AiOutlineLoading3Quarters style={{ animation: 'spin 1s linear infinite' }} />
+                            ) : (
+                                <BiSearch style={{ width: '20px', height: '20px' }} />
+                            )}
+                        </Button>
                     </div>
-                </CardContent>
+
+                    {isAnalyzing && (
+                        <p style={{ color: 'var(--accent)', fontSize: '0.75rem', marginTop: '-8px', fontWeight: 600 }}>
+                            <AiOutlineLoading3Quarters style={{ animation: 'spin 1s linear infinite', marginRight: '6px', display: 'inline' }} />
+                            Consultando a la IA...
+                        </p>
+                    )}
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <Input
+                            label="Calorías (Kcal)"
+                            type="number"
+                            {...register('calories', { valueAsNumber: true })}
+                        />
+                        <Select
+                            label="Tipo de Comida"
+                            options={mealTypeOptions}
+                            {...register('mealType')}
+                        />
+                    </div>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gap: '0.75rem',
+                        background: 'var(--bg-card)',
+                        padding: '1rem',
+                        borderRadius: '12px',
+                        border: '1px solid var(--border)'
+                    }}>
+                        <Input
+                            label="Proteína"
+                            type="number"
+                            {...register('proteinas', { valueAsNumber: true })}
+                        />
+                        <Input
+                            label="Carbos"
+                            type="number"
+                            {...register('carbs', { valueAsNumber: true })}
+                        />
+                        <Input
+                            label="Grasas"
+                            type="number"
+                            {...register('fats', { valueAsNumber: true })}
+                        />
+                        <Input
+                            label="Porción"
+                            type="number"
+                            {...register('portion', { valueAsNumber: true })}
+                        />
+                    </div>
+
+                    {/* Resumen Visual */}
+                    <div style={{
+                        background: 'var(--bg-elevated)',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        border: '1px solid var(--accent-glow)',
+                    }}>
+                        <h4 style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontSize: '0.65rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.1em',
+                            color: 'var(--text-muted)',
+                            marginBottom: '0.75rem'
+                        }}>
+                            Resumen Nutricional
+                        </h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                            {[
+                                { label: 'Kcal', value: watch('calories'), color: 'var(--accent)' },
+                                { label: 'Prot', value: watch('proteinas'), color: 'var(--accent)' },
+                                { label: 'Carbs', value: watch('carbs'), color: '#38bdf8' },
+                                { label: 'Grasas', value: watch('fats'), color: '#fbbf24' },
+                            ].map(item => (
+                                <div key={item.label} style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '1.2rem', fontWeight: 800, color: item.color, fontFamily: 'Syne, sans-serif' }}>
+                                        {item.value || 0}
+                                    </div>
+                                    <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase' }}>
+                                        {item.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
+                        <Button
+                            variant="primary"
+                            type='submit'
+                            disabled={isSubmitting || isAnalyzing}
+                            style={{ flex: 1 }}
+                        >
+                            {isSubmitting ? 'Guardando...' : 'Confirmar Registro'}
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={() => {
+                                setShowAddForm(false);
+                                reset();
+                            }}
+                            disabled={isSubmitting}
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                </form>
             )}
-        </Card>
+        </div>
     );
 };
 

@@ -1,69 +1,86 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/Card"
-import { Button } from "../../../shared/ui/Button"
-import type { ActivityResponse } from "../types/activity.types"
-import moment from "moment"
-import { BiX } from "react-icons/bi"
-import { LuActivity } from "react-icons/lu"
 import { useActivityMutation } from "../hooks/mutation/useActivityMutation"
 import { toast } from "sonner"
+import moment from "moment"
+import { BiTrash, BiRun, BiCycling, BiDumbbell, BiWalk, BiHistory } from "react-icons/bi"
+import { LuActivity } from "react-icons/lu"
+import type { ActivityResponse } from "../types/activity.types"
 
 interface RecentActivityProps {
     activities: ActivityResponse[];
 }
 
+const getActivityIcon = (name: string) => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('run') || lowerName.includes('correr')) return <BiRun />;
+    if (lowerName.includes('cycle') || lowerName.includes('bici')) return <BiCycling />;
+    if (lowerName.includes('lift') || lowerName.includes('pesas') || lowerName.includes('gym')) return <BiDumbbell />;
+    if (lowerName.includes('walk') || lowerName.includes('caminar')) return <BiWalk />;
+    return <LuActivity />;
+};
+
 const RecentActivity = ({ activities }: RecentActivityProps) => {
     const { deleteActivity } = useActivityMutation();
-    const onDeleteActivity = (id: string) => {
+
+    const onDeleteActivity = async (id: string) => {
         try {
-            deleteActivity.mutateAsync(id);
+            await deleteActivity.mutateAsync(id);
+            toast.success('Actividad eliminada');
         } catch (error: any) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Error al eliminar');
         }
     }
+
     return (
-        <Card>
-            <CardHeader>
-                <div className="flex items-center justify-between">
-                    <CardTitle>Actividades recientes</CardTitle>
-                    <Button variant="secondary" size="sm">Ver todas</Button>
+        <div className="glass rounded-[32px] border-[var(--border)] p-8! mb-4!">
+            <div className="flex items-center justify-between mb-8!">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                        <BiHistory className="w-5 h-5 text-[var(--accent)]" />
+                    </div>
+                    <h3 className="font-display font-extrabold text-xl text-white tracking-tight">Registro de Sesiones</h3>
                 </div>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-3">
-                    {activities?.slice(0, 3).map((activity) => (
-                        <div
-                            key={activity.id}
-                            className="relative p-4 bg-[#0f1f0f] rounded-xl border border-[#2a4a2a] hover:border-[#00ff66] transition-all"
-                        >
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="absolute top-2 right-2 text-gray-400 hover:text-red-500 hover:bg-red-500/10"
-                                onClick={() => onDeleteActivity(activity.id)}
-                            >
-                                <BiX size={16} />
-                            </Button>
-                            <div className="flex items-start gap-3">
-                                <div className="text-3xl"><LuActivity size={24} /></div>
-                                <div className="flex-1 min-w-0">
-                                    <h4 className="text-white font-semibold">{activity.name}</h4>
-                                    <p className="text-gray-400 text-sm">Duración: {activity.duration} minutos</p>
-                                    <div className="flex items-center gap-4 mt-2">
-                                        <span className="text-[#00ff66] text-sm font-medium">
-                                            Calorias: {activity.calories} kcal
-                                        </span>
-                                        <span className="text-white text-sm font-medium">
-                                            Fecha: {moment(activity.date).format('DD-MM-YYYY')}
-                                        </span>
+            </div>
+
+            <div className="space-y-4!">
+                {!activities || activities.length === 0 ? (
+                    <div className="text-center py-12 bg-white/[0.02] rounded-2xl border border-dashed border-white/10">
+                        <LuActivity className="w-12 h-12 text-[var(--text-subtle)] mx-auto mb-4 opacity-20" />
+                        <p className="font-display font-bold text-[var(--text-muted)] uppercase tracking-widest text-xs">Sistema Inactivo</p>
+                        <p className="text-[var(--text-subtle)] text-xs mt-1">Registra tu entrenamiento para activar el registro</p>
+                    </div>
+                ) : (
+                    activities.slice(0, 5).map((activity) => (
+                        <div key={activity.id} className="group relative bg-[var(--bg-elevated)]/40 border border-white/5 rounded-2xl p-4 transition-all duration-300 hover:border-[var(--accent)]/30">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center border border-white/5 text-[var(--accent)] group-hover:scale-110 transition-transform">
+                                        {getActivityIcon(activity.name)}
+                                    </div>
+                                    <div>
+                                        <h4 className="font-display font-bold text-white text-md tracking-tight">{activity.name}</h4>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <span className="text-[var(--accent)] font-black text-xs tracking-tighter uppercase">{activity.calories} kcal</span>
+                                            <span className="text-white/10">•</span>
+                                            <span className="text-[var(--text-subtle)] text-[0.7rem] font-bold uppercase tracking-wider">{activity.duration} min</span>
+                                            <span className="text-white/10">•</span>
+                                            <span className="text-[var(--text-subtle)] text-[0.65rem] font-medium tracking-tight uppercase">{moment(activity.date).format('DD MMM')}</span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <button
+                                    onClick={() => onDeleteActivity(activity.id)}
+                                    className="p-2 rounded-lg bg-white/5 opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500/20 hover:text-red-500 text-[var(--text-muted)] mt-1"
+                                >
+                                    <BiTrash className="w-5 h-5" />
+                                </button>
                             </div>
                         </div>
-                    ))}
-                </div>
-            </CardContent>
-        </Card>
-    )
-}
+                    ))
+                )}
+            </div>
+        </div>
+    );
+};
 
 export default RecentActivity;

@@ -1,4 +1,4 @@
-import { BiCalendar } from 'react-icons/bi';
+import { BiCalendar, BiTrendingUp } from 'react-icons/bi';
 import { Sidebar } from '../../../../shared/ui/Sidebar';
 import moment from 'moment';
 import { useActivity } from '../../hooks/queries/useActivity';
@@ -6,62 +6,99 @@ import { useAuthStore } from '../../../auth/store/useAuthStore';
 import StatsActivity from '../../components/StatsActivity';
 import LogActivity from '../../components/FormActivity/LogActivity';
 import ChartActivity from '../../components/ChartActivity';
-import DayliGoal from '../../components/DayliGoal';
 import RecentActivity from '../../components/RecentActivity';
+import DayliGoal from '../../components/DailyGoal';
 
 const ActivityPage = () => {
     const { user } = useAuthStore();
     const { data: activities } = useActivity();
 
     const durationTime = activities?.filter((activity) => moment(activity.createdAt).isSame(moment(), 'day')).reduce((sum, current) => sum + current.duration, 0);
-    const totalSteps = durationTime! * 100;
+    const totalSteps = (durationTime || 0) * 100;
 
     const caloriesBurned = activities?.filter((activity) => moment(activity.createdAt).isSame(moment(), 'day')).reduce((sum, current) => sum + current.calories, 0) || 0;
 
     return (
-        <div className="min-h-screen bg-[#0a150a] text-white ml-64">
+        <div className="aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
             <Sidebar />
-            <div className="p-8 max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Buenos días, {user?.name}</h1>
-                    <p className="text-gray-400">¿Listo para alcanzar tus metas hoy?</p>
-                    <div className="flex items-center gap-2 mt-2 text-sm text-gray-400">
-                        <BiCalendar className="w-4 h-4" />
-                        <span>{moment().format('MMMM DD, YYYY')}</span>
+            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+                <div className="p-10 max-w-7xl mx-auto animate-fade-up">
+                    {/* Header */}
+                    <div className="w-full h-fit mb-12!">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="accent-line"></span>
+                            <p className="font-display font-bold text-[0.72rem] tracking-[0.2em] uppercase text-[var(--accent)]">
+                                Sistemas de Rendimiento
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                            <div>
+                                <h1 className="font-display font-extrabold text-[3.2rem] text-[var(--text)] tracking-tighter leading-[1.1]">
+                                    Buenos días, <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-white">{user?.name}</span>
+                                </h1>
+                                <p className="text-[var(--text-muted)] text-[1.05rem] mt-2 max-w-xl">
+                                    Tu biometría indica niveles óptimos para entrenamiento de alta intensidad hoy.
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-4 px-5 py-3 glass rounded-2xl border-[var(--border-mid)]">
+                                <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                                    <BiCalendar className="w-5 h-5 text-[var(--accent)]" />
+                                </div>
+                                <div>
+                                    <span className="block text-[0.6rem] font-bold text-[var(--text-muted)] uppercase tracking-widest">Protocolo Actual</span>
+                                    <span className="font-display font-bold text-[var(--text)]">{moment().format('DD [DE] MMMM, YYYY')}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                {/* Stats Overview */}
-                <StatsActivity
-                    activities={activities!}
-                    totalSteps={totalSteps}
-                    caloriesBurned={caloriesBurned}
-                    durationTime={durationTime!}
-                />
+                    {/* Stats Overview */}
+                    <StatsActivity
+                        activities={activities!}
+                        totalSteps={totalSteps}
+                        caloriesBurned={caloriesBurned}
+                        durationTime={durationTime!}
+                    />
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                    {/* Log Activity */}
-                    <div className="lg:col-span-2">
-                        <LogActivity />
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                        {/* Log Activity */}
+                        <div className="lg:col-span-2 space-y-8">
+                            <div className="glass rounded-[32px] border-[var(--border-mid)] p-8 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)] opacity-[0.03] blur-3xl"></div>
+                                <LogActivity />
+                            </div>
 
-                        {/* Weekly Activity Chart */}
-                        <ChartActivity activities={activities!} />
-                    </div>
+                            {/* Weekly Activity Chart */}
+                            <ChartActivity activities={activities!} />
+                        </div>
 
-                    {/* Right Column */}
-                    <div className="space-y-6">
-                        {/* Recent Activities */}
-                        <RecentActivity
-                            activities={activities!}
-                        />
+                        {/* Right Column */}
+                        <div className="space-y-8">
+                            {/* Recent Activities */}
+                            <RecentActivity
+                                activities={activities!}
+                            />
 
-                        {/* Daily Goal Progress */}
-                        <DayliGoal
-                            user={user!}
-                            caloriesBurned={caloriesBurned}
-                            totalSteps={totalSteps}
-                        />
+                            {/* Daily Goal Progress */}
+                            <DayliGoal
+                                user={user!}
+                                caloriesBurned={caloriesBurned}
+                                totalSteps={totalSteps}
+                            />
+
+                            {/* Motivational Insight */}
+                            <div className="p-6! rounded-[24px] bg-gradient-to-br from-[var(--accent)]/20 to-black border border-[var(--accent)]/10">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <BiTrendingUp className="text-[var(--accent)] w-6 h-6" />
+                                    <span className="font-display font-bold text-sm text-[var(--accent)] uppercase tracking-wider">Bio-Insight</span>
+                                </div>
+                                <p className="text-sm text-[var(--text)] leading-relaxed italic">
+                                    "La consistencia supera a la intensidad en el largo plazo. Mantén el ritmo de hoy para optimizar la quema calórica semanal."
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,4 @@
-import { BiUser } from "react-icons/bi";
-import { FiTarget } from "react-icons/fi";
-import { LuActivity, LuLock } from "react-icons/lu";
+import { BiPlanet, BiDumbbell } from "react-icons/bi";
 
 interface NavigationTabProps {
     activeTab: string;
@@ -8,35 +6,34 @@ interface NavigationTabProps {
 }
 
 const NavigationTab = ({ activeTab, setActiveTab }: NavigationTabProps) => {
-
     const tabs = [
-        { id: 'details', label: 'Detalles', icon: BiUser },
-        { id: 'goals', label: 'Objetivos', icon: FiTarget },
-        { id: 'history', label: 'Historial', icon: LuActivity },
-        { id: 'security', label: 'Seguridad', icon: LuLock },
+        { id: 'details', label: 'Biometría & Identidad', icon: BiPlanet },
+        { id: 'goals', label: 'Bio-Protocolos', icon: BiDumbbell },
     ];
+
     return (
-        <div className="mb-6 border-b border-[#2a4a2a]">
-            <div className="flex gap-1">
-                {tabs.map((tab) => {
-                    const Icon = tab.icon;
-                    return (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-2 px-6 py-3 font-medium transition-all rounded-t-lg ${activeTab === tab.id
-                                ? 'bg-emerald-500 text-black'
-                                : 'text-gray-400 hover:text-white hover:bg-[#1a2f1a]'
-                                }`}
-                        >
-                            <Icon className="w-4 h-4" />
-                            {tab.label}
-                        </button>
-                    );
-                })}
-            </div>
+        <div className="flex items-center gap-8 border-b border-white/5">
+            {tabs.map((tab) => (
+                <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`relative pb-4! flex items-center gap-3 transition-all ${activeTab === tab.id
+                        ? 'text-white'
+                        : 'text-[var(--text-muted)] hover:text-[var(--text-subtle)]'
+                        }`}
+                >
+                    <tab.icon className={`text-xl ${activeTab === tab.id ? 'text-[var(--accent)]' : ''}`} />
+                    <span className="font-display font-bold text-sm tracking-widest uppercase">
+                        {tab.label}
+                    </span>
+
+                    {activeTab === tab.id && (
+                        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[var(--accent)] to-white rounded-full shadow-[0_-4px_12px_var(--accent-glow)]"></div>
+                    )}
+                </button>
+            ))}
         </div>
-    )
-}
+    );
+};
 
 export default NavigationTab;

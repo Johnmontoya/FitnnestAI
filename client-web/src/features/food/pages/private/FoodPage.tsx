@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Sidebar } from '../../../../shared/ui/Sidebar';
-import { type FoodFormData } from '../../types/food.types';
-import moment from 'moment';
-import { useFoodUser } from '../../hooks/queries/useFood';
-import { useAuthStore } from '../../../auth/store/useAuthStore';
-import FormUpdate from '../../components/Form/FormUpdate';
-import StatsFood from '../../components/StatsFood';
-import FormCreate from '../../components/Form/FormCreate';
-import ProgressFood from '../../components/ProgressFood';
-import FoodRecent from '../../components/FoodRecent';
-import HydratationCard from '../../components/HydratationCard';
+import { Sidebar } from "../../../../shared/ui/Sidebar";
+import { useAuthStore } from "../../../auth/store/useAuthStore";
+import StatsFood from "../../components/StatsFood";
+import ProgressFood from "../../components/ProgressFood";
+import FoodRecent from "../../components/FoodRecent";
+import HydrationCard from "../../components/HydrationCard";
+import FormCreate from "../../components/Form/FormCreate";
+import FormUpdate from "../../components/Form/FormUpdate";
+import { useFoodUser } from "../../hooks/queries/useFood";
+import moment from "moment";
+import type { FoodFormData } from "../../types/food.types";
 
 interface FoodEntry extends FoodFormData {
     id: string;
@@ -17,20 +17,13 @@ interface FoodEntry extends FoodFormData {
 
 const FoodPage = () => {
     const { user } = useAuthStore();
-    const [showModal, setShowModal] = useState(false);
-    const [selectedFood, setSelectedFood] = useState<FoodEntry | null>(null);
+    const [editingFood, setEditingFood] = useState<FoodEntry | null>(null);
 
     const { data: foodUser } = useFoodUser({
         startOfDay: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         endOfDay: moment().add(1, 'days').endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
     });
 
-    const onEdit = (food: FoodEntry) => {
-        setSelectedFood(food);
-        setShowModal(true);
-    };
-
-    // Calculations
     const mealTotals = {
         breakfast: foodUser?.foodEntries?.filter(l => l.mealType === "BREAKFAST").reduce((sum, l) => sum + l.calories, 0) || 0,
         lunch: foodUser?.foodEntries?.filter(l => l.mealType === "LUNCH").reduce((sum, l) => sum + l.calories, 0) || 0,
@@ -39,53 +32,76 @@ const FoodPage = () => {
     };
 
     return (
-        <>
-            <div className="min-h-screen bg-[#0a150a] text-white ml-64">
-                <Sidebar />
-                <div className="p-8 max-w-7xl mx-auto">
+        <div className="aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
+            <Sidebar />
+            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+                <div className="p-10 max-w-7xl mx-auto animate-fade-up">
                     {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="text-3xl font-bold mb-2">Nutrición & Registro de alimentos</h1>
-                        <p className="text-gray-400">Registra tus comidas y alcanza tus metas.</p>
+                    <div className="mb-12!">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="accent-line"></span>
+                            <p style={{
+                                fontFamily: 'Syne, sans-serif',
+                                fontWeight: 700,
+                                fontSize: '0.72rem',
+                                letterSpacing: '0.2em',
+                                textTransform: 'uppercase',
+                                color: 'var(--accent)',
+                            }}>
+                                Nutrición & Bio-Metas
+                            </p>
+                        </div>
+                        <h1 style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontWeight: 800,
+                            fontSize: '3.2rem',
+                            color: 'var(--text)',
+                            letterSpacing: '-0.04em',
+                            lineHeight: 1.1
+                        }}>
+                            Métricas de <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-white">Alimentación</span>
+                        </h1>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', marginTop: '1rem', maxWidth: '600px' }}>
+                            Monitorea tu ingesta calórica y balances de macronutrientes para optimizar tu rendimiento físico.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Left Column - Food Log */}
-                        <div className="lg:col-span-2 space-y-6">
-                            {/* Meal Breakdown */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                        {/* Left Column */}
+                        <div className="lg:col-span-2 flex flex-col gap-8">
                             <StatsFood mealTotals={mealTotals} />
 
-                            {/* Add Food Form */}
-                            <FormCreate />
+                            <div className="glass rounded-[32px] border-[var(--border-mid)] p-8! relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)] opacity-[0.03] blur-3xl"></div>
+                                {editingFood ? (
+                                    <FormUpdate
+                                        initialData={editingFood}
+                                        onCancel={() => setEditingFood(null)}
+                                    />
+                                ) : (
+                                    <FormCreate />
+                                )}
+                            </div>
 
-                            {/* Today's Logs */}
-                            <FoodRecent foodUser={foodUser!} onEdit={onEdit} />
+                            <FoodRecent
+                                foodUser={foodUser!}
+                                onEdit={(food) => setEditingFood(food)}
+                            />
                         </div>
 
-                        {/* Right Column - Progress */}
-                        <div className="space-y-6">
-                            {/* Calorie Progress */}
-                            <ProgressFood mealTotals={mealTotals} foodUser={foodUser} user={user} />
-
-                            {/* Hydration */}
-                            <HydratationCard user={user!} />
+                        {/* Right Column */}
+                        <div className="flex flex-col gap-8 sticky top-8">
+                            <ProgressFood
+                                mealTotals={mealTotals}
+                                foodUser={foodUser}
+                                user={user}
+                            />
+                            <HydrationCard user={user!} />
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Update Modal */}
-            {selectedFood && (
-                <FormUpdate
-                    isOpen={showModal}
-                    onClose={() => {
-                        setShowModal(false);
-                        setSelectedFood(null);
-                    }}
-                    initialData={selectedFood}
-                />
-            )}
-        </>
+        </div>
     );
 };
 

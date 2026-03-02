@@ -1,69 +1,69 @@
-import { FiTarget } from "react-icons/fi";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/Card"
-import type { User } from "../../auth/types/auth.types";
 import { calculateData } from "../../../shared/utils/CalculateData";
+import { BiBoltCircle, BiTargetLock, BiDroplet } from "react-icons/bi";
+import { LuFlame } from "react-icons/lu";
 
 interface ProfileGoalProps {
-    user: User;
+    user: any;
 }
 
 const ProfileGoal = ({ user }: ProfileGoalProps) => {
-    const calculateTargets = () => {
-        const data = calculateData(user);
+    const { dailyCalories } = calculateData(user!);
 
-        return {
-            calories: Math.round(data.dailyCalories),
-            protein: Math.round((data.dailyCalories * 0.3) / 4), // 30% of calories, 4 cal/g
-            carbs: Math.round((data.dailyCalories * 0.4) / 4),   // 40% of calories
-            fats: Math.round((data.dailyCalories * 0.3) / 9),    // 30% of calories, 9 cal/g
-        };
-    };
-
-    const targets = calculateTargets();
+    const targets = [
+        { label: "Meta Calórica", value: Math.round(dailyCalories), unit: "kcal/día", icon: LuFlame, color: "var(--accent)" },
+        { label: "Proteína", value: Math.round((dailyCalories * 0.3) / 4), unit: "g/día", icon: BiTargetLock, color: "#f87171" },
+        { label: "Carbohidratos", value: Math.round((dailyCalories * 0.4) / 4), unit: "g/día", icon: BiBoltCircle, color: "#38bdf8" },
+        { label: "Grasas", value: Math.round((dailyCalories * 0.3) / 9), unit: "g/día", icon: BiBoltCircle, color: "#fbbf24" },
+        { label: "Hidratación", value: (user?.weight * 35 / 1000).toFixed(1), unit: "L/día", icon: BiDroplet, color: "#0ea5e9" },
+    ];
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Objetivos Calculados</CardTitle>
-                <p className="text-gray-400 text-sm mt-1">
-                    Basado en tus métricas actuales
+        <div className="glass rounded-[32px] border-[var(--border)] overflow-hidden">
+            <div className="p-8! border-b border-white/5 bg-white/[0.02]">
+                <h3 className="font-display font-extrabold text-xl text-white tracking-tight">Target Optimizado</h3>
+                <p className="text-[var(--text-muted)] text-[0.8rem] font-medium mt-1 uppercase tracking-widest">IA Generative Calibration</p>
+            </div>
+
+            <div className="p-2! space-y-1!">
+                {targets.map((target) => (
+                    <div
+                        key={target.label}
+                        className="group flex items-center justify-between p-3! rounded-2xl hover:bg-white/[0.03] transition-all cursor-default"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div
+                                style={{ background: `${target.color}15`, border: `1px solid ${target.color}20` }}
+                                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl"
+                            >
+                                <target.icon style={{ color: target.color }} />
+                            </div>
+                            <div>
+                                <span className="block text-[0.6rem] font-bold text-[var(--text-muted)] uppercase tracking-[0.15em] mb-1">
+                                    {target.label}
+                                </span>
+                                <div className="flex items-baseline gap-1.5">
+                                    <span className="font-display font-black text-2xl text-white tracking-tighter leading-none">
+                                        {target.value}
+                                    </span>
+                                    <span className="text-[var(--text-subtle)] text-[0.7rem] font-black uppercase">
+                                        {target.unit}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-[var(--accent)] group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-all"></div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="p-8! bg-[var(--accent)]/5">
+                <p className="text-[0.65rem] text-[var(--accent)] font-bold text-center leading-relaxed uppercase tracking-widest italic opacity-70">
+                    "Tu metabolismo es un motor de precisión. Aliméntalo con intención."
                 </p>
-            </CardHeader>
-            <CardContent>
-                <div className="text-center mb-6">
-                    <div className="w-20 h-20 bg-emerald-500 bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                        <FiTarget className="w-10 h-10 text-slate-800" />
-                    </div>
-                    <h3 className="text-white font-semibold mb-1">OBJETIVO DIARIO</h3>
-                    <p className="text-5xl font-bold text-emerald-500 mb-1">
-                        {targets.calories}
-                    </p>
-                    <p className="text-gray-400 text-sm">Kilocalorías / día</p>
-                </div>
+            </div>
+        </div>
+    );
+};
 
-                <div className="space-y-3 mb-6">
-                    <div className="flex justify-between items-center p-3 bg-[#0f1f0f] rounded-lg">
-                        <span className="text-gray-400">Proteínas</span>
-                        <span className="text-[#00ff66] font-bold">{targets.protein}g</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-[#0f1f0f] rounded-lg">
-                        <span className="text-gray-400">Carbohidratos</span>
-                        <span className="text-blue-400 font-bold">{targets.carbs}g</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-[#0f1f0f] rounded-lg">
-                        <span className="text-gray-400">Grasas</span>
-                        <span className="text-amber-400 font-bold">{targets.fats}g</span>
-                    </div>
-                </div>
-
-                <div className="p-4 bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-xl">
-                    <p className="text-blue-200 text-sm">
-                        💡 Tus datos están encriptados y seguros. Usamos estas métricas para calcular tu TMB (Tasa Metabólica Basal) y GET (Gasto Energético Total) para ayudarte a alcanzar tus objetivos más rápido.
-                    </p>
-                </div>
-            </CardContent>
-        </Card>
-    )
-}
-
-export default ProfileGoal
+export default ProfileGoal;

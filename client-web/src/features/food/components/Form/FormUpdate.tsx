@@ -1,17 +1,15 @@
 import { useEffect } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BiX } from 'react-icons/bi';
+import { BiX, BiInfoCircle } from 'react-icons/bi';
 import { Button } from '../../../../shared/ui/Button';
 import { Input, Select } from '../../../../shared/ui/Input';
 import { foodUpdateSchema, type FoodFormData, type FoodUpdateData } from '../../types/food.types';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../../shared/ui/Card';
 import { useFoodUpdateMutation } from '../../hooks/mutation/useFoodMutation';
 import { toast } from 'sonner';
 
 interface FoodUpdateModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+    onCancel: () => void;
     initialData: FoodFormData & { id: string };
 }
 
@@ -23,8 +21,7 @@ const mealTypeOptions = [
 ];
 
 const FormUpdate = ({
-    isOpen,
-    onClose,
+    onCancel,
     initialData,
 }: FoodUpdateModalProps) => {
     const updateFoodMutation = useFoodUpdateMutation();
@@ -33,6 +30,7 @@ const FormUpdate = ({
         handleSubmit,
         formState: { errors, isSubmitting },
         reset,
+        watch,
     } = useForm<FoodUpdateData>({
         resolver: zodResolver(foodUpdateSchema),
         defaultValues: {
@@ -47,7 +45,6 @@ const FormUpdate = ({
         mode: 'onChange',
     });
 
-    // Reset form when initialData changes
     useEffect(() => {
         reset(initialData);
     }, [initialData, reset]);
@@ -58,155 +55,135 @@ const FormUpdate = ({
                 id: initialData.id,
                 data
             });
-            onClose();
+            toast.success('Cambios guardados');
+            onCancel();
         } catch (error: any) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Error al actualizar');
         }
     };
 
-    const handleClose = () => {
-        reset();
-        onClose();
-    };
-
-    if (!isOpen) return null;
-
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <div
-                className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm"
-                onClick={handleClose}
-            />
-
-            {/* Modal */}
-            <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                <Card>
-                    <CardHeader>
-                        <div className="flex items-center justify-between">
-                            <CardTitle>Editar Comida</CardTitle>
-                            <button
-                                onClick={handleClose}
-                                className="text-gray-400 hover:text-white transition-colors"
-                            >
-                                <BiX className="w-6 h-6" />
-                            </button>
-                        </div>
-                    </CardHeader>
-
-                    <CardContent>
-                        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {/* Nombre de la comida */}
-                                <div className="md:col-span-2">
-                                    <Input
-                                        type='text'
-                                        label="Nombre de la comida"
-                                        placeholder="e.g. Chicken Salad"
-                                        {...register('name')}
-                                        error={errors.name?.message}
-                                    />
-                                </div>
-
-                                {/* Calorías */}
-                                <Input
-                                    label="Calorías (kcal)"
-                                    type="number"
-                                    placeholder="e.g. 200"
-                                    {...register('calories', { valueAsNumber: true })}
-                                    error={errors.calories?.message}
-                                />
-
-                                {/* Porción */}
-                                <Input
-                                    label="Porción (gramos)"
-                                    type="number"
-                                    placeholder="e.g. 150"
-                                    {...register('portion', { valueAsNumber: true })}
-                                    error={errors.portion?.message}
-                                />
-
-                                {/* Proteínas */}
-                                <Input
-                                    label="Proteínas (g)"
-                                    type="number"
-                                    placeholder="e.g. 20"
-                                    {...register('proteinas', { valueAsNumber: true })}
-                                    error={errors.proteinas?.message}
-                                />
-
-                                {/* Carbohidratos */}
-                                <Input
-                                    label="Carbohidratos (g)"
-                                    type="number"
-                                    placeholder="e.g. 30"
-                                    {...register('carbs', { valueAsNumber: true })}
-                                    error={errors.carbs?.message}
-                                />
-
-                                {/* Grasas */}
-                                <Input
-                                    label="Grasas (g)"
-                                    type="number"
-                                    placeholder="e.g. 10"
-                                    {...register('fats', { valueAsNumber: true })}
-                                    error={errors.fats?.message}
-                                />
-
-                                {/* Tipo de comida */}
-                                <Select
-                                    label="Tipo de comida"
-                                    options={mealTypeOptions}
-                                    {...register('mealType')}
-                                    placeholder="Selecciona el tipo"
-                                    error={errors.mealType?.message}
-                                />
-                            </div>
-
-                            {/* Info Box */}
-                            <div className="bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-xl p-4">
-                                <div className="flex items-start gap-3">
-                                    <span className="text-2xl">💡</span>
-                                    <div className="flex-1">
-                                        <h4 className="text-blue-400 font-semibold mb-1">Tip</h4>
-                                        <p className="text-blue-300 text-sm opacity-90">
-                                            Asegúrate de que los macronutrientes sumen correctamente con las calorías.
-                                            Proteínas y carbohidratos: 4 kcal/g, Grasas: 9 kcal/g
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Buttons */}
-                            <div className="flex gap-3 pt-4">
-                                <Button
-                                    type="submit"
-                                    variant="primary"
-                                    className="flex-1"
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? (
-                                        <div className="flex items-center justify-center gap-2">
-                                            <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                                            Actualizando...
-                                        </div>
-                                    ) : (
-                                        'Guardar Cambios'
-                                    )}
-                                </Button>
-                                <Button
-                                    type="button"
-                                    variant="primary"
-                                    onClick={handleClose}
-                                    disabled={isSubmitting}
-                                >
-                                    Cancelar
-                                </Button>
-                            </div>
-                        </form>
-                    </CardContent>
-                </Card>
+        <div style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+                <h3 style={{
+                    fontFamily: 'Syne, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '1.1rem',
+                    color: 'var(--text)',
+                    margin: 0
+                }}>
+                    Editar Registro
+                </h3>
+                <button
+                    onClick={onCancel}
+                    style={{
+                        background: 'none', border: 'none',
+                        color: 'var(--text-subtle)', cursor: 'pointer',
+                        padding: '4px', display: 'flex',
+                    }}
+                >
+                    <BiX style={{ width: '24px', height: '24px' }} />
+                </button>
             </div>
+
+            <form onSubmit={handleSubmit(handleFormSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <Input
+                    label="Nombre del Alimento"
+                    {...register('name')}
+                    error={errors.name?.message}
+                />
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <Input
+                        label="Calorías (Kcal)"
+                        type="number"
+                        {...register('calories', { valueAsNumber: true })}
+                        error={errors.calories?.message}
+                    />
+                    <Select
+                        label="Tipo de Comida"
+                        options={mealTypeOptions}
+                        {...register('mealType')}
+                        error={errors.mealType?.message}
+                    />
+                </div>
+
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '0.75rem',
+                    background: 'var(--bg-card)',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '1px solid var(--border)'
+                }}>
+                    <Input
+                        label="Proteína"
+                        type="number"
+                        {...register('proteinas', { valueAsNumber: true })}
+                    />
+                    <Input
+                        label="Carbos"
+                        type="number"
+                        {...register('carbs', { valueAsNumber: true })}
+                    />
+                    <Input
+                        label="Grasas"
+                        type="number"
+                        {...register('fats', { valueAsNumber: true })}
+                    />
+                    <Input
+                        label="Porción"
+                        type="number"
+                        {...register('portion', { valueAsNumber: true })}
+                    />
+                </div>
+
+                {/* Resumen Visual */}
+                <div style={{
+                    background: 'rgba(56,189,248,0.05)',
+                    borderRadius: '12px',
+                    padding: '1rem',
+                    border: '1px solid rgba(56,189,248,0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                }}>
+                    <div style={{
+                        width: '32px', height: '32px',
+                        borderRadius: '50%', background: 'rgba(56,189,248,0.1)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0
+                    }}>
+                        <BiInfoCircle style={{ color: '#38bdf8' }} />
+                    </div>
+                    <div>
+                        <p style={{ color: '#38bdf8', fontSize: '0.75rem', fontWeight: 600 }}>Cálculo verificado</p>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>
+                            {Math.round(watch('proteinas')! * 4 + watch('carbs')! * 4 + watch('fats')! * 9) || 0} kcal calc. vs {watch('calories')} kcal ingr.
+                        </p>
+                    </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
+                    <Button
+                        variant="primary"
+                        type='submit'
+                        disabled={isSubmitting}
+                        style={{ flex: 1 }}
+                    >
+                        {isSubmitting ? 'Guardando...' : 'Actualizar Cambios'}
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        type="button"
+                        onClick={onCancel}
+                        disabled={isSubmitting}
+                    >
+                        Descartar
+                    </Button>
+                </div>
+            </form>
         </div>
     );
 };

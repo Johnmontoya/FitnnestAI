@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/Card";
 import type { ActivityResponse } from "../types/activity.types";
 import moment from "moment";
 
@@ -10,50 +9,70 @@ const ChartActivity: React.FC<ChartActivityProps> = ({ activities }) => {
     const last7Days = [...Array(7)].map((_, i) => moment().subtract(i, 'days').format('ddd')).reverse();
 
     const weeklyData = last7Days.map(dayName => {
-        const dailySum = activities?.filter(activity => moment(activity.createdAt).format('ddd') === dayName).reduce((sum, current) => sum + current.calories, 0);
+        const dailySum = activities?.filter(activity => moment(activity.createdAt).format('ddd') === dayName).reduce((sum, current) => sum + current.calories, 0) || 0;
 
         return {
             day: dayName,
             value: dailySum
         };
     });
-    const maxWeeklyValue = Math.max(...weeklyData.map(d => d.value!));
+
+    const maxWeeklyValue = Math.max(...weeklyData.map(d => d.value), 500);
+
     return (
-        <Card className="mt-6">
-            <CardHeader>
-                <div className="flex items-center justify-between">
-                    <CardTitle>Actividad semanal</CardTitle>
-                    <div className="flex items-center gap-2 text-sm">
-                        <span className="w-3 h-3 bg-[#BA3211] rounded-full"></span>
-                        <span className="text-gray-400">Calorias</span>
-                        <span className="text-white font-semibold ml-2">Meta</span>
+        <div className="glass rounded-[32px] border-[var(--border)] p-8! mt-4!">
+            <div className="flex items-center justify-between mb-10">
+                <div>
+                    <h3 className="font-display font-extrabold text-xl text-white tracking-tight">Rendimiento Semanal</h3>
+                    <p className="text-[var(--text-muted)] text-sm font-medium mt-1">Análisis de carga calórica</p>
+                </div>
+                <div className="flex items-center gap-4 text-[0.6rem] font-bold uppercase tracking-widest text-[var(--text-muted)]">
+                    <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent-glow)]"></span>
+                        <span>Energía (Kcal)</span>
                     </div>
                 </div>
-            </CardHeader>
-            <CardContent>
-                <div className="flex items-end justify-between gap-2 h-48">
-                    {weeklyData.map((item) => (
-                        <div key={item.day} className="flex-1 flex flex-col items-center gap-2">
-                            <div className="relative w-full h-[100px] flex items-end justify-center h-full">
+            </div>
+
+            <div className="h-[200px] flex items-end justify-between gap-3 px-2">
+                {weeklyData.map((item, index) => {
+                    const heightPercent = (item.value / maxWeeklyValue) * 100;
+                    const isToday = item.day === moment().format('ddd');
+
+                    return (
+                        <div key={item.day} className="flex-1 flex flex-col items-center gap-4 h-full group">
+                            <div className="relative w-full flex-1 flex items-end justify-center">
+                                {/* Track */}
+                                <div className="absolute inset-0 bg-white/[0.02] rounded-xl border border-white/[0.05]"></div>
+
+                                {/* Bar */}
                                 <div
-                                    className="w-full flex justify-center items-center bg-[#BA3211] rounded-t-lg transition-all duration-500 hover:bg-amber-400"
+                                    className={`relative z-10 w-full rounded-t-lg transition-all duration-1000 ease-out ${isToday ? 'bg-[var(--accent)] shadow-[0_0_30px_var(--accent-glow)]' : 'bg-[var(--bg-elevated)] group-hover:bg-[var(--text-subtle)]'
+                                        }`}
                                     style={{
-                                        height: `${(item.value! / maxWeeklyValue) * 100}px`,
-                                        minHeight: '20px'
+                                        height: `${Math.max(heightPercent, 5)}%`,
+                                        borderTop: isToday ? '2px solid white' : 'none'
                                     }}
                                 >
-                                    {item.value}
+                                    {item.value > 0 && (
+                                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black border border-[var(--border-mid)] px-2 py-1 rounded-md z-20">
+                                            <span className="text-[0.6rem] font-black text-[var(--accent)] whitespace-nowrap">
+                                                {item.value} KCAL
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            <span className={`text-sm font-medium ${item.day === 'Thu' ? 'text-gray-400' : 'text-gray-400'
+
+                            <span className={`font-display font-bold text-[0.65rem] tracking-widest uppercase transition-colors ${isToday ? 'text-[var(--accent)]' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-muted)]'
                                 }`}>
                                 {item.day}
                             </span>
                         </div>
-                    ))}
-                </div>
-            </CardContent>
-        </Card>
+                    );
+                })}
+            </div>
+        </div>
     );
 };
 

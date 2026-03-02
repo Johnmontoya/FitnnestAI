@@ -84,12 +84,12 @@ const LogActivity = () => {
     return (
         <Card>
             <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between p-4!">
                     <CardTitle>Registrar actividad</CardTitle>
                     <Button variant="secondary" size="sm">Registro rápido</Button>
                 </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4!">
                 <QuickActivitiesGrid
                     activities={quickActivities}
                     selectedActivity={selectedActivity}
@@ -97,22 +97,22 @@ const LogActivity = () => {
                 />
 
                 {selectedActivity && (
-                    <div className="mt-6 p-4 bg-[#0f1f0f] rounded-xl border border-[#2a4a2a]">
+                    <div className="mt-6 p-4! bg-[#0f1f0f] rounded-xl border border-[#2a4a2a]">
                         <h4 className="text-white font-semibold mb-3">
                             Registrar {selectedActivity.name}
                         </h4>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4 justify-center items-center">
                                 <div>
                                     <label className="block text-gray-400 text-sm mb-2">Duración (min)</label>
                                     <input
                                         type="number"
                                         {...register('duration', { valueAsNumber: true })}
                                         placeholder="30"
-                                        className="w-full bg-[#1a2f1a] text-white rounded-lg px-4 py-2 border border-emerald-500 focus:border-emerald-500 focus:outline-none"
+                                        className="w-full bg-[#1a2f1a] text-white rounded-lg px-4! py-2! border border-emerald-500 focus:border-emerald-500 focus:outline-none"
                                     />
                                 </div>
-                                <div className="flex items-center justify-center mt-6">
+                                <div className="flex items-center justify-center mt-5!">
                                     <Button variant="primary" type='submit' size="sm" className="w-full">
                                         Registro de actividad
                                     </Button>

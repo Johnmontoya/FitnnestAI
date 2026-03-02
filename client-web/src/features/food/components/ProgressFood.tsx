@@ -1,5 +1,3 @@
-import { Button } from "../../../shared/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/Card";
 import { CircularProgress } from "../../../shared/ui/CircularProgress";
 import { ProgressBar } from "../../../shared/ui/ProgressBar";
 import { calculateData } from "../../../shared/utils/CalculateData";
@@ -17,57 +15,71 @@ interface ProgressFoodProps {
 
 const ProgressFood = ({ mealTotals, foodUser, user }: ProgressFoodProps) => {
     const { dailyCalories } = calculateData(user!);
-    let totalCalories = Object.values(mealTotals).reduce((sum, cal) => sum + cal, 0);
-    const macros = {
-        calories: { current: totalCalories, goal: dailyCalories, color: "#00ff66" },
-        protein: { current: foodUser?.stats._sum.proteinas || 0, goal: Math.round((dailyCalories * 0.3) / 4), color: "#00ff66" },
-        carbs: { current: foodUser?.stats._sum.carbs || 0, goal: Math.round((dailyCalories * 0.4) / 4), color: "#3b82f6" },
-        fats: { current: foodUser?.stats._sum.fats || 0, goal: Math.round((dailyCalories * 0.3) / 9), color: "#f59e0b" },
-    };
+    let totalCalories = Object.values(mealTotals).reduce((sum, cal) => (sum as number) + (cal as number), 0);
+
+    const macros = [
+        { name: "Proteínas", current: foodUser?.stats._sum.proteinas || 0, goal: Math.round((dailyCalories * 0.3) / 4), color: "var(--accent)" },
+        { name: "Carbs", current: foodUser?.stats._sum.carbs || 0, goal: Math.round((dailyCalories * 0.4) / 4), color: "#38bdf8" },
+        { name: "Grasas", current: foodUser?.stats._sum.fats || 0, goal: Math.round((dailyCalories * 0.3) / 9), color: "#fbbf24" },
+    ];
 
     return (
-        <Card>
-            <CardHeader>
-                <div className="flex items-center justify-between">
-                    <CardTitle>Progreso de calorías</CardTitle>
-                    <span className="px-3 py-1 bg-emerald-500 bg-opacity-20 text-slate-800 rounded-full text-xs font-semibold">
-                        {user?.goal}
-                    </span>
+        <div className="glass rounded-[32px] border-[var(--border-mid)] p-8! relative overflow-hidden">
+            <div className="flex items-center justify-between mb-8!">
+                <div>
+                    <h3 className="font-display font-extrabold text-xl text-white tracking-tight">Status Bio-Energético</h3>
+                    <p className="text-[var(--text-muted)] text-sm font-medium mt-1">Metas optimizadas para tu perfil</p>
                 </div>
-                <p className="text-gray-400 text-sm mt-1">Basado en tu nivel de actividad</p>
-            </CardHeader>
-            <CardContent>
-                <div className="flex justify-center mb-6">
-                    <CircularProgress
-                        value={totalCalories}
-                        max={dailyCalories}
-                        size={200}
-                        strokeWidth={14}
-                        color="#00ff66"
-                        label={totalCalories.toString()}
-                        sublabel={`DE ${dailyCalories} KCAL`}
-                    />
+                <div className="px-3! py-1! bg-[var(--accent)]/10 border border-[var(--accent)]/20 rounded-full font-display font-bold text-[0.65rem] text-[var(--accent)] tracking-wider">
+                    {user?.goal === "LOSE" ? "CUTTING" : user?.goal === "GAIN" ? "BULKING" : "MAINTAIN"}
                 </div>
+            </div>
 
-                {/* Macros */}
-                <div className="space-y-4">
-                    {Object.entries(macros).map(([name, data]) => (
+            <div className="flex justify-center mb-10! relative">
+                <div className="absolute inset-0 bg-[var(--accent)]/5 blur-3xl rounded-full"></div>
+                <CircularProgress
+                    value={totalCalories as number}
+                    max={dailyCalories}
+                    size={200}
+                    strokeWidth={16}
+                    color="var(--accent)"
+                    label={totalCalories.toLocaleString()}
+                    sublabel="KCAL TOTALES"
+                    showPercentage
+                />
+            </div>
+
+            {/* Macros Section */}
+            <div className="space-y-5!">
+                <div className="flex items-center gap-2 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                    <span className="text-[0.65rem] font-bold text-[var(--accent)] uppercase tracking-[0.15em]">Desglose de Macros</span>
+                </div>
+                {macros.map((macro) => (
+                    <div key={macro.name} className="space-y-2">
+                        <div className="flex justify-between items-end">
+                            <span className="text-sm font-bold text-[var(--text-muted)]">{macro.name}</span>
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-white font-bold">{macro.current}g</span>
+                                <span className="text-[var(--text-subtle)] text-xs">/ {macro.goal}g</span>
+                            </div>
+                        </div>
                         <ProgressBar
-                            key={name}
-                            label={name.toUpperCase()}
-                            value={data.current}
-                            max={data.goal}
-                            color={data.color}
+                            value={macro.current}
+                            max={macro.goal}
+                            color={macro.color}
+                            showValues={false}
+                            height="6px"
                         />
-                    ))}
-                </div>
+                    </div>
+                ))}
+            </div>
 
-                <Button variant="primary" className="w-full mt-6">
-                    Ajustar metas diarias
-                </Button>
-            </CardContent>
-        </Card>
-    )
-}
+            <button className="w-full mt-10! py-4! rounded-xl border border-[var(--border-mid)] bg-white/5 hover:bg-[var(--accent)] hover:text-black font-display font-bold text-sm tracking-widest uppercase transition-all duration-300">
+                Ajustar Protocolo
+            </button>
+        </div>
+    );
+};
 
 export default ProgressFood;

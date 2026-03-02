@@ -3,7 +3,7 @@ export const CircularProgress = ({
     max,
     size = 200,
     strokeWidth = 12,
-    color = '#00ff66',
+    color = 'var(--accent)',
     label,
     sublabel,
     showPercentage = false
@@ -19,19 +19,19 @@ export const CircularProgress = ({
 }) => {
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
-    const percentage = Math.min((value / max) * 100, 100);
+    const percentage = Math.min((value / max) * 100, 100) || 0;
     const offset = circumference - (percentage / 100) * circumference;
 
     return (
-        <div className="relative inline-flex items-center justify-center">
-            <svg width={size} height={size} className="transform -rotate-90">
+        <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
                 {/* Background circle */}
                 <circle
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
                     fill="none"
-                    stroke="#1a2f1a"
+                    stroke="var(--bg-elevated)"
                     strokeWidth={strokeWidth}
                 />
                 {/* Progress circle */}
@@ -45,18 +45,40 @@ export const CircularProgress = ({
                     strokeDasharray={circumference}
                     strokeDashoffset={offset}
                     strokeLinecap="round"
-                    className="transition-all duration-500 ease-out"
+                    style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
                 />
             </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-white text-4xl font-bold">
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{
+                    fontFamily: 'Syne, sans-serif',
+                    fontWeight: 800,
+                    fontSize: `${size / 5.5}px`,
+                    color: 'var(--text)',
+                    lineHeight: 1,
+                }}>
                     {label || value.toLocaleString()}
                 </div>
                 {sublabel && (
-                    <div className="text-gray-200 text-sm mt-1">{sublabel}</div>
+                    <div style={{
+                        fontFamily: 'Syne, sans-serif',
+                        fontWeight: 700,
+                        fontSize: `${size / 15}px`,
+                        color: 'var(--text-muted)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        marginTop: '4px',
+                    }}>
+                        {sublabel}
+                    </div>
                 )}
                 {showPercentage && (
-                    <div className="text-gray-200 text-sm mt-1">
+                    <div style={{
+                        fontFamily: 'DM Sans, sans-serif',
+                        fontWeight: 600,
+                        fontSize: `${size / 12}px`,
+                        color: color,
+                        marginTop: '2px',
+                    }}>
                         {percentage.toFixed(0)}%
                     </div>
                 )}

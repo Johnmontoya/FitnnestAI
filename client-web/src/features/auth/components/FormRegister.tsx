@@ -1,5 +1,4 @@
 import { LuEye, LuEyeOff, LuMail } from "react-icons/lu";
-import { Button } from "../../../shared/ui/Button";
 import { BiLock, BiUser } from "react-icons/bi";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { accountSchema, type SignupFormData } from "../types/auth.types";
@@ -8,12 +7,38 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 
+const inputBase: React.CSSProperties = {
+    width: '100%',
+    background: 'var(--bg-surface)',
+    color: 'var(--text)',
+    borderRadius: '10px',
+    padding: '0.85rem 1rem 0.85rem 2.85rem',
+    border: '1px solid rgba(198,241,53,0.12)',
+    fontSize: '0.95rem',
+    fontFamily: 'DM Sans, sans-serif',
+    outline: 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+};
+
+const labelStyle: React.CSSProperties = {
+    display: 'block',
+    color: 'var(--text-muted)',
+    fontSize: '0.8rem',
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    textTransform: 'uppercase',
+    marginBottom: '0.5rem',
+    fontFamily: 'Syne, sans-serif',
+};
+
 const FormRegister: React.FC = () => {
     const navigate = useNavigate();
     const authRegisterMutation = useAuthRegisterMutation();
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
     const [serverError, setServerError] = useState<string | null>(null);
+    const [focusedField, setFocusedField] = useState<string | null>(null);
+
     const {
         register,
         handleSubmit,
@@ -21,12 +46,7 @@ const FormRegister: React.FC = () => {
         reset,
     } = useForm<SignupFormData>({
         resolver: zodResolver(accountSchema),
-        defaultValues: {
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
-        },
+        defaultValues: { username: '', email: '', password: '', confirmPassword: '' },
         mode: 'onChange',
     });
 
@@ -42,161 +62,160 @@ const FormRegister: React.FC = () => {
             setServerError(errorMessage);
         }
     };
+
+    const getFocusStyle = (field: string): React.CSSProperties => focusedField === field
+        ? {
+            borderColor: 'var(--accent)',
+            boxShadow: '0 0 0 3px var(--accent-glow), inset 0 0 12px rgba(198,241,53,0.03)',
+        }
+        : {};
+
+    const fields = [
+        {
+            key: 'username',
+            label: 'Nombre de usuario',
+            type: 'text',
+            placeholder: 'john_doe',
+            Icon: BiUser,
+            regKey: 'username' as const,
+            error: errors.username,
+        },
+        {
+            key: 'email',
+            label: 'Correo electrónico',
+            type: 'email',
+            placeholder: 'john@ejemplo.com',
+            Icon: LuMail,
+            regKey: 'email' as const,
+            error: errors.email,
+        },
+    ];
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-6">
-                <h2 className="text-white text-2xl font-bold mb-2">
+        <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div style={{ marginBottom: '0.5rem' }}>
+                <h2 style={{
+                    fontFamily: 'Syne, sans-serif',
+                    fontWeight: 800,
+                    fontSize: '1.6rem',
+                    color: 'var(--text)',
+                    letterSpacing: '-0.02em',
+                    marginBottom: '0.4rem',
+                }}>
                     Crea tu cuenta
                 </h2>
-                <p className="text-gray-400">
-                    Comencemos tu viaje fitness
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                    Comienza tu viaje de transformación hoy
                 </p>
             </div>
 
-            {/* Username */}
-            <div className="mb-5">
-                <label className="block text-white text-sm font-medium mb-2">
-                    Nombre de usuario
-                </label>
-                <div className="relative">
-                    <BiUser className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                        type="text"
-                        {...register('username')}
-                        placeholder="john_doe"
-                        className={`
-                                        w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5 pl-12
-                                        border ${errors.username ? 'border-red-500' : 'border-[#2a4a2a]'}
-                                        focus:border-[#00ff66] focus:outline-none
-                                        placeholder:text-gray-500 transition-colors
-                                    `}
-                    />
+            {/* Text/email fields */}
+            {fields.map(({ key, label, type, placeholder, Icon, regKey, error }) => (
+                <div key={key}>
+                    <label style={labelStyle}>{label}</label>
+                    <div style={{ position: 'relative' }}>
+                        <Icon style={{
+                            position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)',
+                            width: '17px', height: '17px',
+                            color: focusedField === key ? 'var(--accent)' : 'var(--text-subtle)',
+                            transition: 'color 0.2s',
+                        }} />
+                        <input
+                            type={type}
+                            {...register(regKey)}
+                            placeholder={placeholder}
+                            style={{
+                                ...inputBase,
+                                ...getFocusStyle(key),
+                                borderColor: error ? '#ef4444' : undefined,
+                            }}
+                            onFocus={() => setFocusedField(key)}
+                            onBlur={() => setFocusedField(null)}
+                        />
+                    </div>
+                    {error && <p style={{ color: '#f87171', fontSize: '0.8rem', marginTop: '0.35rem' }}>{error.message}</p>}
                 </div>
-                {errors.username && (
-                    <p className="text-red-400 text-sm mt-1">
-                        {errors.username.message}
-                    </p>
-                )}
-            </div>
-
-            {/* Email */}
-            <div className="mb-5">
-                <label className="block text-white text-sm font-medium mb-2">
-                    Correo electrónico
-                </label>
-                <div className="relative">
-                    <LuMail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                        type="email"
-                        {...register('email')}
-                        placeholder="john@example.com"
-                        className={`
-                                        w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5 pl-12
-                                        border ${errors.email ? 'border-red-500' : 'border-[#2a4a2a]'}
-                                        focus:border-[#00ff66] focus:outline-none
-                                        placeholder:text-gray-500 transition-colors
-                                    `}
-                    />
-                </div>
-                {errors.email && (
-                    <p className="text-red-400 text-sm mt-1">
-                        {errors.email.message}
-                    </p>
-                )}
-            </div>
+            ))}
 
             {/* Password */}
-            <div className="mb-5">
-                <label className="block text-white text-sm font-medium mb-2">
-                    Contraseña
-                </label>
-                <div className="relative">
-                    <BiLock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                        type={showPassword ? 'text' : 'password'}
-                        {...register('password')}
-                        placeholder="••••••••"
-                        className={`
-                                        w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5 pl-12 pr-12
-                                        border ${errors.password ? 'border-red-500' : 'border-[#2a4a2a]'}
-                                        focus:border-[#00ff66] focus:outline-none
-                                        placeholder:text-gray-500 transition-colors
-                                    `}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-                    >
-                        {showPassword ? <LuEyeOff size={20} /> : <LuEye size={20} />}
-                    </button>
+            {[
+                { key: 'password', label: 'Contraseña', regKey: 'password' as const, show: showPassword, toggle: () => setShowPassword(!showPassword), error: errors.password },
+                { key: 'confirmPassword', label: 'Confirmar contraseña', regKey: 'confirmPassword' as const, show: showConfirmPassword, toggle: () => setShowConfirmPassword(!showConfirmPassword), error: errors.confirmPassword },
+            ].map(({ key, label, regKey, show, toggle, error }) => (
+                <div key={key}>
+                    <label style={labelStyle}>{label}</label>
+                    <div style={{ position: 'relative' }}>
+                        <BiLock style={{
+                            position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)',
+                            width: '17px', height: '17px',
+                            color: focusedField === key ? 'var(--accent)' : 'var(--text-subtle)',
+                            transition: 'color 0.2s',
+                        }} />
+                        <input
+                            type={show ? 'text' : 'password'}
+                            {...register(regKey)}
+                            placeholder="••••••••"
+                            style={{
+                                ...inputBase,
+                                paddingRight: '3rem',
+                                ...getFocusStyle(key),
+                                borderColor: error ? '#ef4444' : undefined,
+                            }}
+                            onFocus={() => setFocusedField(key)}
+                            onBlur={() => setFocusedField(null)}
+                        />
+                        <button
+                            type="button"
+                            onClick={toggle}
+                            style={{
+                                position: 'absolute', right: '0.9rem', top: '50%', transform: 'translateY(-50%)',
+                                background: 'none', border: 'none', cursor: 'pointer',
+                                color: 'var(--text-subtle)', transition: 'color 0.2s', padding: 0,
+                            }}
+                            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+                            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-subtle)')}
+                        >
+                            {show ? <LuEyeOff style={{ width: '17px', height: '17px' }} /> : <LuEye style={{ width: '17px', height: '17px' }} />}
+                        </button>
+                    </div>
+                    {error && <p style={{ color: '#f87171', fontSize: '0.8rem', marginTop: '0.35rem' }}>{error.message}</p>}
                 </div>
-                {errors.password && (
-                    <p className="text-red-400 text-sm mt-1">
-                        {errors.password.message}
-                    </p>
-                )}
-            </div>
+            ))}
 
-            {/* Confirm Password */}
-            <div className="mb-6">
-                <label className="flex items-center gap-2 block text-white text-sm font-medium mb-2">
-                    Confirmar contraseña
-                </label>
-                <div className="relative">
-                    <BiLock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        {...register('confirmPassword')}
-                        placeholder="••••••••"
-                        className={`
-                                        w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5 pl-12 pr-12
-                                        border ${errors.confirmPassword ? 'border-red-500' : 'border-[#2a4a2a]'}
-                                        focus:border-[#00ff66] focus:outline-none
-                                        placeholder:text-gray-500 transition-colors
-                                    `}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-                    >
-                        {showConfirmPassword ? <LuEyeOff size={20} /> : <LuEye size={20} />}
-                    </button>
-                </div>
-                {errors.confirmPassword && (
-                    <p className="text-red-400 text-sm mt-1">
-                        {errors.confirmPassword.message}
-                    </p>
-                )}
-            </div>
-
-            {/* Error del servidor */}
+            {/* Server error */}
             {serverError && (
-                <div className="mb-6 bg-red-500 bg-opacity-10 border border-red-500 rounded-xl p-3">
-                    <p className="text-red-400 text-sm">{serverError}</p>
+                <div style={{
+                    background: 'rgba(239,68,68,0.08)',
+                    border: '1px solid rgba(239,68,68,0.3)',
+                    borderRadius: '10px', padding: '0.75rem 1rem',
+                }}>
+                    <p style={{ color: '#f87171', fontSize: '0.85rem' }}>{serverError}</p>
                 </div>
             )}
 
-            {/* Botón de envío */}
-            <Button
+            {/* Submit */}
+            <button
                 type="submit"
-                variant="primary"
-                className="w-full"
+                className="btn-primary"
                 disabled={isSubmitting || authRegisterMutation.isPending}
+                style={{ width: '100%', padding: '0.95rem', fontSize: '0.95rem', marginTop: '0.25rem' }}
             >
                 {isSubmitting || authRegisterMutation.isPending ? (
-                    <div className="flex items-center justify-center gap-2">
-                        <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                        <span>Creando cuenta...</span>
-                    </div>
+                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        <span style={{
+                            width: '16px', height: '16px',
+                            border: '2px solid rgba(0,0,0,0.3)',
+                            borderTopColor: '#0a0a0a',
+                            borderRadius: '50%',
+                            display: 'inline-block',
+                            animation: 'spin 0.8s linear infinite',
+                        }} />
+                        Creando cuenta...
+                    </span>
                 ) : (
-                    <>
-                        Finalizar registro
-                        <span className="ml-2">✓</span>
-                    </>
+                    <span>Finalizar registro <span style={{ marginLeft: '6px' }}>✓</span></span>
                 )}
-            </Button>
+            </button>
         </form>
     );
 };

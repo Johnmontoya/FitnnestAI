@@ -1,6 +1,272 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
-* {
-  font-family: "Rethink Sans", sans-serif;
+/* ============================
+   DESIGN TOKENS
+   ============================ */
+:root {
+  --bg:          #080b08;
+  --bg-surface:  #0f140f;
+  --bg-card:     #111811;
+  --bg-elevated: #161e16;
+
+  --accent:      #c6f135;
+  --accent-dim:  #9aba2a;
+  --accent-glow: rgba(198, 241, 53, 0.25);
+  --accent-glow-strong: rgba(198, 241, 53, 0.45);
+
+  --text:        #f0f2ec;
+  --text-muted:  #7a8a72;
+  --text-subtle: #4a5a42;
+
+  --border:      rgba(198, 241, 53, 0.08);
+  --border-mid:  rgba(198, 241, 53, 0.18);
+
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   32px;
 }
+
+/* ============================
+   GLOBAL RESET & BASE
+   ============================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ============================
+   TYPOGRAPHY
+   ============================ */
+.font-display {
+  font-family: 'Syne', sans-serif;
+}
+
+/* ============================
+   KEYFRAME ANIMATIONS
+   ============================ */
+
+/* Background aurora mesh */
+@keyframes aurora-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+}
+
+/* Fade up reveal */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Neon pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0px 0px var(--accent-glow); }
+  50%       { box-shadow: 0 0 20px 4px var(--accent-glow); }
+}
+
+/* Shimmer for buttons */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+/* Draw line from left */
+@keyframes draw-line {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Spin for loaders */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Float up/down */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Scan line hover effect */
+@keyframes scanline {
+  from { top: -100%; }
+  to   { top: 100%; }
+}
+
+/* ============================
+   ANIMATION UTILITIES
+   ============================ */
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-fade-up-delay-1 {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+.animate-fade-up-delay-3 {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+.animate-fade-up-delay-4 {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease both;
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ============================
+   AURORA BACKGROUND
+   ============================ */
+.aurora-bg {
+  position: relative;
+  overflow: hidden;
+}
+.aurora-bg::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(198, 241, 53, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(100, 150, 20, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 60% 10%, rgba(198, 241, 53, 0.06) 0%, transparent 60%);
+  background-size: 200% 200%;
+  animation: aurora-shift 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================
+   GLASS CARD
+   ============================ */
+.glass {
+  background: rgba(15, 20, 15, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+}
+
+/* ============================
+   ACCENT GLOW FOCUS
+   ============================ */
+.glow-focus:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow), inset 0 0 12px rgba(198, 241, 53, 0.04);
+}
+
+/* ============================
+   DIAGONAL CLIP MOTIF
+   ============================ */
+.clip-slash-tr {
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+}
+.clip-slash-br {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%);
+}
+
+/* ============================
+   ACCENT LINE DECORATION
+   ============================ */
+.accent-line {
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform-origin: left center;
+  animation: draw-line 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+/* ============================
+   PRIMARY BUTTON
+   ============================ */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--accent);
+  color: #0a0a0a;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+  transform: skewX(-12deg);
+  transition: none;
+}
+.btn-primary:hover {
+  background: var(--accent-dim);
+  box-shadow: 0 0 24px var(--accent-glow-strong);
+  transform: translateY(-1px);
+}
+.btn-primary:hover::after {
+  animation: shimmer 0.6s ease forwards;
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================
+   SCROLL BAR
+   ============================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--text-subtle); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }

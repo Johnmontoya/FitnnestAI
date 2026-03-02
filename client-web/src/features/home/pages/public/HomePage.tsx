@@ -20,10 +20,10 @@ const HomePage: React.FC = () => {
 
             {/* Categories */}
             <section className="py-12 px-4 sm:px-6 lg:px-8 border-y border-gray-100/20">
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between overflow-x-auto">
+                <div className="w-full mx-auto">
+                    <div className="w-full mx-auto flex items-center justify-center overflow-x-auto">
                         {['HEALTHLINE', 'WELLNESS', 'ACTIVE', 'VITALITY'].map((category) => (
-                            <div key={category} className="flex items-center gap-3 px-6">
+                            <div key={category} className="w-full flex items-center justify-center gap-3 px-6">
                                 <LuActivity className="w-5 h-5 text-gray-400" />
                                 <span className="text-gray-400 font-semibold whitespace-nowrap">{category}</span>
                             </div>

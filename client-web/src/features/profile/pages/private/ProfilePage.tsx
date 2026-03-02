@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Card, CardHeader, CardTitle } from '../../../../shared/ui/Card';
 import { Sidebar } from '../../../../shared/ui/Sidebar';
 import { useCurrentUser } from '../../../auth/hooks/queries/useUsers';
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -45,53 +44,82 @@ const ProfilePage = () => {
         } catch (error: any) {
             toast.error(error.response?.data?.message || error.message || 'Error al actualizar el perfil');
         } finally {
-            isSubmitting
             setEditMode(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#0a150a] text-white ml-64">
+        <div className="aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
             <Sidebar />
-            <div className="p-8 max-w-7xl mx-auto">
-                {/* Header */}
-                <ProfileHeader user={user!} editMode={editMode} handleSubmit={handleSubmit} onSubmit={onSubmit} isSubmitting={isSubmitting} setEditMode={setEditMode} />
+            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+                <div className="p-10 max-w-7xl mx-auto animate-fade-up">
+                    {/* Header */}
+                    <ProfileHeader
+                        user={user!}
+                        editMode={editMode}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        isSubmitting={isSubmitting}
+                        setEditMode={setEditMode}
+                    />
 
-                {/* Navigation Tabs */}
-                <NavigationTab activeTab={activeTab} setActiveTab={setActiveTab} />
-
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Left Column */}
-                        <div className="lg:col-span-2 space-y-6">
-                            {activeTab === 'details' && (
-                                <>
-                                    {/* Personal Metrics */}
-                                    <PersonalMetric user={user!} editMode={editMode} isSubmitting={isSubmitting} setEditMode={setEditMode} register={register} />
-
-                                    {/* Health Goals */}
-                                    <HealGoal editMode={editMode} watch={watch} setValue={setValue} />
-
-                                    {/* Account Settings */}
-                                    <AccountSetting user={user!} editMode={editMode} />
-                                </>
-                            )}
-
-                            {activeTab === 'goals' && (
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Actividad en desarrollo...</CardTitle>
-                                    </CardHeader>
-                                </Card>
-                            )}
-                        </div>
-
-                        {/* Right Column - Calculated Targets */}
-                        <div className="space-y-6">
-                            <ProfileGoal user={user!} />
-                        </div>
+                    {/* Navigation Tabs */}
+                    <div className="mb-10!">
+                        <NavigationTab activeTab={activeTab} setActiveTab={setActiveTab} />
                     </div>
-                </form>
+
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                            {/* Left Column */}
+                            <div className="lg:col-span-2 space-y-8!">
+                                {activeTab === 'details' && (
+                                    <>
+                                        {/* Personal Metrics */}
+                                        <PersonalMetric
+                                            user={user!}
+                                            editMode={editMode}
+                                            isSubmitting={isSubmitting}
+                                            setEditMode={setEditMode}
+                                            register={register}
+                                        />
+
+                                        {/* Health Goals */}
+                                        <HealGoal
+                                            editMode={editMode}
+                                            watch={watch}
+                                            setValue={setValue}
+                                        />
+
+                                        {/* Account Settings */}
+                                        <AccountSetting
+                                            user={user!}
+                                            editMode={editMode}
+                                        />
+                                    </>
+                                )}
+
+                                {activeTab === 'goals' && (
+                                    <div className="glass rounded-[32px] p-12! text-center bg-white/[0.02] border border-white/10">
+                                        <h2 className="font-display font-black text-2xl text-[var(--accent)] italic mb-4! uppercase tracking-[0.2em]">Bio-Protocolos</h2>
+                                        <p className="text-[var(--text-muted)] font-medium text-lg leading-relaxed max-w-lg mx-auto">
+                                            Nuestra IA está calibrando módulos de entrenamiento avanzados basados en tu perfil genético-deportivo.
+                                        </p>
+                                        <div className="mt-8! flex justify-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-ping"></div>
+                                            <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-ping delay-100"></div>
+                                            <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-ping delay-200"></div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Right Column - Calculated Targets */}
+                            <div className="sticky top-8 space-y-8!">
+                                <ProfileGoal user={user!} />
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

@@ -28,10 +28,10 @@ const mealTypeLabels: Record<string, string> = {
 };
 
 const mealTypeColors: Record<string, string> = {
-    BREAKFAST: 'bg-amber-500',
-    LUNCH: 'bg-orange-500',
-    DINNER: 'bg-indigo-500',
-    SNACK: 'bg-pink-500',
+    BREAKFAST: '#f59e0b',
+    LUNCH: '#fb923c',
+    DINNER: '#818cf8',
+    SNACK: '#f472b6',
 };
 
 export const FoodLogItem = ({
@@ -53,101 +53,137 @@ export const FoodLogItem = ({
             setShowDeleteConfirm(false);
         } else {
             setShowDeleteConfirm(true);
-            // Auto-cancel after 3 seconds
             setTimeout(() => setShowDeleteConfirm(false), 3000);
         }
     };
 
+    const accentColor = mealTypeColors[mealType] || 'var(--text-muted)';
+
     return (
-        <div className="bg-[#0a150a] border border-[#2a4a2a] rounded-xl p-4 hover:border-[#3a5a3a] transition-all">
-            <div className="flex items-start justify-between gap-4">
-                {/* Left side - Info */}
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                        <span className={`w-2 h-2 rounded-full ${mealTypeColors[mealType] || 'bg-gray-500'}`} />
-                        <span className="text-gray-400 text-xs font-medium">
-                            {mealTypeEmojis[mealType]} {mealTypeLabels[mealType] || mealType}
+        <div style={{
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '12px',
+            padding: '1rem',
+            transition: 'border-color 0.2s, transform 0.2s',
+            position: 'relative',
+            overflow: 'hidden',
+        }}>
+            {/* Left accent line */}
+            <div style={{
+                position: 'absolute',
+                left: 0, top: 0, bottom: 0,
+                width: '3px',
+                background: accentColor,
+            }} />
+
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
+                <div style={{ flex: 1, minWidth: 0, paddingLeft: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                        <span style={{ fontSize: '0.9rem' }}>{mealTypeEmojis[mealType]}</span>
+                        <span style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontWeight: 700,
+                            fontSize: '0.6rem',
+                            letterSpacing: '0.1em',
+                            textTransform: 'uppercase',
+                            color: 'var(--text-muted)',
+                        }}>
+                            {mealTypeLabels[mealType] || mealType}
                         </span>
                     </div>
 
-                    <h4 className="text-white font-semibold text-lg mb-1 truncate">
+                    <h4 style={{
+                        fontFamily: 'Syne, sans-serif',
+                        fontWeight: 700,
+                        fontSize: '1rem',
+                        color: 'var(--text)',
+                        marginBottom: '4px',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                    }}>
                         {name}
                     </h4>
 
-                    <div className="flex items-center gap-3 text-sm">
-                        <div className="flex items-center gap-1">
-                            <span className="text-[#00ff66] font-bold">{calories}</span>
-                            <span className="text-gray-400">kcal</span>
-                        </div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '8px' }}>
+                        <span style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontWeight: 800,
+                            fontSize: '1.2rem',
+                            color: 'var(--accent)',
+                        }}>
+                            {calories}
+                        </span>
+                        <span style={{ fontSize: '0.7rem', color: 'var(--text-subtle)', fontWeight: 600 }}>KCAL</span>
                         {portion && (
-                            <div className="flex items-center gap-1">
-                                <span className="text-gray-400">•</span>
-                                <span className="text-gray-400">{portion}g</span>
-                            </div>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: '4px' }}>
+                                • {portion}g
+                            </span>
                         )}
                     </div>
 
                     {/* Macros */}
-                    {(proteinas || carbs || fats) && (
-                        <div className="flex items-center gap-3 mt-2 text-xs">
-                            {proteinas !== undefined && (
-                                <div className="text-gray-400">
-                                    P: <span className="text-[#00ff66]">{proteinas}g</span>
-                                </div>
-                            )}
-                            {carbs !== undefined && (
-                                <div className="text-gray-400">
-                                    C: <span className="text-blue-400">{carbs}g</span>
-                                </div>
-                            )}
-                            {fats !== undefined && (
-                                <div className="text-gray-400">
-                                    F: <span className="text-amber-400">{fats}g</span>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                    <div style={{ display: 'flex', gap: '12px', fontSize: '0.7rem' }}>
+                        {proteinas !== undefined && (
+                            <div style={{ color: 'var(--text-muted)' }}>
+                                <span style={{ fontWeight: 700, color: 'var(--accent)' }}>P</span> {proteinas}g
+                            </div>
+                        )}
+                        {carbs !== undefined && (
+                            <div style={{ color: 'var(--text-muted)' }}>
+                                <span style={{ fontWeight: 700, color: '#38bdf8' }}>C</span> {carbs}g
+                            </div>
+                        )}
+                        {fats !== undefined && (
+                            <div style={{ color: 'var(--text-muted)' }}>
+                                <span style={{ fontWeight: 700, color: '#fbbf24' }}>F</span> {fats}g
+                            </div>
+                        )}
+                    </div>
                 </div>
 
-                {/* Right side - Actions */}
-                <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Actions */}
+                <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
                     <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onEdit();
+                        onClick={onEdit}
+                        style={{
+                            width: '32px', height: '32px',
+                            borderRadius: '8px',
+                            background: 'var(--bg-elevated)',
+                            border: '1px solid var(--border)',
+                            color: 'var(--text-muted)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', transition: 'all 0.2s',
                         }}
-                        className="p-2 rounded-lg bg-[#1a2f1a] hover:bg-[#2a4a2a] text-blue-400 hover:text-blue-300 transition-all"
-                        title="Editar"
-                        type="button"
                     >
-                        <BiEdit className="w-5 h-5" />
+                        <BiEdit style={{ width: '16px', height: '16px' }} />
                     </button>
-
                     <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleDelete();
+                        onClick={handleDelete}
+                        style={{
+                            width: '32px', height: '32px',
+                            borderRadius: '8px',
+                            background: showDeleteConfirm ? '#ef4444' : 'var(--bg-elevated)',
+                            border: `1px solid ${showDeleteConfirm ? '#ef4444' : 'var(--border)'}`,
+                            color: showDeleteConfirm ? '#fff' : '#f87171',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', transition: 'all 0.2s',
                         }}
-                        className={`p-2 rounded-lg transition-all ${showDeleteConfirm
-                                ? 'bg-red-500 hover:bg-red-600 text-white'
-                                : 'bg-[#1a2f1a] hover:bg-[#2a4a2a] text-red-400 hover:text-red-300'
-                            }`}
-                        title={showDeleteConfirm ? 'Confirmar eliminación' : 'Eliminar'}
-                        type="button"
                     >
-                        <BiTrash className="w-5 h-5" />
+                        <BiTrash style={{ width: '16px', height: '16px' }} />
                     </button>
                 </div>
             </div>
 
-            {/* Delete confirmation message */}
             {showDeleteConfirm && (
-                <div className="mt-3 pt-3 border-t border-red-500 border-opacity-30">
-                    <p className="text-red-400 text-sm">
-                        ⚠️ Haz clic nuevamente en eliminar para confirmar
-                    </p>
+                <div style={{
+                    marginTop: '8px', paddingTop: '8px',
+                    borderTop: '1px solid rgba(239,68,68,0.2)',
+                    color: '#f87171', fontSize: '0.65rem', fontWeight: 600,
+                    textAlign: 'center',
+                }}>
+                    ¡CLIC OTRA VEZ PARA ELIMINAR!
                 </div>
             )}
         </div>

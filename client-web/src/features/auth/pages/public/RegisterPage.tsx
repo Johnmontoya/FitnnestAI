@@ -15,28 +15,75 @@ export const RegisterPage = () => {
     }, [isAuthenticated, navigate]);
 
     return (
-        <div className="min-h-screen bg-[#0a150a] flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl">
+        <div style={{
+            minHeight: '100vh',
+            background: 'var(--bg)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem 1rem',
+            position: 'relative',
+        }}
+            className="aurora-bg"
+        >
+            <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 1 }}>
                 {/* Logo */}
-                <div className="flex items-center justify-center gap-3 mb-8">
-                    <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center">
-                        <LuActivity className="w-7 h-7 text-black" />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '2rem' }}>
+                    <div style={{
+                        width: '36px', height: '36px',
+                        background: 'var(--accent)',
+                        borderRadius: '9px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        <LuActivity style={{ width: '20px', height: '20px', color: '#0a0a0a', strokeWidth: 2.5 }} />
                     </div>
-                    <Link to="/" className="text-white text-2xl font-bold">FitTrack Pro</Link>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <span style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontWeight: 800,
+                            fontSize: '1.1rem',
+                            letterSpacing: '0.06em',
+                            textTransform: 'uppercase',
+                            color: 'var(--text)',
+                        }}>
+                            Fitnest<span style={{ color: 'var(--accent)' }}>AI</span>
+                        </span>
+                    </Link>
                 </div>
 
-                {/* Tarjeta del formulario */}
-                <div className="bg-emerald-500/20 rounded-2xl border border-emerald-500 p-8">
+                {/* Card container */}
+                <div style={{
+                    background: 'var(--bg-surface)',
+                    borderRadius: '20px',
+                    border: '1px solid var(--border)',
+                    padding: '2.5rem',
+                    boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                }}>
+                    {/* Top accent line */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0, left: 0, right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent, var(--accent), transparent)',
+                    }} />
+
                     <FormRegister />
                 </div>
 
-                {/* Link a login */}
-                <div className="mt-6 text-center">
-                    <p className="text-gray-400">
+                {/* Login link */}
+                <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
                         ¿Ya tienes cuenta?{' '}
                         <button
                             onClick={() => navigate('/login')}
-                            className="text-emerald-500 font-semibold hover:underline transition-all"
+                            style={{
+                                background: 'none', border: 'none',
+                                color: 'var(--accent)', fontWeight: 600,
+                                cursor: 'pointer', fontSize: '0.88rem',
+                                fontFamily: 'DM Sans, sans-serif',
+                            }}
                         >
                             Inicia sesión
                         </button>

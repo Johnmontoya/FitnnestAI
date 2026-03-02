@@ -1,10 +1,10 @@
 export const ProgressBar = ({
     value,
     max,
-    color = '#00ff66',
+    color = 'var(--accent)',
     label,
     showValues = true,
-    height = 'h-2'
+    height = '8px'
 }: {
     value: number;
     max: number;
@@ -13,26 +13,50 @@ export const ProgressBar = ({
     showValues?: boolean;
     height?: string;
 }) => {
-    const percentage = Math.min((value / max) * 100, 100);
+    const percentage = Math.min((value / max) * 100, 100) || 0;
 
     return (
-        <div className="w-full">
+        <div style={{ width: '100%' }}>
             {label && (
-                <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-400 text-sm font-medium">{label}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <span style={{
+                        fontFamily: 'Syne, sans-serif',
+                        fontWeight: 700,
+                        fontSize: '0.65rem',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'var(--text-muted)',
+                    }}>
+                        {label}
+                    </span>
                     {showValues && (
-                        <span className="text-white text-sm font-semibold">
-                            {value} / {max}
+                        <span style={{
+                            fontFamily: 'DM Sans, sans-serif',
+                            fontWeight: 700,
+                            fontSize: '0.8rem',
+                            color: 'var(--text)',
+                        }}>
+                            {value} <span style={{ color: 'var(--text-subtle)', fontWeight: 500 }}>/ {max}</span>
                         </span>
                     )}
                 </div>
             )}
-            <div className={`w-full bg-[#1a2f1a] rounded-full overflow-hidden ${height}`}>
+            <div style={{
+                width: '100%',
+                background: 'var(--bg-elevated)',
+                borderRadius: '100px',
+                height: height,
+                overflow: 'hidden',
+                position: 'relative',
+            }}>
                 <div
-                    className="h-full rounded-full transition-all duration-500 ease-out"
                     style={{
+                        height: '100%',
+                        borderRadius: '100px',
                         width: `${percentage}%`,
-                        backgroundColor: color
+                        backgroundColor: color,
+                        boxShadow: `0 0 10px ${color}40`,
+                        transition: 'width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
                     }}
                 />
             </div>

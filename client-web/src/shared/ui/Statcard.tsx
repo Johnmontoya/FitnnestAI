@@ -7,12 +7,12 @@ export const StatCard = ({
     icon: Icon,
     trend,
     trendValue,
-    color = '#00ff66'
+    color = 'var(--accent)'
 }: {
     title: string;
     value: string;
     unit?: string;
-    icon: React.ComponentType<{ className?: string }>;
+    icon: React.ComponentType<{ style?: React.CSSProperties }>;
     trend?: 'up' | 'down';
     trendValue?: string;
     color?: string;
@@ -20,38 +20,86 @@ export const StatCard = ({
     const isPositive = trend === 'up';
 
     return (
-        <div className="bg-[#1a2f1a] rounded-2xl p-6 border border-[#2a4a2a] hover:border-[#00ff66] transition-all">
-            <div className="flex items-start justify-between mb-4">
-                <p className="text-gray-400 text-sm font-medium">{title}</p>
+        <div
+            style={{
+                background: 'var(--bg-card)',
+                borderRadius: '16px',
+                padding: '1.5rem',
+                border: '1px solid var(--border)',
+                transition: 'border-color 0.25s, transform 0.25s',
+                cursor: 'default',
+            }}
+            onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(198,241,53,0.3)';
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+            }}
+        >
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                <p style={{
+                    fontFamily: 'Syne, sans-serif',
+                    fontWeight: 600,
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: 'var(--text-muted)',
+                }}>
+                    {title}
+                </p>
                 {Icon && (
-                    <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center"
-                        style={{ backgroundColor: `${color}22` }}
-                    >
-                        <Icon className="w-5 h-5" />
+                    <div style={{
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: `${color === 'var(--accent)' ? 'rgba(198,241,53,0.1)' : `${color}18`}`,
+                        border: `1px solid ${color === 'var(--accent)' ? 'rgba(198,241,53,0.2)' : `${color}30`}`,
+                        flexShrink: 0,
+                    }}>
+                        <Icon style={{ width: '18px', height: '18px', color }} />
                     </div>
                 )}
             </div>
 
-            <div className="space-y-2">
-                <div className="flex items-baseline gap-2">
-                    <span className="text-white text-3xl font-bold">{value}</span>
-                    {unit && <span className="text-gray-400 text-lg">{unit}</span>}
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '0.5rem' }}>
+                <span style={{
+                    fontFamily: 'Syne, sans-serif',
+                    fontWeight: 800,
+                    fontSize: '2rem',
+                    color: 'var(--text)',
+                    lineHeight: 1,
+                    letterSpacing: '-0.02em',
+                }}>
+                    {value}
+                </span>
+                {unit && (
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 500 }}>
+                        {unit}
+                    </span>
+                )}
+            </div>
+
+            {trendValue && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    {isPositive ? (
+                        <BiTrendingUp style={{ width: '14px', height: '14px', color: 'var(--accent)' }} />
+                    ) : (
+                        <BiTrendingDown style={{ width: '14px', height: '14px', color: '#f87171' }} />
+                    )}
+                    <span style={{
+                        fontSize: '0.78rem',
+                        color: isPositive ? 'var(--accent)' : '#f87171',
+                        fontWeight: 500,
+                    }}>
+                        {trendValue}
+                    </span>
                 </div>
-
-                {trendValue && (
-                    <div className="flex items-center gap-1">
-                        {isPositive ? (
-                            <BiTrendingUp className="w-4 h-4 text-green-400" />
-                        ) : (
-                            <BiTrendingDown className="w-4 h-4 text-red-400" />
-                        )}
-                        <span className={`text-sm ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                            {trendValue}
-                        </span>
-                    </div>
-                )}
-            </div>
+            )}
         </div>
     );
 };

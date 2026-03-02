@@ -1,33 +1,94 @@
 import { LuActivity } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = () => {
     const navigate = useNavigate();
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
     const navItems = [
-        { label: "Home", href: "#features" },
-        { label: "Planes", href: "#pricing" },
-        { label: "Communidad", href: "#community" },
+        { label: "Características", href: "#features" },
+        { label: "Estadísticas", href: "#stats" },
+        { label: "Testimonios", href: "#testimonials" },
         { label: "Acerca de", href: "#about" },
     ];
-    return (
-        <header className="fixed top-0 left-0 right-0 border-b border-gray-100/20 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                            <LuActivity className="w-5 h-5 text-black" />
-                        </div>
-                        <Link to="/" className="text-white text-xl font-bold">FITTRACK PRO</Link>
-                    </div>
 
-                    {/* Navigation */}
-                    <nav className="hidden md:flex items-center gap-8">
+    return (
+        <header
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 50,
+                transition: 'all 0.3s ease',
+                background: scrolled
+                    ? 'rgba(8, 11, 8, 0.85)'
+                    : 'transparent',
+                backdropFilter: scrolled ? 'blur(20px)' : 'none',
+                WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+                borderBottom: scrolled
+                    ? '1px solid rgba(198,241,53,0.12)'
+                    : '1px solid transparent',
+            }}
+        >
+            <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '68px' }}>
+
+                    {/* Logo */}
+                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+                        <div style={{
+                            width: '34px',
+                            height: '34px',
+                            background: 'var(--accent)',
+                            borderRadius: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                        }}>
+                            <LuActivity style={{ width: '18px', height: '18px', color: '#0a0a0a', strokeWidth: 2.5 }} />
+                        </div>
+                        <span style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontWeight: 800,
+                            fontSize: '1.15rem',
+                            letterSpacing: '0.06em',
+                            color: 'var(--text)',
+                            textTransform: 'uppercase',
+                        }}>
+                            Fitnest<span style={{ color: 'var(--accent)' }}>AI</span>
+                        </span>
+                    </Link>
+
+                    {/* Nav */}
+                    <nav style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                         {navItems.map((item) => (
                             <a
                                 key={item.label}
                                 href={item.href}
-                                className="text-gray-300 hover:text-white transition-colors font-medium"
+                                style={{
+                                    color: 'var(--text-muted)',
+                                    textDecoration: 'none',
+                                    fontSize: '0.875rem',
+                                    fontWeight: 500,
+                                    letterSpacing: '0.01em',
+                                    transition: 'color 0.2s',
+                                    position: 'relative',
+                                    paddingBottom: '2px',
+                                }}
+                                onMouseEnter={e => {
+                                    (e.target as HTMLElement).style.color = 'var(--text)';
+                                }}
+                                onMouseLeave={e => {
+                                    (e.target as HTMLElement).style.color = 'var(--text-muted)';
+                                }}
                             >
                                 {item.label}
                             </a>
@@ -35,18 +96,30 @@ const Header = () => {
                     </nav>
 
                     {/* Auth Buttons */}
-                    <div className="flex items-center gap-4">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <button
                             onClick={() => navigate('/login')}
-                            className="text-gray-300 hover:text-white font-medium transition-colors"
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                color: 'var(--text-muted)',
+                                fontSize: '0.875rem',
+                                fontWeight: 500,
+                                cursor: 'pointer',
+                                transition: 'color 0.2s',
+                                padding: '0.5rem 0.75rem',
+                            }}
+                            onMouseEnter={e => ((e.target as HTMLElement).style.color = 'var(--text)')}
+                            onMouseLeave={e => ((e.target as HTMLElement).style.color = 'var(--text-muted)')}
                         >
-                            Login
+                            Iniciar sesión
                         </button>
                         <button
                             onClick={() => navigate('/register')}
-                            className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-6 py-2 rounded-lg transition-all"
+                            className="btn-primary"
+                            style={{ padding: '0.6rem 1.4rem', fontSize: '0.85rem' }}
                         >
-                            Vamos a empezar
+                            Comenzar gratis
                         </button>
                     </div>
                 </div>

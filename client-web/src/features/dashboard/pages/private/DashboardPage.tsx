@@ -22,12 +22,12 @@ export const DashboardPage = () => {
         return <Navigate to="/onboarding" />;
     }
 
-    // Calculations   
+    // Calculations
     const caloriesBurned = activities?.filter((activity) => moment(activity.createdAt).isSame(moment(), 'day')).reduce((sum, current) => sum + current.calories, 0) || 0;
     const { dailyCalories } = calculateData(user!);
 
     const totalCaloriesBurned = activities?.filter((activity) => moment(activity.createdAt).isSame(moment(), 'day')).reduce((sum, current) => sum + current.calories, 0) || 0;
-    const burnPercentage = (totalCaloriesBurned / caloriesBurned) * 100;
+    const burnPercentage = caloriesBurned > 0 ? (totalCaloriesBurned / caloriesBurned) * 100 : 0;
 
     const mealTotals = {
         breakfast: foodUser?.foodEntries?.filter(l => l.mealType === "BREAKFAST").reduce((sum, l) => sum + l.calories, 0) || 0,
@@ -40,33 +40,42 @@ export const DashboardPage = () => {
     const remainingCalories = dailyCalories - totalCalories;
 
     return (
-        <div className="min-h-screen bg-[#0a150a] text-white ml-64">
+        <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)', marginLeft: '240px' }}>
             <Sidebar />
-            <div className="p-8 max-w-7xl mx-auto">
-                {/* Header */}
+            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <DashHeader user={user!} dailyCalories={dailyCalories} totalCalories={totalCalories} totalCaloriesBurned={totalCaloriesBurned} />
 
                 {/* Calorie Progress Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+                    gap: '1.5rem',
+                    marginBottom: '2rem',
+                }}>
                     {/* Daily Calorie Intake */}
-                    <Card>
+                    <Card className='p-4!'>
                         <CardHeader>
-                            <CardTitle><span className="text-white">Consumo Diario de Calorías</span></CardTitle>
+                            <CardTitle>Consumo Diario de Calorías</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="flex justify-center mb-4">
+                            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
                                 <CircularProgress
                                     value={totalCalories}
                                     max={dailyCalories}
                                     size={220}
-                                    color="#BA3211"
+                                    color="#c6f135"
                                     label={totalCalories.toLocaleString()}
                                     sublabel={`de ${dailyCalories.toLocaleString()} kcal`}
                                 />
                             </div>
-                            <div className="text-center">
-                                <p className="text-[#BA3211] font-semibold flex items-center justify-center gap-2">
-                                    <LuTrendingUp className="w-4 h-4" />
+                            <div style={{ textAlign: 'center' }}>
+                                <p style={{
+                                    color: remainingCalories >= 0 ? 'var(--accent)' : '#f87171',
+                                    fontWeight: 600,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                                    fontFamily: 'Syne, sans-serif',
+                                }}>
+                                    <LuTrendingUp style={{ width: '16px', height: '16px' }} />
                                     Restante: {remainingCalories} kcal
                                 </p>
                             </div>
@@ -74,25 +83,30 @@ export const DashboardPage = () => {
                     </Card>
 
                     {/* Active Calorie Burn */}
-                    <Card>
+                    <Card className='p-4!'>
                         <CardHeader>
-                            <CardTitle><span className="text-white">Quema Diaria de Calorías</span></CardTitle>
+                            <CardTitle>Quema Diaria de Calorías</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="flex justify-center mb-4">
+                            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
                                 <CircularProgress
                                     value={caloriesBurned}
                                     max={user?.dailyCalorieBurn!}
                                     size={220}
-                                    color="#11BA48"
+                                    color="#c6f135"
                                     label={caloriesBurned.toString()}
                                     sublabel={`de ${user?.dailyCalorieBurn} kcal`}
                                 />
                             </div>
-                            <div className="text-center">
-                                <p className="text-[#11BA48] font-semibold flex items-center justify-center gap-2">
-                                    <LuTrendingUp className="w-4 h-4" />
-                                    {burnPercentage.toFixed(0)}% Achieved
+                            <div style={{ textAlign: 'center' }}>
+                                <p style={{
+                                    color: 'var(--accent)',
+                                    fontWeight: 600,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                                    fontFamily: 'Syne, sans-serif',
+                                }}>
+                                    <LuTrendingUp style={{ width: '16px', height: '16px' }} />
+                                    {burnPercentage.toFixed(0)}% del objetivo
                                 </p>
                             </div>
                         </CardContent>

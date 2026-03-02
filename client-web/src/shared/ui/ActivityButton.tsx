@@ -54,7 +54,7 @@ export const QuickActivitiesGrid = ({ activities, onActivityClick, selectedActiv
     selectedActivity: any;
 }) => {
     return (
-        <div className="h-44 scrollBar overflow-y-auto pr-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="h-44 mb-4! scrollBar overflow-y-auto pr-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {activities.map((activity, index) => (
                 <ActivityButton
                     key={index}
