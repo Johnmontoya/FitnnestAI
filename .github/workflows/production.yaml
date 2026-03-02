@@ -102,7 +102,6 @@ jobs:
         run: pnpm install
 
       - name: Deploy to Vercel
-        working-directory: ./client-web
         run: |
           pnpm install -g vercel
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
