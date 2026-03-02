@@ -48,8 +48,8 @@ export const useAuthStore = create<AuthStore>()(
                     })
 
                     toast.success('Inicio de sesión exitoso');
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || 'Error al iniciar sesión';
+                } catch (error: unknown) {
+                    const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Error al iniciar sesión';
                     set({ isLoading: false, error: errorMessage, isAuthenticated: false });
                     toast.error(errorMessage);
                     throw error;
@@ -62,8 +62,8 @@ export const useAuthStore = create<AuthStore>()(
                 try {
                     set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false, error: null });
                     toast.success('Cierre de sesión exitoso');
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || 'Error al cerrar sesión';
+                } catch (error: unknown) {
+                    const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Error al cerrar sesión';
                     set({ isLoading: false });
                     toast.error(errorMessage);
                 }
@@ -78,9 +78,9 @@ export const useAuthStore = create<AuthStore>()(
                         user: response,
                         isLoading: false,
                     });
-                } catch (error: any) {
+                } catch (error: unknown) {
                     set({
-                        error: error.response?.data?.message || 'Error al obtener usuario',
+                        error: (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Error al obtener usuario',
                         isLoading: false,
                     });
                 }

@@ -8,54 +8,54 @@ export const useFoodMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: FoodFormData) => foodService.createFood(data),
-        onSuccess: (response: any) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() })
-            toast.success(response.message || "Comida creada exitosamente");
+        onSuccess: (response: unknown) => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() });
+            toast.success((response as { message?: string }).message || "Comida agregada exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data.message || "Error al crear la comida");
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al agregar la comida');
         }
-    })
+    });
 }
 
 export const useFoodUpdateMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, data }: { id: string, data: FoodUpdateData }) => foodService.updateFood(id, data),
-        onSuccess: (response: any) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() })
-            toast.success(response.message || "Comida actualizada exitosamente");
+        onSuccess: (response: unknown) => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() });
+            toast.success((response as { message?: string }).message || "Comida actualizada exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data.message || "Error al actualizar la comida");
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al actualizar la comida');
         }
-    })
+    });
 }
 
 export const useFoodDeleteMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (id: string) => foodService.deleteFood(id),
-        onSuccess: (response: any) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() })
-            toast.success(response.message || "Comida eliminada exitosamente");
+        onSuccess: (response: unknown) => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() });
+            toast.success((response as { message?: string }).message || "Comida eliminada exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data.message || "Error al eliminar la comida");
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al eliminar la comida');
         }
-    })
+    });
 }
 
 export const useFoodAnalyzeMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (foodName: string) => foodService.analyzeFood(foodName),
-        onSuccess: (response: any) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() })
-            toast.success(response.message || "Verica la informacion antes de guardar");
+        onSuccess: (response: unknown) => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.food.get() });
+            toast.success((response as { message?: string }).message || "Verifica la informacion antes de guardar");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data.message || "Error al analizar la comida");
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al analizar la comida');
         }
-    })
+    });
 }

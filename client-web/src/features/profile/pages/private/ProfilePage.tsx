@@ -24,7 +24,7 @@ const ProfilePage = () => {
         handleSubmit,
         formState: { isSubmitting },
         setValue,
-        watch,
+        control,
     } = useForm<UpdateBiometricsRequest>({
         resolver: zodResolver(biometricsSchema),
         defaultValues: {
@@ -87,7 +87,7 @@ const ProfilePage = () => {
                                         {/* Health Goals */}
                                         <HealGoal
                                             editMode={editMode}
-                                            watch={watch}
+                                            control={control}
                                             setValue={setValue}
                                         />
 

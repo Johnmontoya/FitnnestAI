@@ -30,6 +30,7 @@ export const foodService = {
     deleteFood: async (id: string): Promise<void> => {
         await apiClient.delete(endpoints.food.deleteFood(id));
     },
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     analyzeFood: async (foodName: string): Promise<any> => {
         const response = await apiClient.post(endpoints.food.analyzeFood, { foodName });
         return response.data;

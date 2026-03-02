@@ -35,7 +35,7 @@ const ChartActivity: React.FC<ChartActivityProps> = ({ activities }) => {
             </div>
 
             <div className="h-[200px] flex items-end justify-between gap-3 px-2">
-                {weeklyData.map((item, index) => {
+                {weeklyData.map((item) => {
                     const heightPercent = (item.value / maxWeeklyValue) * 100;
                     const isToday = item.day === moment().format('ddd');
 

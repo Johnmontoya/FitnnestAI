@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, useWatch, type SubmitHandler } from "react-hook-form";
 import { foodCreateSchema, type FoodFormData } from "../../types/food.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import moment from "moment";
 import { useFoodAnalyzeMutation, useFoodMutation } from "../../hooks/mutation/useFoodMutation";
 import { toast } from "sonner";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../shared/ui/Card";
 import { Button } from "../../../../shared/ui/Button";
-import { BiPlus, BiSearch, BiTargetLock } from "react-icons/bi";
+import { BiPlus, BiSearch } from "react-icons/bi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Input, Select } from "../../../../shared/ui/Input";
 
@@ -30,7 +29,8 @@ const FormCreate = () => {
         formState: { isSubmitting },
         reset,
         setValue,
-        watch,
+        control,
+        getValues,
     } = useForm<FoodFormData>({
         resolver: zodResolver(foodCreateSchema),
         defaultValues: {
@@ -47,7 +47,7 @@ const FormCreate = () => {
     });
 
     const handleManualAnalyze = async () => {
-        const name = watch('name');
+        const name = getValues('name');
         if (!name || name.length < 3) {
             toast.error('Escribe el nombre del alimento primero');
             return;
@@ -55,8 +55,8 @@ const FormCreate = () => {
 
         setIsAnalyzing(true);
         try {
-            const result = await analyzeFoodMutation.mutateAsync(name);
-
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const result = await analyzeFoodMutation.mutateAsync(name) as { success: boolean, data: any };
             if (result.success) {
                 setValue('calories', result.data.calorias);
                 setValue('proteinas', result.data.proteinas);
@@ -68,7 +68,7 @@ const FormCreate = () => {
             } else {
                 toast.info('No se pudo analizar el alimento. Ingresa los valores manualmente.');
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error al analizar:', error);
             toast.info('Ingresa los valores nutricionales manualmente');
         } finally {
@@ -82,10 +82,16 @@ const FormCreate = () => {
             reset();
             setShowAddForm(false);
             toast.success('Comida agregada exitosamente');
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || error.message || 'Error al agregar la comida');
+        } catch (error: unknown) {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al agregar la comida');
         }
     };
+
+    const name = useWatch({ control, name: 'name' });
+    const calories = useWatch({ control, name: 'calories' });
+    const proteinas = useWatch({ control, name: 'proteinas' });
+    const carbs = useWatch({ control, name: 'carbs' });
+    const fats = useWatch({ control, name: 'fats' });
 
     return (
         <div style={{ position: 'relative' }}>
@@ -127,7 +133,7 @@ const FormCreate = () => {
                             type="button"
                             variant="outline"
                             onClick={handleManualAnalyze}
-                            disabled={isAnalyzing || !watch('name') || watch('name').length < 3}
+                            disabled={isAnalyzing || !name || name.length < 3}
                             style={{
                                 padding: '0.6rem 1.2rem',
                                 height: '45px',
@@ -215,10 +221,10 @@ const FormCreate = () => {
                         </h4>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
                             {[
-                                { label: 'Kcal', value: watch('calories'), color: 'var(--accent)' },
-                                { label: 'Prot', value: watch('proteinas'), color: 'var(--accent)' },
-                                { label: 'Carbs', value: watch('carbs'), color: '#38bdf8' },
-                                { label: 'Grasas', value: watch('fats'), color: '#fbbf24' },
+                                { label: 'Kcal', value: calories, color: 'var(--accent)' },
+                                { label: 'Prot', value: proteinas, color: 'var(--accent)' },
+                                { label: 'Carbs', value: carbs, color: '#38bdf8' },
+                                { label: 'Grasas', value: fats, color: '#fbbf24' },
                             ].map(item => (
                                 <div key={item.label} style={{ textAlign: 'center' }}>
                                     <div style={{ fontSize: '1.2rem', fontWeight: 800, color: item.color, fontFamily: 'Syne, sans-serif' }}>

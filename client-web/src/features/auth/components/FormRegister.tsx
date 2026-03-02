@@ -53,12 +53,13 @@ const FormRegister: React.FC = () => {
     const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
         setServerError(null);
         try {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { confirmPassword, ...rest } = data;
             authRegisterMutation.mutateAsync(rest);
             reset();
             navigate('/login');
-        } catch (error: any) {
-            const errorMessage = error.response?.data?.message || error.message || 'Error al crear la cuenta';
+        } catch (error: unknown) {
+            const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al crear la cuenta';
             setServerError(errorMessage);
         }
     };

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BiX, BiInfoCircle } from 'react-icons/bi';
 import { Button } from '../../../../shared/ui/Button';
@@ -30,7 +30,7 @@ const FormUpdate = ({
         handleSubmit,
         formState: { errors, isSubmitting },
         reset,
-        watch,
+        control,
     } = useForm<FoodUpdateData>({
         resolver: zodResolver(foodUpdateSchema),
         defaultValues: {
@@ -57,10 +57,18 @@ const FormUpdate = ({
             });
             toast.success('Cambios guardados');
             onCancel();
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Error al actualizar');
+        } catch (error: unknown) {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Error al actualizar');
         }
     };
+
+    const proteinas = useWatch({ control, name: 'proteinas' }) || 0;
+    const carbs = useWatch({ control, name: 'carbs' }) || 0;
+    const fats = useWatch({ control, name: 'fats' }) || 0;
+    const calories = useWatch({ control, name: 'calories' }) || 0;
+
+    // El cálculo de las kcal totales
+    const totalKcal = Math.round(proteinas * 4 + carbs * 4 + fats * 9);
 
     return (
         <div style={{ position: 'relative' }}>
@@ -160,7 +168,7 @@ const FormUpdate = ({
                     <div>
                         <p style={{ color: '#38bdf8', fontSize: '0.75rem', fontWeight: 600 }}>Cálculo verificado</p>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>
-                            {Math.round(watch('proteinas')! * 4 + watch('carbs')! * 4 + watch('fats')! * 9) || 0} kcal calc. vs {watch('calories')} kcal ingr.
+                            {totalKcal} kcal calc. vs {calories} kcal ingr.
                         </p>
                     </div>
                 </div>

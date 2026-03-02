@@ -92,6 +92,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     placeholder?: string;
     className?: string;
+    error?: string;
 }
 
 export const Select = ({
@@ -101,6 +102,7 @@ export const Select = ({
     onChange,
     placeholder = 'Seleccionar...',
     className = '',
+    error,
     ...props
 }: SelectProps) => {
     return (
@@ -140,7 +142,7 @@ export const Select = ({
                     e.currentTarget.style.boxShadow = '0 0 0 3px var(--accent-glow)';
                 }}
                 onBlur={e => {
-                    e.currentTarget.style.borderColor = 'rgba(198,241,53,0.12)';
+                    e.currentTarget.style.borderColor = error ? '#ef4444' : 'rgba(198,241,53,0.12)';
                     e.currentTarget.style.boxShadow = 'none';
                 }}
                 {...props}
@@ -152,6 +154,9 @@ export const Select = ({
                     </option>
                 ))}
             </select>
+            {error && (
+                <p style={{ color: '#f87171', fontSize: '0.78rem', marginTop: '0.35rem' }}>{error}</p>
+            )}
         </div>
     );
 };

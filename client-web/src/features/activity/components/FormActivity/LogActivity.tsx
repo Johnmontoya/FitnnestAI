@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../../../shared/ui/Card";
 import { Button } from "../../../../shared/ui/Button";
-import { QuickActivitiesGrid } from "../../../../shared/ui/ActivityButton";
+import { QuickActivitiesGrid, type Activity } from "../../../../shared/ui/ActivityButton";
 import { useState } from "react";
 import { useActivityMutation } from "../../hooks/mutation/useActivityMutation";
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -9,46 +9,32 @@ import moment from 'moment';
 import { activitySchema, type ActivityFormData } from '../../types/activity.types';
 
 const quickActivities = [
-    { name: "Caminata", emoji: "🚶", rate: 5 },
-    { name: "Correr", emoji: "🏃", rate: 11 },
-    { name: "Ciclismo", emoji: "🚴", rate: 8 },
-    { name: "Natacion", emoji: "🏊", rate: 10 },
-    { name: "Yoga", emoji: "🧘", rate: 4 },
-    { name: "Fuerza", emoji: "💪", rate: 7 },
-    { name: "Baile", emoji: "💃", rate: 6 },
-    { name: "Senderismo", emoji: "🏞️", rate: 9 },
-    { name: "Baloncesto", emoji: "🏀", rate: 8 },
-    { name: "Fútbol", emoji: "⚽", rate: 7 },
-    { name: "Tenis", emoji: "🎾", rate: 6 },
-    { name: "Voleibol", emoji: "🏐", rate: 5 },
-    { name: "Boxeo", emoji: "🥊", rate: 9 },
-    { name: "Artes Marciales", emoji: "🥋", rate: 8 },
-    { name: "Escalada", emoji: "🧗", rate: 10 },
-    { name: "Patinaje", emoji: "⛸️", rate: 6 },
-    { name: "Remo", emoji: "🚣", rate: 7 },
-    { name: "Elíptica", emoji: "🏋️", rate: 6 },
-    { name: "Spinning", emoji: "🚴", rate: 8 },
-    { name: "Zumba", emoji: "💃", rate: 7 },
-    { name: "Pilates", emoji: "🧘", rate: 4 },
-    { name: "CrossFit", emoji: "🏋️", rate: 9 },
-    { name: "HIIT", emoji: "⚡", rate: 10 },
-    { name: "Boxeo", emoji: "🥊", rate: 9 },
-    { name: "Artes Marciales", emoji: "🥋", rate: 8 },
-    { name: "Escalada", emoji: "🧗", rate: 10 },
-    { name: "Patinaje", emoji: "⛸️", rate: 6 },
-    { name: "Remo", emoji: "🚣", rate: 7 },
-    { name: "Elíptica", emoji: "🏋️", rate: 6 },
-    { name: "Spinning", emoji: "🚴", rate: 8 },
-    { name: "Zumba", emoji: "💃", rate: 7 },
-    { name: "Pilates", emoji: "🧘", rate: 4 },
-    { name: "CrossFit", emoji: "🏋️", rate: 9 },
-    { name: "HIIT", emoji: "⚡", rate: 10 },
+    { name: "Caminata", emoji: "🚶", rate: "5" },
+    { name: "Correr", emoji: "🏃", rate: "11" },
+    { name: "Ciclismo", emoji: "🚴", rate: "8" },
+    { name: "Natacion", emoji: "🏊", rate: "10" },
+    { name: "Yoga", emoji: "🧘", rate: "4" },
+    { name: "Fuerza", emoji: "💪", rate: "7" },
+    { name: "Baile", emoji: "💃", rate: "6" },
+    { name: "Senderismo", emoji: "🏞️", rate: "9" },
+    { name: "Baloncesto", emoji: "🏀", rate: "8" },
+    { name: "Fútbol", emoji: "⚽", rate: "7" },
+    { name: "Tenis", emoji: "🎾", rate: "6" },
+    { name: "Voleibol", emoji: "🏐", rate: "5" },
+    { name: "Boxeo", emoji: "🥊", rate: "9" },
+    { name: "Artes Marciales", emoji: "🥋", rate: "8" },
+    { name: "Escalada", emoji: "🧗", rate: "10" },
+    { name: "Patinaje", emoji: "⛸️", rate: "6" },
+    { name: "Remo", emoji: "🚣", rate: "7" },
+    { name: "Elíptica", emoji: "🏋️", rate: "6" },
+    { name: "Spinning", emoji: "🚴", rate: "8" },
+    { name: "Zumba", emoji: "💃", rate: "7" },
+    { name: "Pilates", emoji: "🧘", rate: "4" },
+    { name: "CrossFit", emoji: "🏋️", rate: "9" },
+    { name: "HIIT", emoji: "⚡", rate: "10" },
 ];
 
-interface Activity {
-    name: string;
-    rate: number;
-}
+
 
 const LogActivity = () => {
     const { createActivity } = useActivityMutation();
@@ -56,12 +42,11 @@ const LogActivity = () => {
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting },
         reset
     } = useForm<ActivityFormData>({
         resolver: zodResolver(activitySchema),
         values: {
-            name: selectedActivity?.name!,
+            name: selectedActivity?.name ?? '',
             duration: 0,
             calories: 0,
             date: moment(new Date()).format('YYYY-MM-DD'),
@@ -71,13 +56,11 @@ const LogActivity = () => {
 
     const onSubmit: SubmitHandler<ActivityFormData> = async (data) => {
         try {
-            data.calories = selectedActivity?.rate! * data.duration;
+            data.calories = Number(selectedActivity?.rate ?? 0) * data.duration;
             await createActivity.mutateAsync(data);
             reset();
         } catch (error) {
             console.error(error);
-        } finally {
-            isSubmitting
         }
     }
 

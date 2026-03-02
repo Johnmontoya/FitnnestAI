@@ -25,8 +25,8 @@ const RecentActivity = ({ activities }: RecentActivityProps) => {
         try {
             await deleteActivity.mutateAsync(id);
             toast.success('Actividad eliminada');
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Error al eliminar');
+        } catch (error: unknown) {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al eliminar la actividad');
         }
     }
 

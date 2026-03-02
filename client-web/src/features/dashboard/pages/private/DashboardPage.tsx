@@ -36,7 +36,7 @@ export const DashboardPage = () => {
         snacks: foodUser?.foodEntries?.filter(l => l.mealType === "SNACK").reduce((sum, l) => sum + l.calories, 0) || 0,
     };
 
-    let totalCalories = Object.values(mealTotals).reduce((sum, cal) => sum + cal, 0);
+    const totalCalories = Object.values(mealTotals).reduce((sum, cal) => sum + cal, 0);
     const remainingCalories = dailyCalories - totalCalories;
 
     return (
@@ -91,7 +91,7 @@ export const DashboardPage = () => {
                             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
                                 <CircularProgress
                                     value={caloriesBurned}
-                                    max={user?.dailyCalorieBurn!}
+                                    max={user?.dailyCalorieBurn ?? 0}
                                     size={220}
                                     color="#c6f135"
                                     label={caloriesBurned.toString()}

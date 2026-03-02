@@ -1,21 +1,21 @@
-import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { useWatch, type Control, type UseFormSetValue } from "react-hook-form";
 import type { UpdateBiometricsRequest } from "../../../auth/types/auth.types";
 import { BiTargetLock, BiTrophy, BiTrendingUp } from "react-icons/bi";
 
 interface HealGoalProps {
     editMode: boolean;
-    watch: UseFormWatch<UpdateBiometricsRequest>;
+    control: Control<UpdateBiometricsRequest>;
     setValue: UseFormSetValue<UpdateBiometricsRequest>;
 }
 
-const HealGoal = ({ editMode, watch, setValue }: HealGoalProps) => {
+const HealGoal = ({ editMode, control, setValue }: HealGoalProps) => {
     const goals = [
         { id: "LOSE", label: "Pérdida de Peso", desc: "Optimización de déficit calórico", icon: BiTrendingUp, color: "#f87171" },
         { id: "MAINTAIN", label: "Mantenimiento", desc: "Equilibrio bio-energético", icon: BiTargetLock, color: "var(--accent)" },
         { id: "GAIN", label: "Ganancia Muscular", desc: "Superávit de alto rendimiento", icon: BiTrophy, color: "#38bdf8" },
     ];
 
-    const currentGoal = watch("goal");
+    const currentGoal = useWatch({ control, name: "goal" });
 
     return (
         <div className="glass rounded-[32px] border-[var(--border)] p-10!">

@@ -2,7 +2,7 @@ import { LuActivity, LuScale } from "react-icons/lu";
 import { Button } from "../../../shared/ui/Button";
 import { BiRuler, BiTrendingUp } from "react-icons/bi";
 import { FiTarget } from "react-icons/fi";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, useWatch, type SubmitHandler } from "react-hook-form";
 import { biometricsSchema, type UpdateBiometricsRequest, type User } from "../../auth/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
         handleSubmit,
         formState: { isSubmitting, errors },
         setValue,
-        watch,
+        control,
     } = useForm<UpdateBiometricsRequest>({
         resolver: zodResolver(biometricsSchema),
         defaultValues: {
@@ -63,14 +63,17 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
         mode: 'onChange',
     });
 
+    const goal = useWatch({ control, name: 'goal' });
+
     const onSubmit: SubmitHandler<UpdateBiometricsRequest> = async (data) => {
         try {
             await updateProfile(data);
             setTimeout(() => {
                 navigate('/profile', { replace: true });
             }, 2500);
-        } catch (error: any) {
-            toast.error(error?.message || 'Error al actualizar el perfil');
+        } catch (error: unknown) {
+            const errorMessage = (error as { message?: string }).message || 'Error al actualizar el perfil';
+            toast.error(errorMessage);
         }
     };
 
@@ -207,7 +210,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                                 })}
                                 className={`
                         p-5! rounded-xl border-2 transition-all text-left
-                        ${watch('goal') === option.value
+                        ${goal === option.value
                                         ? 'border-[#00ff66] bg-emerald-500 bg-opacity-10'
                                         : 'border-[#2a4a2a] hover:border-[#3a5a3a]'
                                     }
@@ -224,7 +227,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                                         <h3 className="text-white font-semibold mb-1">{option.label}</h3>
                                         <p className="text-gray-200 text-xs">{option.description}</p>
                                     </div>
-                                    {watch('goal') === option.value && (
+                                    {goal === option.value && (
                                         <div className="w-6 h-6 bg-[#00ff66] rounded-full flex items-center justify-center flex-shrink-0">
                                             <span className="text-black text-sm font-bold">✓</span>
                                         </div>

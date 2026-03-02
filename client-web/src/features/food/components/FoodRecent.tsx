@@ -18,8 +18,8 @@ const FoodRecent = ({ foodUser, onEdit }: FoodRecentProps) => {
         try {
             await deleteFoodMutation.mutateAsync(id);
             toast.success('Comida eliminada exitosamente');
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || error.message || 'Error al eliminar la comida');
+        } catch (error: unknown) {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al eliminar la comida');
         }
     };
 
@@ -45,7 +45,7 @@ const FoodRecent = ({ foodUser, onEdit }: FoodRecentProps) => {
                         <p className="text-[var(--text-subtle)] text-sm mt-1">Inicia tu registro nutricional arriba</p>
                     </div>
                 ) : (
-                    foodUser.foodEntries.map((log: any) => (
+                    foodUser.foodEntries.map((log) => (
                         <div key={log.id} className="group relative bg-[var(--bg-elevated)]/40 border border-[var(--border)] rounded-2xl p-5! hover:border-[var(--accent)]/30 transition-all duration-300">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">

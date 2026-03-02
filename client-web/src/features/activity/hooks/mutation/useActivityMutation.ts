@@ -9,23 +9,23 @@ export const useActivityMutation = () => {
 
     const createActivity = useMutation({
         mutationFn: (data: ActivityFormData) => activityService.createActivity(data),
-        onSuccess: (response: any) => {
+        onSuccess: (response: unknown) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.activity.get() });
-            toast.success(response.message || "Actividad creada exitosamente");
+            toast.success((response as { message?: string }).message || "Actividad creada exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data?.message || error.message || 'Error al crear la actividad');
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al crear la actividad');
         }
     });
 
     const updateActivity = useMutation({
         mutationFn: ({ id, data }: { id: string, data: ActivityFormData }) => activityService.updateActivity(id, data),
-        onSuccess: (response: any) => {
+        onSuccess: (response: unknown) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.activity.get() });
-            toast.success(response.message || "Actividad actualizada exitosamente");
+            toast.success((response as { message?: string }).message || "Actividad actualizada exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data?.message || error.message || 'Error al actualizar la actividad');
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al actualizar la actividad');
         }
     });
 
@@ -35,8 +35,8 @@ export const useActivityMutation = () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.activity.get() });
             toast.success("Actividad eliminada exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data?.message || error.message || 'Error al eliminar la actividad');
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al eliminar la actividad');
         }
     });
 

@@ -8,12 +8,12 @@ export const useAuthRegisterMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (auth: RegisterRequest) => authService.register(auth),
-        onSuccess: (response: any) => {
+        onSuccess: (response: unknown) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.auth.get() });
-            toast.success(response.message || "Usuario creado exitosamente");
+            toast.success((response as { message?: string }).message || "Usuario creado exitosamente");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data.message || "Error al crear el usuario");
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || "Error al crear el usuario");
         }
     })
 }
@@ -22,12 +22,12 @@ export const useAuthLoginMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (auth: LoginRequest) => authService.login(auth),
-        onSuccess: (response: any) => {
+        onSuccess: (response: unknown) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.auth.get() });
-            toast.success(response.message || "Bienvenido");
+            toast.success((response as { message?: string }).message || "Bienvenido");
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data.message || "Error al iniciar sesión");
+        onError: (error: unknown) => {
+            toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || "Error al iniciar sesión");
         }
     })
 }

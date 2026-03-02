@@ -1,7 +1,7 @@
 import React from 'react';
 
 // 1. Definimos una interfaz clara para la Actividad
-interface Activity {
+export interface Activity {
     name: string;
     emoji?: string;
     icon?: React.ComponentType<{ className?: string }>;

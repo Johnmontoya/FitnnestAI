@@ -1,6 +1,8 @@
 import { CircularProgress } from "../../../shared/ui/CircularProgress";
 import { ProgressBar } from "../../../shared/ui/ProgressBar";
 import { calculateData } from "../../../shared/utils/CalculateData";
+import type { FoodResponse } from "../types/food.types";
+import type { User } from "../../auth/types/auth.types";
 
 interface ProgressFoodProps {
     mealTotals: {
@@ -9,13 +11,13 @@ interface ProgressFoodProps {
         dinner: number;
         snacks: number;
     };
-    foodUser: any;
-    user: any;
+    foodUser: FoodResponse;
+    user: User;
 }
 
 const ProgressFood = ({ mealTotals, foodUser, user }: ProgressFoodProps) => {
     const { dailyCalories } = calculateData(user!);
-    let totalCalories = Object.values(mealTotals).reduce((sum, cal) => (sum as number) + (cal as number), 0);
+    const totalCalories = Object.values(mealTotals).reduce((sum, cal) => (sum as number) + (cal as number), 0);
 
     const macros = [
         { name: "Proteínas", current: foodUser?.stats._sum.proteinas || 0, goal: Math.round((dailyCalories * 0.3) / 4), color: "var(--accent)" },

@@ -58,8 +58,8 @@ const FormLogin: React.FC<FormLoginProps> = ({ login }) => {
             await login(data);
             reset();
             navigate('/dashboard');
-        } catch (error: any) {
-            const errorMessage = error.response?.data?.message || error.message || 'Error al iniciar sesión';
+        } catch (error: unknown) {
+            const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al iniciar sesión';
             setServerError(errorMessage);
         }
     };
