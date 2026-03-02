@@ -19,11 +19,13 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Crear un nuevo usuario' })
+  @ApiOperation({ summary: 'Crear un nuevo usuario (admin)' })
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente' })
   @ApiResponse({ status: 400, description: 'Solicitud inválida' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
