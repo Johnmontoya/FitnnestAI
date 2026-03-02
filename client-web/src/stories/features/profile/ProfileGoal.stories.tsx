@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProfileGoal from '../../../features/profile/components/ProfileGoal';
+import type { User } from '../../../features/auth/types/auth.types';
 
 /**
  * `ProfileGoal` displays the user's AI-generated nutritional targets
@@ -21,29 +22,32 @@ const meta: Meta<typeof ProfileGoal> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockUserLose = {
+const mockUserLose: User = {
     id: '1',
     name: 'Alex Montoya',
+    username: 'amontoya',
     email: 'alex@fitnnest.ai',
     weight: 82,
     height: 178,
     age: 28,
     gender: 'MALE',
     goal: 'LOSE',
-    activityLevel: 'MODERATE',
+    dailyCalorieIntake: 2000,
+    dailyCalorieBurn: 500,
+    dailyWaterIntake: 2500,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
 };
 
-const mockUserGain = {
+const mockUserGain: User = {
     ...mockUserLose,
     goal: 'GAIN',
-    activityLevel: 'HIGH',
     weight: 70,
 };
 
-const mockUserMaintain = {
+const mockUserMaintain: User = {
     ...mockUserLose,
     goal: 'MAINTAIN',
-    activityLevel: 'LOW',
     weight: 65,
     gender: 'FEMALE',
 };

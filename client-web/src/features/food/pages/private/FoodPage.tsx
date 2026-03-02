@@ -93,8 +93,8 @@ const FoodPage = () => {
                         <div className="flex flex-col gap-8 sticky top-8">
                             <ProgressFood
                                 mealTotals={mealTotals}
-                                foodUser={foodUser}
-                                user={user}
+                                foodUser={foodUser!}
+                                user={user!}
                             />
                             <HydrationCard user={user!} />
                         </div>

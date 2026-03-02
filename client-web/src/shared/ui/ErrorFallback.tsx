@@ -15,11 +15,11 @@ const ErrorFallback = ({ resetErrorBoundary }: IErrorFallbackProps) => {
                 <p className="text-4xl font-medium text-gray-800">Internal Server Error</p>
                 <p className="text-xl text-gray-800 mt-4">We apologize for the inconvenience. Please try again later.</p>
                 <div className="flex flex-row gap-4 mt-4">
-                    <Button text="" variant="danger" onClick={() => resetErrorBoundary()}>
+                    <Button variant="danger" onClick={() => resetErrorBoundary()}>
                         Intentar de nuevo
                     </Button>
                     <Button
-                        text="" variant="primary"
+                        variant="primary"
                         onClick={() => {
                             navigate("/", { replace: true });
                             window.location.reload();
