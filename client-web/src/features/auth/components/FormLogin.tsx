@@ -41,10 +41,12 @@ const FormLogin: React.FC<FormLoginProps> = ({ login }) => {
     const [serverError, setServerError] = useState<string | null>(null);
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         reset,
     } = useForm<LoginRequest>({
         resolver: zodResolver(loginSchema),
@@ -54,6 +56,7 @@ const FormLogin: React.FC<FormLoginProps> = ({ login }) => {
 
     const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
         setServerError(null);
+        setIsLoading(true);
         try {
             await login(data);
             reset();
@@ -62,7 +65,7 @@ const FormLogin: React.FC<FormLoginProps> = ({ login }) => {
             const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al iniciar sesión';
             setServerError(errorMessage);
         } finally {
-            isSubmitting
+            setIsLoading(false);
         }
     };
 
@@ -183,10 +186,10 @@ const FormLogin: React.FC<FormLoginProps> = ({ login }) => {
             <button
                 type="submit"
                 className="btn-primary"
-                disabled={isSubmitting}
+                disabled={isLoading}
                 style={{ width: '100%', padding: '0.95rem', fontSize: '0.95rem', marginTop: '0.25rem' }}
             >
-                {isSubmitting ? (
+                {isLoading ? (
                     <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                         <span style={{
                             width: '16px', height: '16px',
