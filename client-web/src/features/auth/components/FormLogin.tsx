@@ -61,6 +61,8 @@ const FormLogin: React.FC<FormLoginProps> = ({ login }) => {
         } catch (error: unknown) {
             const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || (error as Error).message || 'Error al iniciar sesión';
             setServerError(errorMessage);
+        } finally {
+            isSubmitting
         }
     };
 
