@@ -1,24 +1,21 @@
 import React from 'react';
 
+// Definimos los tipos fuera para mayor limpieza
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+    size?: 'sm' | 'md' | 'lg';
+}
+
 export const Button = ({
     children,
     variant = 'primary',
     size = 'md',
     className = '',
-    onClick,
     disabled = false,
-    type = 'button',
     ...props
-}: {
-    children: React.ReactNode;
-    variant?: 'primary' | 'secondary' | 'outline' | 'danger';
-    size?: 'sm' | 'md' | 'lg';
-    className?: string;
-    onClick?: () => void;
-    disabled?: boolean;
-    type?: 'button' | 'submit' | 'reset';
-    [key: string]: any;
-}) => {
+}: ButtonProps) => {
+
+    // Estilos base que no cambian
     const baseStyle: React.CSSProperties = {
         position: 'relative',
         overflow: 'hidden',
@@ -32,7 +29,7 @@ export const Button = ({
         border: 'none',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.5 : 1,
-        transition: 'background 0.2s, transform 0.15s, box-shadow 0.2s, border-color 0.2s',
+        transition: 'all 0.2s ease-in-out', // Simplificamos la transición
     };
 
     const variantStyles: Record<string, React.CSSProperties> = {
@@ -65,43 +62,13 @@ export const Button = ({
 
     return (
         <button
-            type={type}
-            onClick={onClick}
             disabled={disabled}
-            className={`${variant === 'primary' ? 'btn-primary' : ''} ${className}`}
-            style={{ ...baseStyle, ...variantStyles[variant], ...sizeStyles[size] }}
-            onMouseEnter={e => {
-                if (disabled) return;
-                const el = e.currentTarget as HTMLElement;
-                if (variant === 'primary') {
-                    el.style.background = 'var(--accent-dim)';
-                    el.style.transform = 'translateY(-1px)';
-                } else if (variant === 'outline') {
-                    el.style.background = 'rgba(198,241,53,0.08)';
-                    el.style.transform = 'translateY(-1px)';
-                } else if (variant === 'secondary') {
-                    el.style.borderColor = 'rgba(198,241,53,0.25)';
-                    el.style.background = 'var(--bg-surface)';
-                } else if (variant === 'danger') {
-                    el.style.background = 'rgba(239,68,68,0.2)';
-                    el.style.transform = 'translateY(-1px)';
-                }
-            }}
-            onMouseLeave={e => {
-                if (disabled) return;
-                const el = e.currentTarget as HTMLElement;
-                const vs = variantStyles[variant];
-                el.style.background = vs.background as string;
-                el.style.transform = 'none';
-                if (variant === 'secondary') el.style.borderColor = 'var(--border)';
-            }}
-            onMouseDown={e => {
-                if (disabled) return;
-                (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)';
-            }}
-            onMouseUp={e => {
-                if (disabled) return;
-                (e.currentTarget as HTMLElement).style.transform = 'none';
+            // Agregamos una clase dinámica para manejar los hovers en CSS
+            className={`custom-btn btn-${variant} ${className}`}
+            style={{
+                ...baseStyle,
+                ...variantStyles[variant],
+                ...sizeStyles[size]
             }}
             {...props}
         >

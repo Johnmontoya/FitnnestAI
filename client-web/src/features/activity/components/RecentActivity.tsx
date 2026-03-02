@@ -67,10 +67,11 @@ const RecentActivity = ({ activities }: RecentActivityProps) => {
                                         </div>
                                     </div>
                                 </div>
-
                                 <button
+                                    title='Eliminar'
+                                    aria-label='Eliminar'
                                     onClick={() => onDeleteActivity(activity.id)}
-                                    className="p-2 rounded-lg bg-white/5 opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500/20 hover:text-red-500 text-[var(--text-muted)] mt-1"
+                                    className="p-2! mr-2! rounded-lg bg-white/5 hover:bg-red-500/20 hover:text-red-500 text-[var(--text-muted)]"
                                 >
                                     <BiTrash className="w-5 h-5" />
                                 </button>

@@ -38,7 +38,7 @@ const MiModal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => 
             >
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold text-slate-100">{title}</h2>
-                    <Button variant="secondary" onClick={handleClose} text=''><BiX size={20} /></Button>
+                    <Button aria-label='Cerrar' variant="secondary" onClick={handleClose}><BiX size={20} /></Button>
                 </div>
                 <div>{children}</div>
             </div>

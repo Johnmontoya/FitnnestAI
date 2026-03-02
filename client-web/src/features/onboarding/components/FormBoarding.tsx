@@ -75,9 +75,9 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="text-center mb-6">
-                <h2 className="text-white text-2xl font-bold mb-2">Completar tu perfil</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6!">
+            <div className="text-center mb-6!">
+                <h2 className="text-white text-2xl font-bold mb-2!">Completar tu perfil</h2>
                 <p className="text-gray-400">
                     Usaremos esta información para calcular tus objetivos de calorias y actividad
                 </p>
@@ -87,7 +87,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                 {/* Age */}
                 <div>
-                    <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                    <label className="block text-white text-sm font-medium mb-2! flex items-center gap-2">
                         <LuActivity className="w-4 h-4 text-[#00ff66]" />
                         Edad
                     </label>
@@ -98,28 +98,28 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                         min="13"
                         max="120"
                         className={`
-                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    w-full bg-[#0a150a] text-white rounded-xl px-4! py-3.5!
                     border ${errors.age ? 'border-red-500' : 'border-[#2a4a2a]'}
                     focus:border-[#00ff66] focus:outline-none
                     placeholder:text-gray-500 transition-colors text-center text-lg
                   `}
                     />
-                    <p className="text-gray-400 text-xs mt-1 text-center">años</p>
+                    <p className="text-gray-400 text-xs mt-1! text-center">años</p>
                     {errors.age && (
-                        <p className="text-red-400 text-sm mt-1 text-center">{errors.age.message}</p>
+                        <p className="text-red-400 text-sm mt-1! text-center">{errors.age.message}</p>
                     )}
                 </div>
 
                 {/* Gender */}
                 <div>
-                    <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                    <label className="block text-white text-sm font-medium mb-2! flex items-center gap-2">
                         <LuActivity className="w-4 h-4 text-[#00ff66]" />
                         Genero
                     </label>
                     <select
                         {...register('gender')}
                         className={`
-                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    w-full bg-[#0a150a] text-white rounded-xl px-4! py-4.5!
                     border ${errors.gender ? 'border-red-500' : 'border-[#2a4a2a]'}
                     focus:border-[#00ff66] focus:outline-none
                     placeholder:text-gray-500 transition-colors text-center text-lg
@@ -132,13 +132,13 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                         ))}
                     </select>
                     {errors.gender && (
-                        <p className="text-red-400 text-sm mt-1 text-center">{errors.gender.message}</p>
+                        <p className="text-red-400 text-sm mt-1! text-center">{errors.gender.message}</p>
                     )}
                 </div>
 
                 {/* Weight */}
                 <div>
-                    <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                    <label className="block text-white text-sm font-medium mb-2! flex items-center gap-2">
                         <LuScale className="w-4 h-4 text-[#00ff66]" />
                         Peso
                     </label>
@@ -150,21 +150,21 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                         min="30"
                         max="300"
                         className={`
-                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    w-full bg-[#0a150a] text-white rounded-xl px-4! py-3.5!
                     border ${errors.weight ? 'border-red-500' : 'border-[#2a4a2a]'}
                     focus:border-[#00ff66] focus:outline-none
                     placeholder:text-gray-500 transition-colors text-center text-lg
                   `}
                     />
-                    <p className="text-gray-400 text-xs mt-1 text-center">kilogramos</p>
+                    <p className="text-gray-400 text-xs mt-1! text-center">kilogramos</p>
                     {errors.weight && (
-                        <p className="text-red-400 text-sm mt-1 text-center">{errors.weight.message}</p>
+                        <p className="text-red-400 text-sm mt-1! text-center">{errors.weight.message}</p>
                     )}
                 </div>
 
                 {/* Height */}
                 <div>
-                    <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                    <label className="block text-white text-sm font-medium mb-2! flex items-center gap-2">
                         <BiRuler className="w-4 h-4 text-[#00ff66]" />
                         Altura
                     </label>
@@ -175,22 +175,22 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                         min="100"
                         max="250"
                         className={`
-                    w-full bg-[#0a150a] text-white rounded-xl px-4 py-3.5
+                    w-full bg-[#0a150a] text-white rounded-xl px-4! py-3.5!
                     border ${errors.height ? 'border-red-500' : 'border-[#2a4a2a]'}
                     focus:border-[#00ff66] focus:outline-none
                     placeholder:text-gray-500 transition-colors text-center text-lg
                   `}
                     />
-                    <p className="text-gray-400 text-xs mt-1 text-center">centimetros</p>
+                    <p className="text-gray-400 text-xs mt-1! text-center">centimetros</p>
                     {errors.height && (
-                        <p className="text-red-400 text-sm mt-1 text-center">{errors.height.message}</p>
+                        <p className="text-red-400 text-sm mt-1! text-center">{errors.height.message}</p>
                     )}
                 </div>
             </div>
 
             {/* Goal Selection */}
             <div>
-                <label className="block text-white text-sm font-medium mb-3 flex items-center gap-2">
+                <label className="block text-white text-sm font-medium mb-3! flex items-center gap-2">
                     <FiTarget className="w-4 h-4 text-[#00ff66]" />
                     Primary Fitness Goal
                 </label>
@@ -206,7 +206,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                                     shouldDirty: true,
                                 })}
                                 className={`
-                        p-5 rounded-xl border-2 transition-all text-left
+                        p-5! rounded-xl border-2 transition-all text-left
                         ${watch('goal') === option.value
                                         ? 'border-[#00ff66] bg-emerald-500 bg-opacity-10'
                                         : 'border-[#2a4a2a] hover:border-[#3a5a3a]'
@@ -235,16 +235,16 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
                     })}
                 </div>
                 {errors.goal && (
-                    <p className="text-red-400 text-sm mt-2">{errors.goal.message}</p>
+                    <p className="text-red-400 text-sm mt-2!">{errors.goal.message}</p>
                 )}
             </div>
 
             {/* Info Box */}
-            <div className="bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-xl p-4">
+            <div className="bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-xl p-4!">
                 <div className="flex items-start gap-3">
                     <span className="text-2xl">💡</span>
                     <div className="flex-1">
-                        <h4 className="text-slate-200 font-semibold mb-1">Tu privacidad importa</h4>
+                        <h4 className="text-slate-200 font-semibold mb-1!">Tu privacidad importa</h4>
                         <p className="text-slate-300 text-sm opacity-90">
                             Tu información es encriptada y segura. Usamos estos datos para calcular tu BMR
                             (Basal Metabolic Rate) y TDEE (Total Daily Energy Expenditure) para ayudarte
@@ -256,7 +256,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
 
             {/* Submit Error */}
             {errors.root && (
-                <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-xl p-3">
+                <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-xl p-3!">
                     <p className="text-red-400 text-sm">{errors.root.message}</p>
                 </div>
             )}
@@ -265,7 +265,7 @@ const FormBoarding = ({ user }: FormBoardingProps) => {
             <Button
                 type="submit"
                 variant="primary"
-                className="w-full text-lg py-4"
+                className="w-full text-lg py-4!"
                 disabled={isSubmitting}
             >
                 {isSubmitting ? (

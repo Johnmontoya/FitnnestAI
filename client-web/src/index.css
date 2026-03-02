@@ -15,9 +15,9 @@
   --accent-glow: rgba(198, 241, 53, 0.25);
   --accent-glow-strong: rgba(198, 241, 53, 0.45);
 
-  --text:        #f0f2ec;
+  --text:        #a9aca4;
   --text-muted:  #7a8a72;
-  --text-subtle: #4a5a42;
+  --text-subtle: #84af70;
 
   --border:      rgba(198, 241, 53, 0.08);
   --border-mid:  rgba(198, 241, 53, 0.18);
@@ -270,3 +270,37 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--text-subtle); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* Estilos generales de interacción */
+.custom-btn:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+.custom-btn:not(:disabled):active {
+    transform: scale(0.97);
+}
+
+/* Hovers específicos por variante */
+.btn-primary:not(:disabled):hover {
+    background: var(--accent-dim) !important;
+}
+
+.btn-outline:not(:disabled):hover {
+    background: rgba(198,241,53,0.08) !important;
+}
+
+.btn-secondary:not(:disabled):hover {
+    border-color: rgba(198,241,53,0.25) !important;
+    background: var(--bg-surface) !important;
+}
+
+.btn-danger:not(:disabled):hover {
+    background: rgba(239,68,68,0.2) !important;
+}
+
+/* ============================
+/* Eliminamos los eventos de JS y usamos el motor de CSS */
+.stat-card:hover {
+    border-color: rgba(198,241,53,0.3) !important;
+    transform: translateY(-2px);
+}

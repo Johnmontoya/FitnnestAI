@@ -147,6 +147,8 @@ export const FoodLogItem = ({
                 <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
                     <button
                         onClick={onEdit}
+                        title='Editar'
+                        aria-label='Editar'
                         style={{
                             width: '32px', height: '32px',
                             borderRadius: '8px',
@@ -161,6 +163,8 @@ export const FoodLogItem = ({
                     </button>
                     <button
                         onClick={handleDelete}
+                        title='Eliminar'
+                        aria-label='Eliminar'
                         style={{
                             width: '32px', height: '32px',
                             borderRadius: '8px',

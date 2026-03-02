@@ -1,4 +1,15 @@
+import React from 'react';
 import { BiTrendingDown, BiTrendingUp } from "react-icons/bi";
+
+interface StatCardProps {
+    title: string;
+    value: string;
+    unit?: string;
+    icon: React.ComponentType<{ style?: React.CSSProperties }>;
+    trend?: 'up' | 'down';
+    trendValue?: string;
+    color?: string;
+}
 
 export const StatCard = ({
     title,
@@ -8,35 +19,35 @@ export const StatCard = ({
     trend,
     trendValue,
     color = 'var(--accent)'
-}: {
-    title: string;
-    value: string;
-    unit?: string;
-    icon: React.ComponentType<{ style?: React.CSSProperties }>;
-    trend?: 'up' | 'down';
-    trendValue?: string;
-    color?: string;
-}) => {
+}: StatCardProps) => {
     const isPositive = trend === 'up';
+
+    // Estilos constantes
+    const containerStyle: React.CSSProperties = {
+        background: 'var(--bg-card)',
+        borderRadius: '16px',
+        padding: '1.5rem',
+        border: '1px solid var(--border)',
+        transition: 'all 0.25s ease-in-out',
+        cursor: 'default',
+    };
+
+    const iconContainerStyle: React.CSSProperties = {
+        width: '38px',
+        height: '38px',
+        borderRadius: '10px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: color === 'var(--accent)' ? 'rgba(198,241,53,0.1)' : `${color}18`,
+        border: `1px solid ${color === 'var(--accent)' ? 'rgba(198,241,53,0.2)' : `${color}30`}`,
+        flexShrink: 0,
+    };
 
     return (
         <div
-            style={{
-                background: 'var(--bg-card)',
-                borderRadius: '16px',
-                padding: '1.5rem',
-                border: '1px solid var(--border)',
-                transition: 'border-color 0.25s, transform 0.25s',
-                cursor: 'default',
-            }}
-            onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(198,241,53,0.3)';
-                (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
-                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-            }}
+            style={containerStyle}
+            className="stat-card" // La clase para el hover en CSS
         >
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <p style={{
@@ -50,17 +61,7 @@ export const StatCard = ({
                     {title}
                 </p>
                 {Icon && (
-                    <div style={{
-                        width: '38px',
-                        height: '38px',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: `${color === 'var(--accent)' ? 'rgba(198,241,53,0.1)' : `${color}18`}`,
-                        border: `1px solid ${color === 'var(--accent)' ? 'rgba(198,241,53,0.2)' : `${color}30`}`,
-                        flexShrink: 0,
-                    }}>
+                    <div style={iconContainerStyle}>
                         <Icon style={{ width: '18px', height: '18px', color }} />
                     </div>
                 )}
