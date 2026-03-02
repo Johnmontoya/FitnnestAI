@@ -31,9 +31,9 @@ export class FoodEntriesController {
 
   @Get('user')
   findAllUser(
-    @Request() req, 
-    @Query('startOfDay') startOfDay?: string, 
-    @Query('endOfDay') endOfDay?: string
+    @Request() req,
+    @Query('startOfDay') startOfDay?: string,
+    @Query('endOfDay') endOfDay?: string,
   ) {
     return this.foodEntriesService.findAllUser(req.user.userId, startOfDay, endOfDay);
   }
@@ -54,11 +54,7 @@ export class FoodEntriesController {
   }
 
   @Put(':id')
-  update(
-    @Request() req,
-    @Param('id') id: string,
-    @Body() updateFoodEntryDto: UpdateFoodEntryDto,
-  ) {
+  update(@Request() req, @Param('id') id: string, @Body() updateFoodEntryDto: UpdateFoodEntryDto) {
     return this.foodEntriesService.update(id, req.user.userId, updateFoodEntryDto);
   }
 

@@ -61,9 +61,9 @@ export class FoodEntriesService {
     });
 
     const stats = await this.prisma.foodEntry.aggregate({
-      where: { 
-        userId: user.id, 
-        createdAt: { gte: new Date(startOfDay), lte: new Date(endOfDay) } 
+      where: {
+        userId: user.id,
+        createdAt: { gte: new Date(startOfDay), lte: new Date(endOfDay) },
       },
       _sum: {
         calories: true,
@@ -128,8 +128,8 @@ export class FoodEntriesService {
 
     const byMealType = entries.reduce((acc, entry) => {
       if (!acc[entry.mealType]) {
-        acc[entry.mealType] = { 
-          count: 0, 
+        acc[entry.mealType] = {
+          count: 0,
           calories: 0,
           proteinas: 0,
           carbs: 0,
@@ -172,21 +172,21 @@ Devuelve SOLO un objeto JSON válido (sin markdown, sin explicaciones) con la si
 Importante: Devuelve SOLO el JSON, sin texto adicional, sin bloques de código markdown.`;
 
     console.log('Analizando:', foodName);
-    
+
     try {
       const response = await main(prompt);
       console.log('Respuesta de Gemini:', response);
-      
+
       // Limpiar la respuesta para extraer solo el JSON
       let jsonString = response.trim();
-      
+
       // Remover bloques de código markdown si existen
       jsonString = jsonString.replace(/```json\s*/g, '');
       jsonString = jsonString.replace(/```\s*/g, '');
-      
+
       // Intentar parsear el JSON
       const nutritionData = JSON.parse(jsonString);
-      
+
       return {
         success: true,
         data: {
@@ -196,11 +196,11 @@ Importante: Devuelve SOLO el JSON, sin texto adicional, sin bloques de código m
           carbohidratos: parseInt(nutritionData.carbohidratos) || 0,
           grasas: parseInt(nutritionData.grasas) || 0,
           porcion: nutritionData.porcion || '100g',
-        }
+        },
       };
     } catch (error) {
       console.error('Error al analizar alimento:', error);
-      
+
       // Retornar valores por defecto en caso de error
       return {
         success: false,
@@ -212,7 +212,7 @@ Importante: Devuelve SOLO el JSON, sin texto adicional, sin bloques de código m
           carbohidratos: 0,
           grasas: 0,
           porcion: '100g',
-        }
+        },
       };
     }
   }

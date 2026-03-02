@@ -19,7 +19,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 @Controller('activity-entries')
 @UseGuards(JwtAuthGuard)
 export class ActivityEntriesController {
-  constructor(private readonly activityEntriesService: ActivityEntriesService) { }
+  constructor(private readonly activityEntriesService: ActivityEntriesService) {}
 
   @Post()
   @ApiBearerAuth()

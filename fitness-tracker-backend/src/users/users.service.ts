@@ -5,16 +5,13 @@ import { CreateUserDto, UpdateUserDto } from 'src/auth/dto/auth.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     // Verificar si el usuario ya existe
     const existingUser = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          { email: createUserDto.email },
-          { username: createUserDto.username },
-        ],
+        OR: [{ email: createUserDto.email }, { username: createUserDto.username }],
       },
     });
 
@@ -203,6 +200,6 @@ export class UsersService {
       { max: 120, maintain: 1500, burn: 300 },
     ];
 
-    return ageRanges.find(range => age <= range.max) || ageRanges[ageRanges.length - 1];
+    return ageRanges.find((range) => age <= range.max) || ageRanges[ageRanges.length - 1];
   }
 }

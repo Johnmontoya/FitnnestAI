@@ -11,7 +11,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private config: ConfigService,
-  ) { }
+  ) {}
 
   async register(registerDto: CreateUserDto) {
     const existingUser = await this.usersService.findByEmail(registerDto.email);
@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   private sanitizeUser(user: any) {
-    const { password, ...result } = user;
+    const { password: _password, ...result } = user;
     return result;
   }
 }

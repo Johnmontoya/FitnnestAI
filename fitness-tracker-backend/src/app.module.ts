@@ -19,4 +19,4 @@ import { ActivityEntriesModule } from './activity-entries/activity-entries.modul
     ActivityEntriesModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

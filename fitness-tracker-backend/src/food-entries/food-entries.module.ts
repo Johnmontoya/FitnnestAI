@@ -7,4 +7,4 @@ import { FoodEntriesController } from './food-entries.controller';
   providers: [FoodEntriesService],
   exports: [FoodEntriesService],
 })
-export class FoodEntriesModule { }
+export class FoodEntriesModule {}
