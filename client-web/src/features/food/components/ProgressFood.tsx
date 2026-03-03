@@ -27,7 +27,7 @@ const ProgressFood = ({ mealTotals, foodUser, user }: ProgressFoodProps) => {
 
     return (
         <div className="glass rounded-[32px] border-[var(--border-mid)] p-8! relative overflow-hidden">
-            <div className="flex items-center justify-between mb-8!">
+            <div className="flex flex-col md:flex-row items-center justify-between mb-8!">
                 <div>
                     <h3 className="font-display font-extrabold text-xl text-white tracking-tight">Status Bio-Energético</h3>
                     <p className="text-[var(--text-muted)] text-sm font-medium mt-1">Metas optimizadas para tu perfil</p>

@@ -19,7 +19,6 @@ export const axiosInterceptor = () => {
     apiClient.interceptors.request.use(
         (config) => {
             const token = useAuthStore.getState().accessToken;
-            console.log(token);
             if (token && config.headers) {
                 config.headers["Authorization"] = `Bearer ${token}`;
             }

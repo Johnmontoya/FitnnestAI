@@ -21,7 +21,7 @@ const ChartActivity: React.FC<ChartActivityProps> = ({ activities }) => {
 
     return (
         <div className="glass rounded-[32px] border-[var(--border)] p-8! mt-4!">
-            <div className="flex items-center justify-between mb-10">
+            <div className="flex flex-col md:flex-row items-center justify-between mb-10">
                 <div>
                     <h3 className="font-display font-extrabold text-xl text-white tracking-tight">Rendimiento Semanal</h3>
                     <p className="text-[var(--text-muted)] text-sm font-medium mt-1">Análisis de carga calórica</p>
@@ -64,7 +64,7 @@ const ChartActivity: React.FC<ChartActivityProps> = ({ activities }) => {
                                 </div>
                             </div>
 
-                            <span className={`font-display font-bold text-[0.65rem] tracking-widest uppercase transition-colors ${isToday ? 'text-[var(--accent)]' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-muted)]'
+                            <span className={`font-display font-bold md:text-[0.65rem] text-[0.45rem] tracking-widest uppercase transition-colors ${isToday ? 'text-[var(--accent)]' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-muted)]'
                                 }`}>
                                 {item.day}
                             </span>

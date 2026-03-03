@@ -34,8 +34,6 @@ const quickActivities = [
     { name: "HIIT", emoji: "⚡", rate: "10" },
 ];
 
-
-
 const LogActivity = () => {
     const { createActivity } = useActivityMutation();
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
@@ -72,7 +70,7 @@ const LogActivity = () => {
                     <Button variant="secondary" size="sm">Registro rápido</Button>
                 </div>
             </CardHeader>
-            <CardContent className="p-4!">
+            <CardContent className="md:h-fit h-96 p-4!">
                 <QuickActivitiesGrid
                     activities={quickActivities}
                     selectedActivity={selectedActivity}
@@ -80,12 +78,12 @@ const LogActivity = () => {
                 />
 
                 {selectedActivity && (
-                    <div className="mt-6 p-4! bg-[#0f1f0f] rounded-xl border border-[#2a4a2a]">
+                    <div className="mt-6! p-4! bg-[#0f1f0f] rounded-xl border border-[#2a4a2a]">
                         <h4 className="text-white font-semibold mb-3">
                             Registrar {selectedActivity.name}
                         </h4>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="grid grid-cols-2 gap-4 justify-center items-center">
+                            <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 gap-0 justify-center items-center">
                                 <div>
                                     <label className="block text-gray-400 text-sm mb-2">Duración (min)</label>
                                     <input

@@ -43,7 +43,7 @@ const ProfileGoal = ({ user }: ProfileGoalProps) => {
                                     {target.label}
                                 </span>
                                 <div className="flex items-baseline gap-1.5">
-                                    <span className="font-display font-black text-2xl text-white tracking-tighter leading-none">
+                                    <span className="p-2! font-display font-black text-2xl text-white tracking-tighter leading-none">
                                         {target.value}
                                     </span>
                                     <span className="text-[var(--text-subtle)] text-[0.7rem] font-black uppercase">

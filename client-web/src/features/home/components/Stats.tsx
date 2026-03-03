@@ -44,11 +44,7 @@ const Stats = () => {
                 </p>
 
                 {/* Stats grid */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    position: 'relative',
-                }}>
+                <div className="grid grid-cols-1 sm:grid-cols-3" style={{ position: 'relative' }}>
                     {stats.map((stat, index) => {
                         const Icon = stat.icon;
                         return (

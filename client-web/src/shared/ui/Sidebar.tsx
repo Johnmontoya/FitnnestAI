@@ -13,12 +13,10 @@ export const Sidebar = () => {
     const { logout } = useAuthStore();
 
     return (
-        <aside style={{
-            width: '240px',
-            height: '100vh',
+        <aside className='w-20 lg:w-64 h-min-screen' style={{
             background: 'var(--bg-surface)',
             borderRight: '1px solid var(--border)',
-            position: 'fixed',
+            position: 'relative',
             left: 0,
             top: 0,
             display: 'flex',
@@ -31,8 +29,8 @@ export const Sidebar = () => {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <div style={{
-                        width: '34px',
-                        height: '34px',
+                        width: '28px',
+                        height: '28px',
                         background: 'var(--accent)',
                         borderRadius: '8px',
                         display: 'flex',
@@ -42,7 +40,7 @@ export const Sidebar = () => {
                     }}>
                         <LuActivity style={{ width: '18px', height: '18px', color: '#0a0a0a', strokeWidth: 2.5 }} />
                     </div>
-                    <span style={{
+                    <span className='hidden lg:flex' style={{
                         fontFamily: 'Syne, sans-serif',
                         fontWeight: 800,
                         fontSize: '1rem',
@@ -60,7 +58,7 @@ export const Sidebar = () => {
                 <p style={{
                     fontFamily: 'Syne, sans-serif',
                     fontWeight: 700,
-                    fontSize: '0.65rem',
+                    fontSize: '0.5rem',
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     color: 'var(--text-subtle)',
@@ -101,7 +99,7 @@ export const Sidebar = () => {
                                             color: isActive ? '#0a0a0a' : 'var(--text-subtle)',
                                             flexShrink: 0,
                                         }} />
-                                        <span>{item.label}</span>
+                                        <span className='hidden lg:flex'>{item.label}</span>
                                         {isActive && (
                                             <div style={{
                                                 position: 'absolute',
@@ -157,7 +155,7 @@ export const Sidebar = () => {
                     }}
                 >
                     <LuLogOut style={{ width: '16px', height: '16px', flexShrink: 0 }} />
-                    Cerrar sesión
+                    <span className='hidden lg:flex'>Cerrar sesión</span>
                 </button>
             </div>
         </aside>

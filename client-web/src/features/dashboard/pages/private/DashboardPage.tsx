@@ -40,9 +40,9 @@ export const DashboardPage = () => {
     const remainingCalories = dailyCalories - totalCalories;
 
     return (
-        <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)', marginLeft: '240px' }}>
+        <div className='flex flex-row' style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
             <Sidebar />
-            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className='w-full px-4! relative' style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <DashHeader user={user!} dailyCalories={dailyCalories} totalCalories={totalCalories} totalCaloriesBurned={totalCaloriesBurned} />
 
                 {/* Calorie Progress Cards */}
@@ -53,7 +53,7 @@ export const DashboardPage = () => {
                     marginBottom: '2rem',
                 }}>
                     {/* Daily Calorie Intake */}
-                    <Card className='p-4!'>
+                    <Card className='p-4! sm:w-full! w-64!'>
                         <CardHeader>
                             <CardTitle>Consumo Diario de Calorías</CardTitle>
                         </CardHeader>
@@ -83,7 +83,7 @@ export const DashboardPage = () => {
                     </Card>
 
                     {/* Active Calorie Burn */}
-                    <Card className='p-4!'>
+                    <Card className='p-4! sm:w-full! w-64!'>
                         <CardHeader>
                             <CardTitle>Quema Diaria de Calorías</CardTitle>
                         </CardHeader>

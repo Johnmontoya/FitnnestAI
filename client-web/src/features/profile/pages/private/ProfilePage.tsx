@@ -50,9 +50,9 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
+        <div className="flex flex-row aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
             <Sidebar />
-            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className='w-full px-4! relative' style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <div className="p-10 max-w-7xl mx-auto animate-fade-up">
                     {/* Header */}
                     <ProfileHeader

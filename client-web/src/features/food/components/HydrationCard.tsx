@@ -28,7 +28,7 @@ const HydrationCard = ({ user }: HydrationCardProps) => {
             <div className="mb-8! p-6! rounded-2xl bg-black/40 border border-[#38bdf810]">
                 <div className="flex justify-between items-end mb-4">
                     <div className="flex items-baseline gap-1">
-                        <span className="font-display font-black text-4xl text-white tracking-tighter">{(currentMl / 1000).toFixed(1)}</span>
+                        <span className="p-2! font-display font-black text-lg md:text-4xl text-white tracking-tighter">{(currentMl / 1000).toFixed(1)}</span>
                         <span className="text-[#38bdf8] font-black text-xl">L</span>
                     </div>
                     <div className="text-right">

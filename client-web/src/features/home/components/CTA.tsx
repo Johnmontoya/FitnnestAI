@@ -7,10 +7,9 @@ const CTA = () => {
         <section style={{ padding: '5rem 1.5rem' }}>
             <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
                 <div
-                    className="aurora-bg"
+                    className="aurora-bg py-12! px-6! sm:py-20! sm:px-16!"
                     style={{
                         borderRadius: '28px',
-                        padding: '5rem 4rem',
                         textAlign: 'center',
                         border: '1px solid var(--border-mid)',
                         background: 'var(--bg-card)',
@@ -41,42 +40,43 @@ const CTA = () => {
                             Comienza Hoy
                         </p>
 
-                        <h2 style={{
+                        <h2 className="p-2!" style={{
                             fontFamily: 'Syne, sans-serif',
                             fontWeight: 800,
-                            fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
+                            fontSize: 'clamp(2.2rem, 5vw, 4rem)',
                             lineHeight: 1.1,
-                            letterSpacing: '-0.02em',
+                            letterSpacing: '-0.04em',
                             color: 'var(--text)',
-                            marginBottom: '1.25rem',
+                            marginBottom: '1.5rem',
                         }}>
-                            Listo para comenzar tu<br />
-                            <span style={{ color: 'var(--accent)' }}>viaje de transformación</span>?
+                            Listo para tu<br />
+                            <span style={{ color: 'var(--accent)' }}>Viaje de Transformación</span>?
                         </h2>
 
                         <p style={{
                             color: 'var(--text-muted)',
-                            fontSize: '1.05rem',
+                            fontSize: '1.1rem',
                             lineHeight: 1.7,
-                            maxWidth: '520px',
-                            margin: '0 auto 2.5rem',
+                            maxWidth: '560px',
+                            margin: '0 auto 3rem',
                         }}>
-                            Únete a miles de personas que han simplificado su fitness y logrado el cuerpo que siempre quisieron.
+                            Únete a miles de atletas que ya optimizan su rendimiento con nuestra tecnología. El futuro de tu salud comienza hoy.
                         </p>
 
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '1rem',
-                            flexWrap: 'wrap',
-                        }}>
+                            gap: '1.25rem',
+                        }}
+                            className="flex-col sm:flex-row"
+                        >
                             <button
                                 onClick={() => navigate('/register')}
                                 className="btn-primary"
-                                style={{ fontSize: '1rem', padding: '1rem 2.5rem' }}
+                                style={{ fontSize: '1rem', padding: '1.1rem 3rem', minWidth: '220px' }}
                             >
-                                Empezar gratis
+                                Registrarse Ahora
                             </button>
                             <button
                                 style={{
@@ -86,23 +86,26 @@ const CTA = () => {
                                     fontFamily: 'DM Sans, sans-serif',
                                     fontWeight: 600,
                                     fontSize: '1rem',
-                                    padding: '1rem 2.5rem',
+                                    padding: '1.1rem 3rem',
                                     borderRadius: 'var(--radius-md)',
                                     cursor: 'pointer',
-                                    transition: 'border-color 0.2s, background 0.2s',
+                                    transition: 'all 0.25s ease',
+                                    minWidth: '220px',
                                 }}
                                 onMouseEnter={e => {
                                     const el = e.currentTarget as HTMLElement;
                                     el.style.borderColor = 'var(--accent)';
                                     el.style.background = 'rgba(198,241,53,0.05)';
+                                    el.style.transform = 'translateY(-2px)';
                                 }}
                                 onMouseLeave={e => {
                                     const el = e.currentTarget as HTMLElement;
                                     el.style.borderColor = 'var(--border-mid)';
                                     el.style.background = 'none';
+                                    el.style.transform = 'translateY(0)';
                                 }}
                             >
-                                Ver precios
+                                Saber Más
                             </button>
                         </div>
                     </div>

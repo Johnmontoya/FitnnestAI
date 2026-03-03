@@ -19,12 +19,7 @@ const Hero = () => {
         >
             {/* Aurora layer already rendered via CSS ::before */}
             <div style={{ maxWidth: '1280px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '5rem',
-                    alignItems: 'center',
-                }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
 
                     {/* LEFT — Text */}
                     <div>
@@ -65,9 +60,9 @@ const Hero = () => {
                         <h1
                             className="animate-fade-up-delay-1 font-display"
                             style={{
-                                fontSize: 'clamp(3.2rem, 6vw, 5.5rem)',
+                                fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
                                 fontWeight: 800,
-                                lineHeight: 1.0,
+                                lineHeight: 1.15,
                                 letterSpacing: '-0.03em',
                                 color: 'var(--text)',
                                 marginBottom: '1.5rem',
@@ -103,7 +98,7 @@ const Hero = () => {
                         {/* CTAs */}
                         <div
                             className="animate-fade-up-delay-3"
-                            style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}
+                            style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}
                         >
                             <button
                                 onClick={() => navigate('/register')}
@@ -166,7 +161,7 @@ const Hero = () => {
                     </div>
 
                     {/* RIGHT — Hero image panel */}
-                    <div className="animate-fade-in" style={{ position: 'relative' }}>
+                    <div className="animate-fade-in hidden md:block" style={{ position: 'relative' }}>
                         {/* Glow behind image */}
                         <div style={{
                             position: 'absolute',

@@ -1,19 +1,15 @@
 import { BiStar } from "react-icons/bi";
 import testimonialImage from "../../../assets/testimonio1.png";
+import { LuActivity } from "react-icons/lu";
 
 const Testimonial = () => {
     return (
         <section id="testimonials" style={{ padding: '7rem 1.5rem' }}>
             <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '5rem',
-                    alignItems: 'center',
-                }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
 
                     {/* LEFT — Image Panel */}
-                    <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'relative' }} className="order-2 md:order-1">
                         {/* Glow */}
                         <div style={{
                             position: 'absolute',
@@ -24,13 +20,14 @@ const Testimonial = () => {
 
                         {/* Image with diagonal clip */}
                         <div
-                            className="clip-slash-br"
+                            className="clip-slash-br mx-auto md:mx-0"
                             style={{
                                 position: 'relative',
                                 zIndex: 1,
                                 borderRadius: '24px',
                                 overflow: 'hidden',
-                                aspectRatio: '3 / 4',
+                                aspectRatio: '1 / 1',
+                                maxWidth: '500px',
                                 border: '1px solid var(--border)',
                             }}
                         >
@@ -43,7 +40,7 @@ const Testimonial = () => {
                             <div style={{
                                 position: 'absolute',
                                 inset: 0,
-                                background: 'linear-gradient(to top, rgba(8,11,8,0.6) 0%, transparent 50%)',
+                                background: 'linear-gradient(to top, rgba(8,11,8,0.7) 0%, transparent 60%)',
                             }} />
 
                             {/* Badge inside image */}
@@ -51,32 +48,33 @@ const Testimonial = () => {
                                 className="animate-float"
                                 style={{
                                     position: 'absolute',
-                                    bottom: '24px',
-                                    left: '24px',
+                                    bottom: '32px',
+                                    left: '32px',
                                     background: 'var(--accent)',
-                                    borderRadius: '14px',
-                                    padding: '12px 20px',
+                                    borderRadius: '16px',
+                                    padding: '14px 24px',
+                                    boxShadow: '0 8px 32px rgba(198, 241, 53, 0.3)',
                                 }}
                             >
-                                <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Resultado</p>
-                                <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '2rem', color: '#0a0a0a', lineHeight: 1 }}>-35lb</p>
+                                <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '4px' }}>Resultado</p>
+                                <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '2.4rem', color: '#0a0a0a', lineHeight: 0.9 }}>-35lb</p>
                             </div>
 
                             {/* Label */}
                             <div style={{
                                 position: 'absolute',
-                                top: '20px',
-                                left: '20px',
-                                background: 'rgba(8,11,8,0.75)',
-                                backdropFilter: 'blur(10px)',
-                                borderRadius: '8px',
-                                padding: '6px 12px',
-                                border: '1px solid var(--border)',
+                                top: '24px',
+                                left: '24px',
+                                background: 'rgba(8,11,8,0.85)',
+                                backdropFilter: 'blur(12px)',
+                                borderRadius: '10px',
+                                padding: '8px 16px',
+                                border: '1px solid var(--border-mid)',
                             }}>
                                 <p style={{
                                     fontFamily: 'Syne, sans-serif',
                                     fontWeight: 700,
-                                    fontSize: '0.65rem',
+                                    fontSize: '0.7rem',
                                     letterSpacing: '0.15em',
                                     textTransform: 'uppercase',
                                     color: 'var(--accent)',
@@ -88,13 +86,13 @@ const Testimonial = () => {
                     </div>
 
                     {/* RIGHT — Quote */}
-                    <div>
+                    <div className="order-1 md:order-2 text-center md:text-left">
                         {/* Stars */}
-                        <div style={{ display: 'flex', gap: '4px', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', gap: '6px', marginBottom: '2rem', justifyContent: 'inherit' }} className="justify-center md:justify-start">
                             {[...Array(5)].map((_, i) => (
                                 <BiStar
                                     key={i}
-                                    style={{ width: '20px', height: '20px', color: 'var(--accent)', fill: 'var(--accent)' }}
+                                    style={{ width: '22px', height: '22px', color: 'var(--accent)', fill: 'var(--accent)' }}
                                 />
                             ))}
                         </div>
@@ -103,11 +101,11 @@ const Testimonial = () => {
                         <div style={{
                             fontFamily: 'Syne, sans-serif',
                             fontWeight: 800,
-                            fontSize: '6rem',
+                            fontSize: 'clamp(4rem, 10vw, 7rem)',
                             color: 'var(--accent)',
                             lineHeight: 0.7,
-                            marginBottom: '1rem',
-                            opacity: 0.6,
+                            marginBottom: '1.5rem',
+                            opacity: 0.4,
                         }}>
                             "
                         </div>
@@ -117,38 +115,49 @@ const Testimonial = () => {
                             fontFamily: 'DM Sans, sans-serif',
                             fontWeight: 400,
                             fontStyle: 'italic',
-                            fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
-                            lineHeight: 1.65,
+                            fontSize: 'clamp(1.2rem, 3vw, 1.6rem)',
+                            lineHeight: 1.6,
                             color: 'var(--text)',
-                            marginBottom: '2rem',
-                        }}>
-                            Esta app cambió por completo mi forma de ver mis hábitos diarios. El registro de comidas es tan rápido que realmente lo sigo por primera vez en años. Perdí 35 libras en 4 meses.
+                            marginBottom: '2.5rem',
+                            maxWidth: '540px',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                        }} className="md:ml-0 md:mr-0">
+                            "Esta aplicación transformó mi relación con el fitness. El seguimiento de comida es tan intuitivo que por fin pude ser constante. Perdí 35 libras y gané una disciplina que nunca pensé tener."
                         </blockquote>
 
-                        <span className="accent-line" style={{ marginBottom: '1.5rem' }} />
+                        <div className="flex md:block justify-center">
+                            <span className="accent-line" style={{ marginBottom: '2rem' }} />
+                        </div>
 
                         {/* Author */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginTop: '2rem' }} className="justify-center md:justify-start">
                             <div style={{
-                                width: '48px',
-                                height: '48px',
+                                width: '56px',
+                                height: '56px',
                                 borderRadius: '50%',
-                                background: 'linear-gradient(135deg, #4a6a3a, #2a4a2a)',
+                                background: 'linear-gradient(135deg, #1a2a1a, #0a1a0a)',
                                 border: '2px solid var(--accent)',
                                 flexShrink: 0,
-                            }} />
+                                overflow: 'hidden',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <LuActivity style={{ color: 'var(--accent)', opacity: 0.5, width: '20px', height: '20px' }} />
+                            </div>
                             <div>
                                 <p style={{
                                     fontFamily: 'Syne, sans-serif',
                                     fontWeight: 700,
-                                    fontSize: '1rem',
+                                    fontSize: '1.1rem',
                                     color: 'var(--text)',
-                                    marginBottom: '2px',
+                                    marginBottom: '4px',
                                 }}>
                                     Sarah Jenkins
                                 </p>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
-                                    Miembro desde Marzo 2024
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 500 }}>
+                                    Miembro Pro desde 2024
                                 </p>
                             </div>
                         </div>

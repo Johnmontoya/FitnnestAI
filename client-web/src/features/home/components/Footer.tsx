@@ -27,43 +27,29 @@ const Footer = () => {
                 maxWidth: '1280px',
                 margin: '0 auto',
             }}>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '2fr 1fr 1fr 1fr',
-                    gap: '3rem',
-                    marginBottom: '3rem',
-                }}>
-                    {/* Brand */}
-                    <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16 px-4 md:px-0">
+                    {/* Brand Section */}
+                    <div className="lg:col-span-2">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.25rem' }}>
                             <div style={{
-                                width: '32px', height: '32px',
-                                background: 'var(--accent)',
-                                borderRadius: '8px',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                flexShrink: 0,
+                                width: '34px', height: '34px',
+                                background: 'var(--accent)', borderRadius: '8px',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                             }}>
-                                <LuActivity style={{ width: '16px', height: '16px', color: '#0a0a0a', strokeWidth: 2.5 }} />
+                                <LuActivity style={{ width: '18px', height: '18px', color: '#0a0a0a', strokeWidth: 2.5 }} />
                             </div>
                             <span style={{
-                                fontFamily: 'Syne, sans-serif',
-                                fontWeight: 800,
-                                fontSize: '1rem',
-                                letterSpacing: '0.06em',
-                                textTransform: 'uppercase',
-                                color: 'var(--text)',
+                                fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '1.1rem',
+                                letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text)',
                             }}>
                                 Fitnest<span style={{ color: 'var(--accent)' }}>AI</span>
                             </span>
                         </div>
                         <p style={{
-                            color: 'var(--text-muted)',
-                            fontSize: '0.88rem',
-                            lineHeight: 1.65,
-                            maxWidth: '280px',
-                            marginBottom: '1.5rem',
+                            color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.7,
+                            maxWidth: '320px', marginBottom: '2rem',
                         }}>
-                            Tu compañero de fitness inteligente. Transforma hábitos, alcanza metas, supera límites.
+                            Plataforma integral de fitness potenciada por IA. Transforma tus datos en resultados tangibles y alcanza tu máximo potencial.
                         </p>
                         {/* Social icons */}
                         <div style={{ display: 'flex', gap: '12px' }}>
@@ -72,19 +58,15 @@ const Footer = () => {
                                 { Icon: BsTwitterX, href: '#' },
                                 { Icon: BsLinkedin, href: '#' },
                             ].map(({ Icon, href }, i) => (
-                                <a
-                                    key={i}
-                                    href={href}
+                                <a key={i} href={href}
                                     style={{
-                                        width: '36px', height: '36px',
-                                        background: 'var(--bg-elevated)',
-                                        border: '1px solid var(--border)',
-                                        borderRadius: '8px',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        color: 'var(--text-muted)',
-                                        textDecoration: 'none',
-                                        transition: 'color 0.2s, border-color 0.2s, background 0.2s',
+                                        width: '40px', height: '40px',
+                                        background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+                                        borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        color: 'var(--text-muted)', textDecoration: 'none',
+                                        transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
                                     }}
+                                    className="hover:-translate-y-1"
                                     onMouseEnter={e => {
                                         const el = e.currentTarget as HTMLElement;
                                         el.style.color = 'var(--accent)';
@@ -98,7 +80,7 @@ const Footer = () => {
                                         el.style.background = 'var(--bg-elevated)';
                                     }}
                                 >
-                                    <Icon style={{ width: '15px', height: '15px' }} />
+                                    <Icon style={{ width: '16px', height: '16px' }} />
                                 </a>
                             ))}
                         </div>
@@ -108,27 +90,19 @@ const Footer = () => {
                     {footerLinks.map((col) => (
                         <div key={col.title}>
                             <h3 style={{
-                                fontFamily: 'Syne, sans-serif',
-                                fontWeight: 700,
-                                fontSize: '0.78rem',
-                                letterSpacing: '0.12em',
-                                textTransform: 'uppercase',
-                                color: 'var(--text)',
-                                marginBottom: '1.25rem',
+                                fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '0.8rem',
+                                letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text)',
+                                marginBottom: '1.5rem',
                             }}>
                                 {col.title}
                             </h3>
-                            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+                            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                                 {col.links.map((link) => (
                                     <li key={link}>
-                                        <a
-                                            href="#"
-                                            style={{
-                                                color: 'var(--text-muted)',
-                                                textDecoration: 'none',
-                                                fontSize: '0.88rem',
-                                                transition: 'color 0.2s',
-                                            }}
+                                        <a href="#" style={{
+                                            color: 'var(--text-muted)', textDecoration: 'none',
+                                            fontSize: '0.9rem', transition: 'color 0.2s',
+                                        }}
                                             onMouseEnter={e => ((e.target as HTMLElement).style.color = 'var(--text)')}
                                             onMouseLeave={e => ((e.target as HTMLElement).style.color = 'var(--text-muted)')}
                                         >
@@ -142,25 +116,20 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom bar */}
-                <div style={{
-                    borderTop: '1px solid var(--border)',
-                    paddingTop: '1.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
-                    <p style={{ color: 'var(--text-subtle)', fontSize: '0.82rem' }}>
+                <div className="pt-8 border-t border-[var(--border)] flex flex-col md:flex-row items-center justify-between gap-6 px-4 md:px-0">
+                    <p style={{ color: 'var(--text-subtle)', fontSize: '0.85rem' }}>
                         © 2026 FitnestAI. Todos los derechos reservados.
                     </p>
-                    <p style={{
-                        color: 'var(--text-subtle)',
-                        fontSize: '0.82rem',
-                        fontFamily: 'Syne, sans-serif',
-                        fontWeight: 600,
-                        letterSpacing: '0.06em',
-                    }}>
-                        <span style={{ color: 'var(--accent)' }}>●</span> 2026
-                    </p>
+                    <div style={{ display: 'flex', gap: '2rem' }}>
+                        <p style={{ color: 'var(--text-subtle)', fontSize: '0.85rem', cursor: 'pointer' }}>Privacidad</p>
+                        <p style={{ color: 'var(--text-subtle)', fontSize: '0.85rem', cursor: 'pointer' }}>Términos</p>
+                        <p style={{
+                            color: 'var(--text-subtle)', fontSize: '0.85rem',
+                            fontFamily: 'Syne, sans-serif', fontWeight: 600, letterSpacing: '0.06em',
+                        }}>
+                            <span style={{ color: 'var(--accent)' }}>●</span> GLOBAL
+                        </p>
+                    </div>
                 </div>
             </div>
         </footer>

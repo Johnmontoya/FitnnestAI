@@ -19,9 +19,9 @@ const ActivityPage = () => {
     const caloriesBurned = activities?.filter((activity) => moment(activity.createdAt).isSame(moment(), 'day')).reduce((sum, current) => sum + current.calories, 0) || 0;
 
     return (
-        <div className="aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
+        <div className='flex flex-row' style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
             <Sidebar />
-            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className='w-full px-4! relative' style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <div className="p-10 max-w-7xl mx-auto animate-fade-up">
                     {/* Header */}
                     <div className="w-full h-fit mb-12!">
@@ -34,7 +34,7 @@ const ActivityPage = () => {
 
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                             <div>
-                                <h1 className="font-display font-extrabold text-[3.2rem] text-[var(--text)] tracking-tighter leading-[1.1]">
+                                <h1 className="p-2! font-display font-extrabold text-[3.2rem] text-[var(--text)] tracking-tighter leading-[1.1]">
                                     Buenos días, <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-white">{user?.name}</span>
                                 </h1>
                                 <p className="text-[var(--text-muted)] text-[1.05rem] mt-2 max-w-xl">
@@ -65,7 +65,7 @@ const ActivityPage = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                         {/* Log Activity */}
                         <div className="lg:col-span-2 space-y-8">
-                            <div className="glass rounded-[32px] border-[var(--border-mid)] p-8 relative overflow-hidden">
+                            <div className="h-fit! glass rounded-[32px] border-[var(--border-mid)] p-8 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)] opacity-[0.03] blur-3xl"></div>
                                 <LogActivity />
                             </div>

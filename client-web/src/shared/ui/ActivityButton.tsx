@@ -26,7 +26,7 @@ export const ActivityButton = ({
             type="button" // Siempre define el tipo de botón
             onClick={onClick}
             className={`
-                relative p-6 rounded-2xl transition-all duration-200
+                w-24 h-32 relative p-10 rounded-2xl transition-all duration-200
                 ${selected
                     ? 'bg-emerald-500 border-2 border-emerald-500 shadow-lg shadow-emerald-500/20'
                     : 'bg-[#1a2f1a] border-2 border-[#2a4a2a] hover:border-emerald-500'
@@ -65,7 +65,7 @@ export const QuickActivitiesGrid = ({
     selectedActivity: Activity | null;
 }) => {
     return (
-        <div className="h-44 mb-4 scrollBar overflow-y-auto pr-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="h-full! mb-4 scrollBar overflow-y-auto pr-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {activities.map((activity) => (
                 <ActivityButton
                     key={activity.name} // Mejor usar el nombre que el index para el reconciliador de React

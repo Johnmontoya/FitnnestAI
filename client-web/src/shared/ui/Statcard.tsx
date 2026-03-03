@@ -68,7 +68,7 @@ export const StatCard = ({
             </div>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '0.5rem' }}>
-                <span style={{
+                <span className='p-2!' style={{
                     fontFamily: 'Syne, sans-serif',
                     fontWeight: 800,
                     fontSize: '2rem',

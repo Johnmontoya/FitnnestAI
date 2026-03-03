@@ -238,7 +238,7 @@ const FormCreate = () => {
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
+                    <div className="flex flex-col md:flex-row gap-4" style={{ gap: '10px', marginTop: '0.5rem' }}>
                         <Button
                             variant="primary"
                             type='submit'

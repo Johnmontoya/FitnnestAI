@@ -34,12 +34,12 @@ const StatsFood = ({ mealTotals }: StatsFoodProps) => {
                         >
                             <meal.icon style={{ width: '20px', height: '20px', color: meal.color }} />
                         </div>
-                        <span className="font-display font-bold text-[0.65rem] tracking-[0.15em] uppercase text-[var(--text-muted)]">
+                        <span className="sm:flex hidden font-display font-bold text-[0.65rem] tracking-[0.15em] uppercase text-[var(--text-muted)]">
                             {meal.label}
                         </span>
                     </div>
                     <div className="flex items-baseline gap-1">
-                        <p className="font-display font-extrabold text-2xl text-[var(--text)] leading-none tracking-tight">
+                        <p className="p-2! font-display font-extrabold text-2xl text-[var(--text)] leading-none tracking-tight">
                             {meal.value}
                         </p>
                         <span className="text-[0.7rem] text-[var(--text-subtle)] font-bold uppercase tracking-wider">kcal</span>

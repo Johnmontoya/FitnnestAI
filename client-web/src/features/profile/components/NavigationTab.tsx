@@ -22,7 +22,7 @@ const NavigationTab = ({ activeTab, setActiveTab }: NavigationTabProps) => {
                         : 'text-[var(--text-muted)] hover:text-[var(--text-subtle)]'
                         }`}
                 >
-                    <tab.icon className={`text-xl ${activeTab === tab.id ? 'text-[var(--accent)]' : ''}`} />
+                    <tab.icon className={`md:flex hidden text-xl ${activeTab === tab.id ? 'text-[var(--accent)]' : ''}`} />
                     <span className="font-display font-bold text-sm tracking-widest uppercase">
                         {tab.label}
                     </span>

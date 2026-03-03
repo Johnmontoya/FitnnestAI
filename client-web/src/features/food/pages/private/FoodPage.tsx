@@ -32,9 +32,9 @@ const FoodPage = () => {
     };
 
     return (
-        <div className="aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
+        <div className="flex flex-row aurora-bg min-h-screen bg-black text-white ml-64 overflow-hidden">
             <Sidebar />
-            <div style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className='w-full px-4! relative' style={{ padding: '2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <div className="p-10 max-w-7xl mx-auto animate-fade-up">
                     {/* Header */}
                     <div className="mb-12!">
@@ -51,10 +51,9 @@ const FoodPage = () => {
                                 Nutrición & Bio-Metas
                             </p>
                         </div>
-                        <h1 style={{
+                        <h1 className='lg:text-6xl text-4xl font-bold p-3!' style={{
                             fontFamily: 'Syne, sans-serif',
                             fontWeight: 800,
-                            fontSize: '3.2rem',
                             color: 'var(--text)',
                             letterSpacing: '-0.04em',
                             lineHeight: 1.1

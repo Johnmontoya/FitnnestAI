@@ -49,7 +49,7 @@ export const CircularProgress = ({
                 />
             </svg>
             <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{
+                <div className="p-2!" style={{
                     fontFamily: 'Syne, sans-serif',
                     fontWeight: 800,
                     fontSize: `${size / 5.5}px`,

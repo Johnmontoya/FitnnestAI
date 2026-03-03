@@ -22,12 +22,11 @@ const DashHeader = ({ user, totalCalories, dailyCalories, totalCaloriesBurned }:
 
     const motivation = getMotivationalMessage();
     const pct = Math.round((totalCalories / dailyCalories) * 100) || 0;
-    console.log(totalCalories, dailyCalories);
 
     return (
-        <div style={{ marginBottom: '2rem' }}>
+        <div className="w-full!" style={{ marginBottom: '2rem' }}>
             {/* Title row */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+            <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6'>
                 <div>
                     <p style={{
                         fontFamily: 'Syne, sans-serif',
@@ -54,7 +53,7 @@ const DashHeader = ({ user, totalCalories, dailyCalories, totalCaloriesBurned }:
                         Listo para tu siguiente rutina? Registra tu progreso.
                     </p>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="md:mb-0! mb-2!">
                     Ver Estadísticas
                 </Button>
             </div>
@@ -81,43 +80,45 @@ const DashHeader = ({ user, totalCalories, dailyCalories, totalCaloriesBurned }:
                     borderRadius: '16px 0 0 16px',
                 }} />
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', paddingLeft: '0.5rem' }}>
-                    <span style={{ fontSize: '1.8rem' }}>{motivation.emoji}</span>
-                    <div>
-                        <h3 style={{
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', paddingLeft: '0.5rem' }}>
+                        <span style={{ fontSize: '1.8rem' }}>{motivation.emoji}</span>
+                        <div>
+                            <h3 style={{
+                                fontFamily: 'Syne, sans-serif',
+                                fontWeight: 700,
+                                fontSize: '0.95rem',
+                                color: 'var(--text)',
+                                marginBottom: '2px',
+                            }}>
+                                {motivation.text}
+                            </h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+                                Estás al <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{pct}%</span> de tu objetivo diario de {dailyCalories.toLocaleString()} kcal
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        background: 'rgba(198,241,53,0.08)',
+                        border: '1px solid rgba(198,241,53,0.2)',
+                        borderRadius: '8px',
+                        padding: '6px 12px',
+                        flexShrink: 0,
+                    }}>
+                        <LuZap style={{ width: '14px', height: '14px', color: 'var(--accent)' }} />
+                        <span style={{
                             fontFamily: 'Syne, sans-serif',
                             fontWeight: 700,
-                            fontSize: '0.95rem',
-                            color: 'var(--text)',
-                            marginBottom: '2px',
+                            fontSize: '0.8rem',
+                            color: 'var(--accent)',
                         }}>
-                            {motivation.text}
-                        </h3>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
-                            Estás al <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{pct}%</span> de tu objetivo diario de {dailyCalories.toLocaleString()} kcal
-                        </p>
+                            {totalCaloriesBurned} kcal quemadas
+                        </span>
                     </div>
-                </div>
-
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(198,241,53,0.08)',
-                    border: '1px solid rgba(198,241,53,0.2)',
-                    borderRadius: '8px',
-                    padding: '6px 12px',
-                    flexShrink: 0,
-                }}>
-                    <LuZap style={{ width: '14px', height: '14px', color: 'var(--accent)' }} />
-                    <span style={{
-                        fontFamily: 'Syne, sans-serif',
-                        fontWeight: 700,
-                        fontSize: '0.8rem',
-                        color: 'var(--accent)',
-                    }}>
-                        {totalCaloriesBurned} kcal quemadas
-                    </span>
                 </div>
             </div>
         </div>

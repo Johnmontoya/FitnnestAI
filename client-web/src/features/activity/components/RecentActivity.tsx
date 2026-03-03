@@ -50,10 +50,10 @@ const RecentActivity = ({ activities }: RecentActivityProps) => {
                     </div>
                 ) : (
                     activities.slice(0, 5).map((activity) => (
-                        <div key={activity.id} className="group relative bg-[var(--bg-elevated)]/40 border border-white/5 rounded-2xl p-4 transition-all duration-300 hover:border-[var(--accent)]/30">
+                        <div key={activity.id} className="group relative bg-[var(--bg-elevated)]/40 border border-white/5 rounded-2xl transition-all duration-300 hover:border-[var(--accent)]/30">
                             <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center border border-white/5 text-[var(--accent)] group-hover:scale-110 transition-transform">
+                                <div className="flex items-center gap-4 p-2!">
+                                    <div className="md:flex hidden w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center border border-white/5 text-[var(--accent)] group-hover:scale-110 transition-transform">
                                         {getActivityIcon(activity.name)}
                                     </div>
                                     <div>

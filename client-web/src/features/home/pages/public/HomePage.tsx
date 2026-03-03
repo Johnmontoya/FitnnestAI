@@ -19,13 +19,16 @@ const HomePage: React.FC = () => {
             <Hero />
 
             {/* Categories */}
-            <section className="py-12 px-4 sm:px-6 lg:px-8 border-y border-gray-100/20">
-                <div className="w-full mx-auto">
-                    <div className="w-full mx-auto flex items-center justify-center overflow-x-auto">
+            <section className="py-12 border-y border-gray-100/20">
+                <div className="px-4 sm:px-6 lg:px-8">
+                    <div
+                        className="flex items-center justify-start md:justify-center gap-8 md:gap-16 overflow-x-auto scrollBar pr-4"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
                         {['HEALTHLINE', 'WELLNESS', 'ACTIVE', 'VITALITY'].map((category) => (
-                            <div key={category} className="w-full flex items-center justify-center gap-3 px-6">
-                                <LuActivity className="w-5 h-5 text-gray-400" />
-                                <span className="text-gray-400 font-semibold whitespace-nowrap">{category}</span>
+                            <div key={category} className="flex items-center gap-3">
+                                <LuActivity className="w-5 h-5 text-[var(--accent)] opacity-60" />
+                                <span className="text-gray-400 font-display font-bold text-sm tracking-widest whitespace-nowrap">{category}</span>
                             </div>
                         ))}
                     </div>

@@ -15,7 +15,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     allowedHosts: [
-      "https://fitnnestai.onrender.com"
+      //"https://fitnnestai.onrender.com"
     ]
   },
   test: {

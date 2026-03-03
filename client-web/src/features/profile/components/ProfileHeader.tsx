@@ -26,11 +26,11 @@ const ProfileHeader = ({ user, editMode, handleSubmit, onSubmit, isSubmitting, s
             </div>
 
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
-                <div className="flex items-center gap-8">
+                <div className="flex flex-col md:flex-row items-center gap-8">
                     {/* Premium Avatar Treatment */}
-                    <div className="relative group">
+                    <div className="relative group overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent)] to-white blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                        <div className="relative w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-[var(--accent)] to-white/[0.1]">
+                        <div className="relative w-32 h-32 rounded-full p-1! bg-gradient-to-tr from-[var(--accent)] to-white/[0.1]">
                             <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden border-2 border-black">
                                 {user?.name ? (
                                     <span className="font-display font-black text-5xl text-white tracking-tighter">
@@ -55,7 +55,7 @@ const ProfileHeader = ({ user, editMode, handleSubmit, onSubmit, isSubmitting, s
                                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
                                 Miembro desde {moment(user?.createdAt).format('YYYY')}
                             </span>
-                            <span className="px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-[var(--text-subtle)] text-[0.6rem] font-black uppercase tracking-widest">
+                            <span className="px-3! py-0.5! rounded-full bg-white/5 border border-white/10 text-[var(--text-subtle)] text-[0.6rem] font-black uppercase tracking-widest">
                                 Status: ACTIVO
                             </span>
                         </div>

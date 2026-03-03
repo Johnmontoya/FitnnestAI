@@ -15,20 +15,18 @@ const LoginPage: React.FC = () => {
     }, [isAuthenticated, navigate]);
 
     return (
-        <div style={{
+        <div className='flex flex-row' style={{
             width: '100%',
             minHeight: '100vh',
             background: 'var(--bg)',
-            display: 'flex',
         }}>
             {/* Left Side — Hero Image */}
             <div style={{
                 flex: 1,
                 position: 'relative',
                 overflow: 'hidden',
-                display: 'flex',
             }}
-                className="hidden lg:flex"
+                className="w-full hidden lg:flex"
             >
                 {/* Image */}
                 <div style={{
@@ -92,7 +90,7 @@ const LoginPage: React.FC = () => {
                             Performance Tracker
                         </span>
                     </div>
-                    <h1 style={{
+                    <h1 className='p-3!' style={{
                         fontFamily: 'Syne, sans-serif',
                         fontWeight: 800,
                         fontSize: 'clamp(2.5rem, 4vw, 4rem)',
@@ -105,7 +103,7 @@ const LoginPage: React.FC = () => {
                         <span style={{ color: 'var(--accent)' }}>Rendimiento</span><br />
                         Diario.
                     </h1>
-                    <p style={{
+                    <p className='p-2!' style={{
                         color: 'var(--text-muted)',
                         fontSize: '1rem',
                         lineHeight: 1.65,
@@ -117,9 +115,7 @@ const LoginPage: React.FC = () => {
             </div>
 
             {/* Right Side — Login Form */}
-            <div style={{
-                width: '100%',
-                maxWidth: '480px',
+            <div className='w-full lg:w-1/2' style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
