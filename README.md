@@ -1,21 +1,17 @@
-# FitnnestAI 🧬⚡
+# FitnnestAI 🧬
 
-**FitnnestAI** es una plataforma integral de fitness de alto rendimiento que fusiona el seguimiento biométrico con inteligencia artificial avanzada. Diseñada con una estética *Biopunk Athletic*, la aplicación ofrece una experiencia inmersiva para atletas y entusiastas del bienestar.
+**FitnnestAI** es un proyecto de seguimiento de fitness personal que combina el registro de actividades diarias con integraciones experimentales de Inteligencia Artificial. El objetivo es ofrecer una herramienta sencilla y visualmente atractiva para gestionar hábitos saludables.
 
 ---
 
-## 🚀 Visión General
+## 🚀 Funcionalidades
 
-FitnnestAI no es solo un registrador de ejercicios; es tu gurú personal de fitness. Utiliza **Google Gemini AI** para auditar tu nutrición y hábitos, proporcionando insights accionables basados en datos reales.
-
-### ✨ Características Principales
-
--   **🤖 Auditoría Nutricional con IA**: Análisis inteligente de comidas y sugerencias basadas en objetivos a través de Google Gemini Pro.
--   **📊 Dashboard Biométrico**: Visualización en tiempo real de actividad, hidratación y progreso calórico.
--   **🔋 Seguimiento de Actividad**: Registro detallado de entrenamientos con gráficos dinámicos y métricas de rendimiento.
--   **💧 Control de Hidratación**: Gestor interactivo de consumo de agua diario con metas personalizadas.
--   **📱 Diseño Ultra-Responsivo**: Experiencia fluida en móvil, tablet y desktop con componentes optimizados para cada tamaño.
--   **🎨 Estética Biopunk**: Interfaz premium con glassmorphism, neones activos y tipografía *Syne* para un look futurista.
+-   **Dashboard de Usuario**: Resumen visual de tu actividad diaria y progreso calórico.
+-   **Registro de Comidas**: Control de nutrición e hidratación con una interfaz intuitiva.
+-   **Seguimiento de Actividad**: Log de entrenamientos y ejercicios realizados.
+-   **Asistente IA (Experimental)**: Integración con Google Gemini para análisis básicos de nutrición.
+-   **Interfaz Moderna**: Diseño limpio basado en una estética oscura con toques neón.
+-   **100% Responsivo**: Optimizado para su uso en dispositivos móviles y escritorio.
 
 ---
 
